@@ -6,8 +6,8 @@ A simple full-stack Contact-Manager web application
 ## Members
 - Floyd Zheng
 - Jessi Morris
-- Fabin
-- Maya
+- Fabian Ruiz Delgado
+- Maya Couceiro
 - Rayyan Jamil
 
 ## Setup Steps
