@@ -12,7 +12,7 @@
 	
 	if ($inData["login"] === "userRay" && $inData["password"] === "passRay")
 	{
-		returnWithInfo($firstName, $lastName, $id)
+		returnWithInfo($firstName, $lastName, $id);
 	}
 	else
 	{
@@ -57,6 +57,7 @@
 		$conn->close();
 	}
 #-----------------------------------------------------------------------------------------------
+	*/
 	
 	#Reads JSON data from request and decoes into PHP array
 	function getRequestInfo()
@@ -86,4 +87,4 @@
 	}
 	
 ?>
-*/
+
