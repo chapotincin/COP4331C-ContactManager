@@ -55,7 +55,7 @@
 		#Closes out the database connedtion safely
 		$stmt->close();
 		$conn->close();
-	}*/
+	}
 #-----------------------------------------------------------------------------------------------
 	
 	#Reads JSON data from request and decoes into PHP array
@@ -86,4 +86,4 @@
 	}
 	
 ?>
-
+*/
