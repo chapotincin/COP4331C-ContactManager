@@ -5,7 +5,7 @@ A simple full-stack Contact-Manager web application
 
 ## Members
 - Floyd Zheng
-- Jessi Morris
+- Jessica Morris
 - Fabian Ruiz
 - Maya Couceiro
 - Rayyan Jamil
