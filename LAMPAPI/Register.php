@@ -4,12 +4,9 @@
     $inData = getRequestInfo();
     
     #Initialize variables
-    $id = 0;
-    $firstName = $inData["firstName"];
-    $lastName = $inData["lastName"];
-    $email = $inData["email"];
-    $phone = $inData["phone"];
-    $username = $inData["username"];
+    $firstName = $inData["fname"];
+    $lastName = $inData["lname"];
+    $username = $inData["login"];
     $password = $inData["password"];
     
     #Initializing the database connection
@@ -30,55 +27,57 @@
         
         if($result->fetch_assoc())
         {
+            #Username already exists
             returnWithError("Username already taken");
         }
         else
         {
-            #Insert new user into db
-            $stmt = $conn->prepare("INSERT INTO Users (FirstName, LastName, Email, Phone, Login, Password) VALUES (?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssss", $firstName, $lastName, $email, $phone, $username, $password);
+            #Insert new user into the database
+            $stmt = $conn->prepare("INSERT INTO Users (FirstName, LastName, Login, Password) VALUES (?, ?, ?, ?)");
+            $stmt->bind_param("ssss", $firstName, $lastName, $username, $password);
             
             if($stmt->execute())
             {
-                #Return response
+                #Return success response with user info
                 $id = $conn->insert_id; #Get the last inserted ID
                 returnWithInfo($firstName, $lastName, $id);
             }
             else
             {
+                #Case for query failure
                 returnWithError("Failed to register user");
             }
         }
         
-        #Closes gracefully
+        #Closes out the database connection safely
         $stmt->close();
         $conn->close();
     }
 
-
+    #Reads JSON data from request and decodes into PHP array
     function getRequestInfo()
     {
         return json_decode(file_get_contents('php://input'), true);
     }
 
-    
+    #Send JSON response with "Content-Type" and header set to application/json
     function sendResultInfoAsJson($obj)
     {
         header('Content-type: application/json');
         echo $obj;
     }
 
-    
+    #Returns a JSON object indicating error
     function returnWithError($err)
     {
-        $retValue = '{"id":0,"firstName":"","lastName":"","error":"' . $err . '"}';
+        $retValue = '{"id":0,"fname":"","lname":"","error":"' . $err . '"}';
         sendResultInfoAsJson($retValue);
     }
 
-    
+    #Return a JSON object with user information
     function returnWithInfo($firstName, $lastName, $id)
     {
-        $retValue = '{"id":' . $id . ',"firstName":"' . $firstName . '","lastName":"' . $lastName . '","error":""}';
+        $retValue = '{"id":' . $id . ',"fname":"' . $firstName . '","lname":"' . $lastName . '","error":""}';
         sendResultInfoAsJson($retValue);
     }
 ?>
