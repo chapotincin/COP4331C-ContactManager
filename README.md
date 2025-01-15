@@ -4,7 +4,7 @@
 A simple full-stack Contact-Manager web application 
 
 ## Members
-- Floyd Zheng
+- Floyd Zheng (Git Desktop Check)
 - Jessica Morris
 - Fabian Ruiz
 - Maya Couceiro
