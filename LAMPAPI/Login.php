@@ -21,9 +21,8 @@
 	}
 	*/
 #-----------------------------------------------------------------------------------------------
-	#DATABASE NOT UP LEAVE CODE COMMENTED
 	#Initializing the database connection
-	$conn = new mysqli("localhost", "TheAPIGuy", "Awes0mePassw0rd!", "COP4331"); 
+	$conn = new mysqli("localhost", "TheApiGuy", "Awes0mePassw0rd!", "COP4331"); 
 
 	#Case for Connection fail
 	if( $conn->connect_error )
