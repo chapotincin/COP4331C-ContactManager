@@ -4,10 +4,11 @@
 	#Takes data in via HTTP request
 	$inData = getRequestInfo();
 	
-	$id = 8;
-	$firstName = "Ray";
-	$lastName = "Jam";
+	$id = 0;
+	$firstName = "";
+	$lastName = "";
 	
+	/*
 	#Mock Data until database is up
 	
 	if ($inData["login"] === "userRay" && $inData["password"] === "passRay")
@@ -18,14 +19,14 @@
 	{
 		returnWithError("No Records Found");
 	}
-	
+	*/
 #-----------------------------------------------------------------------------------------------
 	#DATABASE NOT UP LEAVE CODE COMMENTED
 	#Initializing the database connection
-	#$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331"); 
+	$conn = new mysqli("localhost", "TheAPIGuy", "Awes0mePassw0rd!", "COP4331"); 
 
 	#Case for Connection fail
-	/*if( $conn->connect_error )
+	if( $conn->connect_error )
 	{
 		returnWithError( $conn->connect_error );
 	}
@@ -57,7 +58,7 @@
 		$conn->close();
 	}
 #-----------------------------------------------------------------------------------------------
-	*/
+	
 	
 	#Reads JSON data from request and decoes into PHP array
 	function getRequestInfo()
