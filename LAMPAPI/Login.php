@@ -10,7 +10,7 @@
 	
 	/*
 	#Mock Data until database is up
-	
+	comment 
 	if ($inData["login"] === "userRay" && $inData["password"] === "passRay")
 	{
 		returnWithInfo($firstName, $lastName, $id);
