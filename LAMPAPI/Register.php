@@ -4,8 +4,8 @@
     $inData = getRequestInfo();
     
     #Initialize variables
-    $firstName = $inData["fname"];
-    $lastName = $inData["lname"];
+    $fname = $inData["fname"];
+    $lname = $inData["lname"];
     $username = $inData["username"];
     $password = $inData["password"];
     
@@ -34,7 +34,7 @@
         {
             #Insert new user into the database
             $stmt = $conn->prepare("INSERT INTO Users (FirstName, LastName, Login, Password) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $firstName, $lastName, $username, $password);
+            $stmt->bind_param("ssss", $fname, $lname, $username, $password);
             
             if($stmt->execute())
             {
