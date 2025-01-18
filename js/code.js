@@ -14,9 +14,9 @@ function doRegister()
 	document.getElementById("registerResult").innerHTML = "";
 
 	let tmp = {
-		fname: fName,
-		lname: lName,
-		login: userName,
+		fname: fname,
+		lname: lname,
+		login: username,
 		password: pass
 	};
 
