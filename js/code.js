@@ -16,7 +16,7 @@ function doRegister()
 	let tmp = {
 		fname: fname,
 		lname: lname,
-		login: username,
+		username: username,
 		password: pass
 	};
 
