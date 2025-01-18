@@ -8,9 +8,9 @@ let lastName = "";
 function doRegister()
 {
 	let fname = document.getElementById("firstName").value;
-	let fname = document.getElementById("lastName").value;
-	let fname = document.getElementById("username").value;
-	let fname = document.getElementById("password").value;
+	let lname = document.getElementById("lastName").value;
+	let username = document.getElementById("username").value;
+	let pass = document.getElementById("password").value;
 	document.getElementById("registerResult").innerHTML = "";
 
 	let tmp = {
