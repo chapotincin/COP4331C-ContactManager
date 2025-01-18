@@ -5,6 +5,62 @@ let userId = 0;
 let firstName = "";
 let lastName = "";
 
+function doRegister()
+{
+	let fname = document.getElementById("firstName").value;
+	let fname = document.getElementById("lastName").value;
+	let fname = document.getElementById("username").value;
+	let fname = document.getElementById("password").value;
+	document.getElementById("registerResult").innerHTML = "";
+
+	let tmp = {
+		fname: fName,
+		lname: lName,
+		login: userName,
+		password: pass
+	};
+
+	let jsonPayload = JSON.stringify(tmp);
+
+	let url = urlBase + '/Register.' + extension;
+
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true); 
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+	try
+	{
+		xhr.onreadystatechange = function()
+	{
+		
+		if (this.readyState == 4 && this.status == 200)
+		{
+			let jsonObject = JSON.parse(xhr.responseText);
+
+		//Check if there's an error
+			if (jsonObject.error && jsonObject.error.length > 0)
+			{
+				document.getElementById("registerResult").innerHTML = jsonObject.error;
+				return;
+			}
+
+			userId     = jsonObject.id;
+			firstName  = jsonObject.fname;
+			lastName   = jsonObject.lname;
+
+			saveCookie();
+			window.location.href = "../search/index.html";
+		}
+	};
+	xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+	document.getElementById("registerResult").innerHTML = err.message;
+	}
+}
+
+
 function doLogin()
 {
 	userId = 0;
