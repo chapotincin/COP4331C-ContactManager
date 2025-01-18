@@ -6,7 +6,7 @@
     #Initialize variables
     $firstName = $inData["fname"];
     $lastName = $inData["lname"];
-    $username = $inData["login"];
+    $username = $inData["username"];
     $password = $inData["password"];
     
     #Initializing the database connection
