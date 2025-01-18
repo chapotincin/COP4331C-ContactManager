@@ -40,7 +40,7 @@
             {
                 #Return success response with user info
                 $id = $conn->insert_id; #Get the last inserted ID
-                returnWithInfo($firstName, $lastName, $id);
+                returnWithInfo($fname, $lname, $id);
             }
             else
             {
