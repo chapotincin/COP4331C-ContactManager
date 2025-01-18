@@ -2,12 +2,12 @@
 <?php
 
 	#Takes data in via HTTP request
-	$inData = getRequestInfo();
+	$inData = json_decode(file_get_contents('php://input'), true);
 	
-	$id = 0;
+	/*$id = 0;
 	$firstName = "";
 	$lastName = "";
-	
+	*/
 	/*
 	#Mock Data until database is up
 	comment 
@@ -32,10 +32,13 @@
 	#Case for conection pass 
 	else
 	{
+		$login = $inData["login"]
+		$password = $inData["password"]
+		
 		#Retrieve correct info based on login
 		$stmt = $conn->prepare("SELECT ID,firstName,lastName FROM Users WHERE Login=? AND Password =?");
 		#The ss means two string parameters 
-		$stmt->bind_param("ss", $inData["login"], $inData["password"]);
+		$stmt->bind_param("ss", $login, $password);
 		#execute and store in result 
 		$stmt->execute();
 		$result = $stmt->get_result();
@@ -60,11 +63,12 @@
 	
 	
 	#Reads JSON data from request and decoes into PHP array
-	function getRequestInfo()
+	/*function getRequestInfo()
 	{
 		return json_decode(file_get_contents('php://input'), true);
 	}
-
+	*/
+	
 	#Send JSON response with "Content-Type" and header set to application/json
 	function sendResultInfoAsJson( $obj )
 	{

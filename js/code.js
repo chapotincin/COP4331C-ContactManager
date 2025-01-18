@@ -7,9 +7,9 @@ let lastName = "";
 
 function doLogin()
 {
-	//userId = 0;
-	//firstName = "";
-	//lastName = "";
+	userId = 0;
+	firstName = "";
+	lastName = "";
 	
 	let login = document.getElementById("loginName").value;
 	let password = document.getElementById("loginPassword").value;
@@ -17,15 +17,16 @@ function doLogin()
 	
 	document.getElementById("loginResult").innerHTML = "";
 
-	let tmp = {login:login,password:password};
+	let tmp = {login: login, password: password};
 //	var tmp = {login:login,password:hash};
-	let jsonPayload = JSON.stringify( tmp );
+	let jsonPayload = JSON.stringify(tmp);
 	
 	let url = urlBase + '/Login.' + extension;
-
 	let xhr = new XMLHttpRequest();
+	
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	
 	try
 	{
 		xhr.onreadystatechange = function() 
@@ -35,7 +36,7 @@ function doLogin()
 				let jsonObject = JSON.parse( xhr.responseText );
 				userId = jsonObject.id;
 		
-				if( userId < 1 )
+				if(userId < 1)
 				{		
 					document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
 					return;
