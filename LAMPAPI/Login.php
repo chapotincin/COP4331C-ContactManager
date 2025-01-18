@@ -32,8 +32,8 @@
 	#Case for conection pass 
 	else
 	{
-		$login = $inData["login"]
-		$password = $inData["password"]
+		$login = $inData["login"];
+		$password = $inData["password"];
 		
 		#Retrieve correct info based on login
 		$stmt = $conn->prepare("SELECT ID,firstName,lastName FROM Users WHERE Login=? AND Password =?");
