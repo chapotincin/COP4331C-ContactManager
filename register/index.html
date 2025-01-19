@@ -3,20 +3,18 @@
 	<head>
 		<title>Register: The Contact Circuit</title>
 		<link href="../css/styles.css" rel="stylesheet">
+		<script type="text/javascript" src="../js/code.js"></script>
 	</head>
 	<body>
 		<h1>The Contact Circuit</h1>
 		<div>
 			<h2>Sign up for a new account</h2>
 			<a href="../index.html">Already have an account?</a>
-				<p>First Name: <input type="text" id="firstName" required /></p>
-				<p>Last Name: <input type="text" id="lastName" required /></p>
-				<p>Username: <input id="username" required /></p>
-				<p>Password: <input type="password" id="password" required /></p>
-				<button onclick="doRegister()">Register</button>
-				
-				<div id="registerResult"></div>
+				<p>First Name: <input type="text" id="firstName" class="field" required="required" /></p>
+				<p>Last Name: <input type="text" id="lastName" class="field" required="required" /></p>
+				<p>Username: <input type="text" id="username" class="field" required="required" /></p>
+				<p>Password: <input type="password" id="password" class="field" required="required" /></p>
+				<button type="button" onclick="doRegister()">Register</button>
 		</div>
-		<script src="../js/code.js"></script>
 	</body>
 </html>

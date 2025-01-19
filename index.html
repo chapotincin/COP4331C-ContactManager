@@ -3,21 +3,18 @@
 	<head>
 		<title>Login: The Contact Circuit</title>
 		<link href="css/styles.css" rel="stylesheet">
+		<script type="text/javascript" src="js/code.js"></script>
 	</head>
 	<body>
 		<h1>The Contact Circuit</h1>
 		<div>
 			<h2>Please Log In</h2>
-			<!--<form action="LAMPAPI/Login.php" method="post">    -->
-				<p>Username(Test): <input type="text" id="loginName" required /></p>
-				<p>Password: <input type="password" id="loginPassword" required /></p>
-				<button onclick="doLogin()">Log In</button>
-				<!--<input type="submit" value="Log In" />  -->
-			<!--</form>-->
+			<form> 
+				<p>Username: <input type="text" class="field" id="loginName" required="required" /></p>
+				<p>Password: <input type="password" class="field" id="loginPassword" required="required" /></p>
+				<button type="button" onclick="doLogin()">Log In</button>
+			</form>
 		</div>
-			<div id="loginResult"></div>
-			
-			<a href="register/index.html">Don't have an account?</a>
-			<script src="js/code.js"></script>
+		<a href="register/index.html">Don't have an account?</a>
 	</body>
 </html>
