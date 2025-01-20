@@ -1,5 +1,4 @@
 <?php
-
 	//get incoming json package
 	$inData = getRequestInfo();
 	
@@ -16,8 +15,7 @@
 	else
 	{
 		//search matching first and last name + UserID
-		//---
-		$stmt = $conn->prepare("SELECT * FROM Contacts WHERE {firstName like ? OR lastName like ?} and ID=?");
+		$stmt = $conn->prepare("SELECT * FROM Contacts WHERE (firstName like ? OR lastName like ?) and ID=?");
 		$name = "%" . $inData["search"] . "%";
 		$stmt->bind_param("ss", $name, $name, $inData["userId"]);
 		$stmt->execute();
@@ -32,8 +30,7 @@
 			}
 			$searchCount++;
 
-            //array of json objects FirstName, LastName, Phone, Email, UserId
-            //---
+            //array of json objects FirstName, LastName, Phone, Email, UserId, Maybe jsonencode?
             $searchResults .= '{"firstName" : "' . $row["firstName"] . '", "lastName" : "' . $row["lastName"] . '", "Phone" : "' . $row["Phone"] . '", "Email" : "' . $row["Email"] . '", "ID" : "' . $row["ID"] . '"}';
 		}
 		
