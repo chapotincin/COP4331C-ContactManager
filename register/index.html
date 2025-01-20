@@ -15,7 +15,7 @@
 
 		<div class="container">
 			<h2>Sign up for a new account</h2>
-			<form>
+			<form method="post">
 				<label for="firstName">First Name</label>
 				<input type="text" id="firstName" name="firstName" placeholder="First Name" required="required">
 
@@ -28,7 +28,7 @@
 				<label for="password">Password</label>
 				<input type="password" id="password" name="password" placeholder="Password" required="required">
 
-				<button type="submit" class="btn" onclick="doRegister()">Sign Up</button>
+				<button type="button" class="btn" onclick="doRegister()">Sign Up</button>
 			</form>
 			<div class="footer">
 				<p>Already have an account?</p>

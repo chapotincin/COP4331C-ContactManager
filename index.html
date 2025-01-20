@@ -15,7 +15,7 @@
 
 		<div class="container">
 			<h2>Please Log In</h2>
-			<form>
+			<form method="post">
 				<label for="username">Username</label>
 				<input type="text" id="username" name="username" placeholder="Username" required="required">
 
@@ -25,7 +25,7 @@
 					<span class="toggle-password">Show</span>
 				</div>
 
-				<button type="submit" class="btn" onclick="doLogin()">Log In</button>
+				<button type="button" class="btn" onclick="doLogin()">Log In</button>
 			</form>
 			<div class="footer">
 				<p>Don't have an account?</p>
