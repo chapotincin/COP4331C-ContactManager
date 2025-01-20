@@ -1,20 +1,25 @@
 <?php
 
+	//get incoming json package
 	$inData = getRequestInfo();
 	
+	//variables
 	$searchResults = "";
 	$searchCount = 0;
 
-	$conn = new mysqli("localhost", "TheBeast", "WeLoveCOP4331", "COP4331");
+    //connection -> fail/pass
+	$conn = new mysqli("localhost", "TheApiGuy", "Awes0mePassw0rd!", "COP4331");
 	if ($conn->connect_error) 
 	{
 		returnWithError( $conn->connect_error );
 	} 
 	else
 	{
-		$stmt = $conn->prepare("select Name from Colors where Name like ? and UserID=?");
-		$colorName = "%" . $inData["search"] . "%";
-		$stmt->bind_param("ss", $colorName, $inData["userId"]);
+		//search matching first and last name + UserID
+		//---
+		$stmt = $conn->prepare("SELECT * FROM Contacts WHERE {firstName like ? OR lastName like ?} and ID=?");
+		$name = "%" . $inData["search"] . "%";
+		$stmt->bind_param("ss", $name, $name, $inData["userId"]);
 		$stmt->execute();
 		
 		$result = $stmt->get_result();
@@ -27,8 +32,9 @@
 			}
 			$searchCount++;
 
-            //array of json objects FirstName, LastName, Phone, Email
-            $searchResults .= '{"FirstName" : "' . $row["FirstName"] . '", "LastName" : "' . $row["LastName"] . '", "Phone" : "' . $row["Phone"] . '", "Email" : "' . $row["Email"] . '"}';
+            //array of json objects FirstName, LastName, Phone, Email, UserId
+            //---
+            $searchResults .= '{"firstName" : "' . $row["firstName"] . '", "lastName" : "' . $row["lastName"] . '", "Phone" : "' . $row["Phone"] . '", "Email" : "' . $row["Email"] . '", "ID" : "' . $row["ID"] . '"}';
 		}
 		
 		if( $searchCount == 0 )
@@ -44,6 +50,7 @@
 		$conn->close();
 	}
 
+	//copied from the example
 	function getRequestInfo()
 	{
 		return json_decode(file_get_contents('php://input'), true);
