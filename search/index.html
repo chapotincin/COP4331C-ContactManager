@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 <html>
 	<head>
 		<title>The Contact Circuit</title>
@@ -8,7 +9,7 @@
 		<h1>The Contact Circuit</h1>
 		<div>
 			<a href="../index.html">Log Out</a>
-			<form action="">
+			<form>
 				<input type="search" id="searchBar" name="search" placeholder="Search contact" />
 				<input type="submit" id="searchButton" value="Search" />
 				<a href="create.html" id="creator">Create a New Contact</a>
@@ -16,3 +17,122 @@
 		</div>
 	</body>
 </html>
+=======
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Contact Circuit</title>
+    <link href="../css/search.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="nav-bar">
+        <div class="logo-container">
+            <img src="../images/logo-sideway-white.png" alt="The Contact Circuit Logo" class="logo">
+        </div>
+        <nav>
+            <ul>
+                <li><a href="../index.html">Logout</a></li>
+                <li><a href="../search/index.html">Contacts</a></li>
+                <li><a href="about.html">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <h1 class="welcome-message">Welcome, [User's Name]!</h1>
+
+        <div class="table-container">
+            <!-- Search Section -->
+            <div class="search-container">
+                <input 
+                    type="search" 
+                    id="searchBar" 
+                    name="search" 
+                    placeholder="Search contact" 
+                    aria-label="Search contacts"
+                />
+                <button type="submit" id="searchButton">Search</button>
+                <a href="../search/create.html" class="create-contact-btn">+ Create Contact</a>
+            </div>
+
+            <!-- Contacts Table -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- TEST DATA
+                    <tr>
+                        <td>Henry</td>
+                        <td>Jackson</td>
+                        <td>ma@com.com</td>
+                        <td>1231231234</td>
+                        <td>
+                            <button class="edit-btn" aria-label="Edit contact">Edit</button>
+                            <button class="delete-btn" aria-label="Delete contact">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Jacob</td>
+                        <td>Hendrix</td>
+                        <td>coma@com.com</td>
+                        <td>1231231235</td>
+                        <td>
+                            <button class="edit-btn" aria-label="Edit contact">Edit</button>
+                            <button class="delete-btn" aria-label="Delete contact">Delete</button>
+                        </td>
+                    </tr>
+                    END OF TEST DATA -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        // Handle the "Edit" functionality
+        document.querySelectorAll(".edit-btn").forEach(button => {
+            button.addEventListener("click", function () {
+                const row = this.closest("tr");
+                const isEditing = row.classList.contains("editing");
+
+                if (!isEditing) {
+                    // Enable inline editing
+                    row.classList.add("editing");
+                    row.querySelectorAll("td:not(:last-child)").forEach((cell, index) => {
+                        const currentText = cell.textContent;
+                        const inputType = index === 3 ? "tel" : index === 2 ? "email" : "text"; // Phone, Email, Text
+                        cell.innerHTML = `<input type="${inputType}" value="${currentText}" />`;
+                    });
+                    this.textContent = "Save";
+                } else {
+                    // Save changes and disable inline editing
+                    row.classList.remove("editing");
+                    row.querySelectorAll("td:not(:last-child)").forEach(cell => {
+                        const input = cell.querySelector("input");
+                        cell.textContent = input.value;
+                    });
+                    this.textContent = "Edit";
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+>>>>>>> 42dff2c (Front-End Design Added)
