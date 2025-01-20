@@ -1,22 +1,38 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>Register: The Contact Circuit</title>
-		<link href="../css/styles.css" rel="stylesheet">
-		<script type="text/javascript" src="../js/code.js"></script>
-	</head>
-	<body>
-		<h1>The Contact Circuit</h1>
-		<div>
-			<h2>Sign up for a new account</h2>
-			<a href="../index.html">Already have an account?</a>
-			<form>
-				<p>First Name: <input type="text" id="firstName" class="field" required="required" /></p>
-				<p>Last Name: <input type="text" id="lastName" class="field" required="required" /></p>
-				<p>Username: <input type="text" id="username" class="field" required="required" /></p>
-				<p>Password: <input type="password" id="password" class="field" required="required" /></p>
-				<button type="button" onclick="doRegister()">Register</button>
-			</form>
-		</div>
-	</body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup: The Contact Circuit</title>
+    <link href="../css/styles.css" rel="stylesheet">
+	<link rel="icon" href="images/favicon.png" type="image/png">
+</head>
+<body>
+    <header class="logo-container">
+        <img src="../images/logo-white.png" alt="Logo" class="logo">
+    </header>
+
+    <div class="container">
+        <h2>Sign up for a new account</h2>
+        <form action="../LAMPAPI/Register.php" method="post">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
+
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Username" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+
+            <button type="submit" class="btn">Sign Up</button>
+        </form>
+        <div class="footer">
+            <p>Already have an account?</p>
+            <a href="../index.html">Sign in.</a>
+        </div>
+    </div>
+</body>
 </html>

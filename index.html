@@ -1,20 +1,50 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>Login: The Contact Circuit</title>
-		<link href="css/styles.css" rel="stylesheet">
-		<script type="text/javascript" src="js/code.js"></script>
-	</head>
-	<body>
-		<h1>The Contact Circuit</h1>
-		<div>
-			<h2>Please Log In</h2>
-			<form> 
-				<p>Username: <input type="text" class="field" id="loginName" required="required" /></p>
-				<p>Password: <input type="password" class="field" id="loginPassword" required="required" /></p>
-				<button type="button" onclick="doLogin()">Log In</button>
-			</form>
-		</div>
-		<a href="register/index.html">Don't have an account?</a>
-	</body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="icon" href="images/favicon.png" type="image/png">
+</head>
+<body>
+    <header class="logo-container">
+      <img src="images/logo-white.png" alt="Logo" class="logo">
+    </header>
+
+    <div class="container">
+        <h2>Please Log In</h2>
+        <form action="#" method="post">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Username" required>
+
+            <label for="password">Password</label>
+            <div class="password-container">
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <span class="toggle-password">Show</span>
+            </div>
+
+            <button type="submit" class="btn">Sign In</button>
+        </form>
+        <div class="footer">
+            <p>Don't have an account?</p>
+            <a href="register/index.html" >Register.</a>
+        </div>
+    </div>
+
+    <!-- Toggle password visability with hide button -->
+    <script>
+      document.querySelector('.toggle-password').addEventListener('click', function () {
+          const passwordField = document.getElementById('password');
+          if (passwordField.type === 'password') {
+              passwordField.type = 'text';
+              this.textContent = 'Hide';
+          } else {
+              passwordField.type = 'password';
+              this.textContent = 'Show';
+          }
+      });
+  </script>
+  
+</body>
 </html>
