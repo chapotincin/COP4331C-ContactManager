@@ -2,12 +2,12 @@
 	$inData = getRequestInfo();
 	
     //variables 
-    $fname = $inData["fname"];
-    $lname = $inData["lname"];
-    $phone = $inData["phone"];
-    $Id = $inData["ID"];
-    $userId = $inData["userId"];
-    $email = $inData["Email"];
+    $fname = $inData["FirstName"];
+    $lname = $inData["LastName"];
+    $phone = $inData["Phone"];
+	$email = $inData["Email"];
+    //$Id = $inData["ID"];
+    $userId = $inData["UserID"];
 
     $conn = new mysqli("localhost", "TheApiGuy", "Awes0mePassw0rd!", "COP4331");
 	if ($conn->connect_error) 
@@ -17,8 +17,8 @@
 	else
 	{
         //adjusted parameters
-		$stmt = $conn->prepare("INSERT into Contacts (firstName, lastName, phone, ID, userId, email) VALUES (?, ?, ?, ?, ?, ?)");
-		$stmt->bind_param("ssssss", $fname, $lname, $phone, $Id, $userId, $email);
+		$stmt = $conn->prepare("INSERT into Contacts (FirstName, LastName, Phone, Email, UserId) VALUES (?, ?, ?, ?, ?)");
+		$stmt->bind_param("sssss", $fname, $lname, $phone, $email, $userId);
 		$stmt->execute();
 		$stmt->close();
 		$conn->close();
