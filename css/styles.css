@@ -1,119 +1,128 @@
-/* Reset some default browser styles */
+/* Reset default styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Set a background image and font styles for the body */
+.logo-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+    z-index: 1;
+}
+
+.logo {
+    width: 400px;
+    height: auto;
+    display: block;
+}
+
+
 body {
     background: url('../images/circuit-board.jpg') no-repeat center center fixed;
-    background-size: cover; /* Ensures the background covers the full page */
-    font-family: 'Arial', sans-serif; /* Use a clean sans-serif font */
-    color: #000000; /* Default text color set to black */
-    display: flex; 
-    flex-direction: column; /* Align items in a column */
-    justify-content: center; /* Center vertically */
-    align-items: center; /* Center horizontally */
-    height: 100vh; /* Full viewport height */
+    background-size: cover;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column; /* Ensure elements stack vertically */
+    justify-content: flex-start; /* Align elements to the top */
+    align-items: center; 
+    height: 100vh;
+    margin: 0; /* Remove default browser margin */
+    padding-top: 10px; 
 }
 
-/* Add a semi-transparent overlay for readability */
-body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    z-index: -1;
-}
-
-/* Style the main container */
-div {
-    background-color: rgba(255, 255, 255, 0.9);
+.container {
+    background-color: #f9f7f3;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    padding: 20px;
-    width: 90%; /* Responsive width */
-    max-width: 400px; /* Max width for larger screens */
-}
-
-/* Style for headers */
-h1 {
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 400px;
+    padding: 30px;
     text-align: center;
-    color: #00ffff; /* The Contact Circuit */
-    margin-bottom: 20px;
-    text-shadow: none; /* No glow effect */
+    z-index: 0;
 }
 
-/* Style for the "Please Log In" header */
 h2 {
-    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
     color: #000000;
-    margin-bottom: 15px;
-    text-shadow: none;
 }
 
-/* Style for input labels */
 label {
-    color: #000000;
     display: block;
-    margin: 10px 0 5px;
-}
-
-/* Style for input fields */
-.field {
-    width: calc(100% - 20px);
-    padding: 10px; 
-    margin: 10px 0;
-    border: 1px solid #00ffff; /* Neon cyan border */
-    border-radius: 5px; 
-    background: #ffffff; /* White background for inputs */
-    color: #000000; /* Black text inside inputs */
-}
-
-/* Style for the submit button */
-input[type="submit"] {
-    background-color: #00ffff; /* Neon cyan background */
-    color: #0d0d0d; /* Dark text for contrast */
-    border: none;
-    padding: 10px;
-    border-radius: 5px; 
-    cursor: pointer;
-    width: 100%; 
-    transition: background-color 0.3s ease-in-out; /* Smooth transition for hover effect */
-}
-
-input[type="submit"]:hover {
-    background-color: #ffffff; /* White background on hover */
-    color: #00ffff; /* Cyan text on hover */
-}
-
-/* Style for the link */
-a {
-    display: block; /* Make it a block element */
-    text-align: center;
-    margin-top: 15px; 
+    margin-bottom: 8px;
+    font-size: 14px;
     color: #000000;
-    text-decoration: none; 
 }
 
-a:hover {
-    text-decoration: underline; /* Underline on hover for feedback */
-    color: #ffffff; /* White text on hover */
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #a34a20;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #6b4a2b;
 }
 
-/* Media query for responsiveness on smaller screens */
-@media (max-width: 600px) {
-    body {
-        padding: 10px; /* Add padding on small screens */
-    }
-    
-    div {
-        padding: 15px; /* Less padding on smaller screens */
-    }
+.password-container {
+    position: relative;
 }
+
+.password-container .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 12px;
+    color: #a34a20;
+    cursor: pointer;
+}
+
+input:focus {
+    outline: none;
+    border-color: #d1682d;
+}
+
+.btn {
+    background-color: #37516A;
+    color: white;
+    font-size: 14px;
+    padding: 10px;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #873715;
+}
+
+.footer {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #6b4a2b;
+}
+
+.footer a {
+    color: #a34a20;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+
+
+
+
+
 
 

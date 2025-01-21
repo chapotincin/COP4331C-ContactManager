@@ -1,21 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Signup: The Contact Circuit</title>
-		<link href="css/styles.css" rel="stylesheet">
+		<!-- Link to external CSS for styling -->
+		<link href="../css/styles.css" rel="stylesheet">
+		<!-- Link to external JavaScript for handling signup functionality -->
+		<script type="text/javascript" src="../js/code.js"></script>
+		<!-- Favicon for the webpage -->
+		<link rel="icon" href="images/favicon.png" type="image/png">
 	</head>
 	<body>
-		<h1>The Contact Circuit</h1>
-		<div>
+		<!-- Logo Section -->
+		<header class="logo-container">
+			<img src="../images/logo-white.png" alt="Logo" class="logo">
+		</header>
+
+		<!-- Signup Form Section -->
+		<div class="container">
 			<h2>Sign up for a new account</h2>
-			<a href="../index.html">Already have an account?</a>
-			<form action="../LAMPAPI/Register.php" method="post">
-				<p>First Name: <input type="text" class="field" name="firstName" required="required" /></p>
-				<p>Last Name: <input type="text" class="field" name="lastName" required="required" /></p>
-				<p>Username: <input type="text" class="field" name="username" required="required" /></p>
-				<p>Password: <input type="password" class="field" name="password" required="required" /></p>
-				<input type="submit" value="Sign Up!" />
+			<form method="post">
+				<!-- First Name Input Field -->
+				<label for="firstName">First Name</label>
+				<input type="text" id="firstName" name="firstName" placeholder="First Name" required="required">
+
+				<!-- Last Name Input Field -->
+				<label for="lastName">Last Name</label>
+				<input type="text" id="lastName" name="lastName" placeholder="Last Name" required="required">
+
+				<!-- Username Input Field -->
+				<label for="username">Username</label>
+				<input type="text" id="username" name="username" placeholder="Username" required="required">
+
+				<!-- Password Input Field -->
+				<label for="password">Password</label>
+				<input type="password" id="password" name="password" placeholder="Password" required="required">
+
+				<!-- Signup Button -->
+				<button type="button" class="btn" onclick="doRegister()">Sign Up</button>
+				<!-- Error or success message placeholder -->
+				<p id="registerResult" style="color:red;"></p>
 			</form>
+
+			<!-- Footer Section with Link to Login Page -->
+			<div class="footer">
+				<p>Already have an account?</p>
+				<a href="../index.html">Log in</a>
+			</div>
 		</div>
 	</body>
 </html>
+

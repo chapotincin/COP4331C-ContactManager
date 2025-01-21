@@ -1,18 +1,128 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>The Contact Circuit</title>
-		<link href="css/styles.css" rel="stylesheet">
-	</head>
-	<body>
-		<h1>The Contact Circuit</h1>
-		<div>
-			<a href="../index.html">Log Out</a>
-			<form action="">
-				<input type="search" id="searchBar" name="search" placeholder="Search contact" />
-				<input type="submit" id="searchButton" value="Search" />
-				<a href="create.html" id="creator">Create a New Contact</a>
-			</form>
-		</div>
-	</body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Contact Circuit</title>
+    <!-- Link to the external CSS file for styling the search page -->
+    <link href="../css/search.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="nav-bar">
+        <!-- Logo -->
+        <div class="logo-container">
+            <img src="../images/logo-sideway-white.png" alt="The Contact Circuit Logo" class="logo">
+        </div>
+        <!-- Navigation Links -->
+        <nav>
+            <ul>
+                <li><a href="../index.html">Logout</a></li>
+                <li><a href="../search/index.html">Contacts</a></li>
+                <li><a href="about.html">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Welcome Message -->
+        <h1 class="welcome-message">Welcome, [User's Name]!</h1>
+
+        <div class="table-container">
+            <!-- Search Section -->
+            <div class="search-container">
+                <!-- Search Bar -->
+                <input 
+                    type="search" 
+                    id="searchBar" 
+                    name="search" 
+                    placeholder="Search contact" 
+                    aria-label="Search contacts"
+                />
+                <!-- Search Button -->
+                <button type="submit" id="searchButton">Search</button>
+                <!-- Create Contact Button -->
+                <a href="../search/create.html" class="create-contact-btn">+ Create Contact</a>
+            </div>
+
+            <!-- Contacts Table -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Test Data
+                    <tr>
+                        <td>Henry</td>
+                        <td>Jackson</td>
+                        <td>ma@com.com</td>
+                        <td>1231231234</td>
+                        <td>
+                            <button class="edit-btn" aria-label="Edit contact">Edit</button>
+                            <button class="delete-btn" aria-label="Delete contact">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Jacob</td>
+                        <td>Hendrix</td>
+                        <td>coma@com.com</td>
+                        <td>1231231235</td>
+                        <td>
+                            <button class="edit-btn" aria-label="Edit contact">Edit</button>
+                            <button class="delete-btn" aria-label="Delete contact">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Bob</td>
+                        <td>Bob</td>
+                        <td>com@com.com</td>
+                        <td>1231231236</td>
+                        <td>
+                            <button class="edit-btn" aria-label="Edit contact">Edit</button>
+                            <button class="delete-btn" aria-label="Delete contact">Delete</button>
+                        </td>
+                    </tr>
+                    -->
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+    <script>
+        // Handle the "Edit" functionality
+        document.querySelectorAll(".edit-btn").forEach(button => {
+            button.addEventListener("click", function () {
+                const row = this.closest("tr"); // Get the row containing the button
+                const isEditing = row.classList.contains("editing");
+
+                if (!isEditing) {
+                    // Enable inline editing by turning cells into input fields
+                    row.classList.add("editing");
+                    row.querySelectorAll("td:not(:last-child)").forEach((cell, index) => {
+                        const currentText = cell.textContent; // Get current text
+                        const inputType = index === 3 ? "tel" : index === 2 ? "email" : "text"; // Set input type
+                        cell.innerHTML = `<input type="${inputType}" value="${currentText}" />`; // Replace text with input
+                    });
+                    this.textContent = "Save"; // Update button text
+                } else {
+                    // Save changes and disable inline editing
+                    row.classList.remove("editing");
+                    row.querySelectorAll("td:not(:last-child)").forEach(cell => {
+                        const input = cell.querySelector("input");
+                        cell.textContent = input.value; // Save the updated value
+                    });
+                    this.textContent = "Edit"; // Update button text
+                }
+            });
+        });
+    </script>
+</body>
 </html>
+

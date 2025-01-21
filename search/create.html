@@ -1,21 +1,87 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>The Contact Circuit</title>
-		<link href="css/styles.css" rel="stylesheet">
-	</head>
-	<body>
-		<h1>The Contact Circuit</h1>
-		<div>
-			<a href="index.html">Cancel</a>
-			<h2>Add a New Contact</h2>
-			<form action="" method="post">
-				<p>First Name: <input type="text" class="field" name="firstName" required="required" /></p>
-				<p>Last Name: <input type="text" class="field" name="lastName" required="required" /></p>
-				<p>Email: <input type="email" class="field" name="email" required="required" /></p>
-				<p>Phone: <input type="tel" class="field" name="phone" required="required" /></p>
-				<input type="submit" value="Save" />
-			</form>
-		</div>
-	</body>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Contact - The Contact Circuit</title>
+    <!-- Link to the external stylesheet for styling the Create Contact page -->
+    <link href="../css/create.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="nav-bar">
+        <!-- Logo Section -->
+        <div class="logo-container">
+            <img src="../images/logo-sideway-white.png" alt="The Contact Circuit Logo" class="logo">
+        </div>
+        <!-- Navigation Links -->
+        <nav>
+            <ul>
+                <li><a href="../index.html">Logout</a></li>
+                <li><a href="../search/index.html">Contacts</a></li>
+                <li><a href="../search/about.html">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            <!-- Page Title -->
+            <h2>Add a New Contact</h2>
+            <!-- Contact Form -->
+            <form>
+                <!-- First Name Input -->
+                <label for="firstName">First Name:</label>
+                <input 
+                    type="text" 
+                    id="firstName" 
+                    name="firstName" 
+                    placeholder="Enter first name" 
+                    required="required"
+                />
+
+                <!-- Last Name Input -->
+                <label for="lastName">Last Name:</label>
+                <input 
+                    type="text" 
+                    id="lastName" 
+                    name="lastName" 
+                    placeholder="Enter last name" 
+                    required="required"
+                />
+
+                <!-- Email Input -->
+                <label for="email">Email:</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    placeholder="Enter email address" 
+                    required="required"
+                />
+
+                <!-- Phone Number Input -->
+                <label for="phone">Phone:</label>
+                <input 
+                    type="tel" 
+                    id="phone" 
+                    name="phone" 
+                    placeholder="Enter phone number" 
+                    required="required"
+                />
+
+                <!-- Save Button -->
+                <button type="submit" class="btn">Save</button>
+                <!-- Cancel Button -->
+                <a href="index.html" class="cancel-link">Cancel</a>
+            </form>
+        </div>
+    </main>
+</body>
 </html>
+
+
+
+
+

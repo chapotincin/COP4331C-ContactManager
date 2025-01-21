@@ -4,9 +4,9 @@
     $inData = getRequestInfo();
     
     #Initialize variables
-    $firstName = $inData["fname"];
-    $lastName = $inData["lname"];
-    $username = $inData["login"];
+    $fname = $inData["fname"];
+    $lname = $inData["lname"];
+    $username = $inData["username"];
     $password = $inData["password"];
     
     #Initializing the database connection
@@ -34,13 +34,13 @@
         {
             #Insert new user into the database
             $stmt = $conn->prepare("INSERT INTO Users (FirstName, LastName, Login, Password) VALUES (?, ?, ?, ?)");
-            $stmt->bind_param("ssss", $firstName, $lastName, $username, $password);
+            $stmt->bind_param("ssss", $fname, $lname, $username, $password);
             
             if($stmt->execute())
             {
                 #Return success response with user info
                 $id = $conn->insert_id; #Get the last inserted ID
-                returnWithInfo($firstName, $lastName, $id);
+                returnWithInfo($fname, $lname, $id);
             }
             else
             {

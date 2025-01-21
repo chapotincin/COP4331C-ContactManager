@@ -1,0 +1,203 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    background: url('../images/circuit-board.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    margin: 0;
+}
+
+/* Navigation Bar */
+.nav-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #b8420e;
+    padding: 10px 20px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+    z-index: 1000;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    width: 225px;
+    height: auto;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+    margin: 0;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+nav ul li a:hover {
+    color: #37516A;
+}
+
+/* Main Content */
+main {
+    margin-top: 70px;
+    text-align: center;
+    padding: 20px;
+}
+
+/* Welcome Message */
+.welcome-message {
+    margin: 20px 0;
+    font-size: 24px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/* Search Bar */
+.search-container {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+#searchBar {
+    width: 300px;
+    padding: 10px;
+    border: 1px solid #f39c12;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #37516A;
+}
+
+#searchButton {
+    background-color: #b8420e;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+#searchButton:hover {
+    background-color: #a34a20;
+}
+
+.create-contact-btn {
+    background-color: #27ae60;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: background-color 0.3s;
+}
+
+.create-contact-btn:hover {
+    background-color: #1e8449;
+}
+
+/* Table Styling */
+.table-container {
+    margin: 30px auto;
+    width: 90%;
+    max-width: 1000px;
+    overflow-x: auto;
+    background: rgba(255, 255, 255, 1);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    color: #333;
+}
+
+table thead {
+    background-color: #37516A;
+    color: #fff;
+}
+
+table th,
+table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+table tbody tr {
+    transition: all 0.2s ease-in-out;
+}
+
+table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Input Fields in Editable Rows */
+table td input {
+    width: 95%; 
+    box-sizing: border-box;
+    padding: 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    color: #333;
+}
+
+/* Buttons in Table */
+.edit-btn,
+.delete-btn {
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.edit-btn {
+    background-color: #27ae60;
+}
+
+.edit-btn:hover {
+    background-color: #1e8449;
+}
+
+.delete-btn {
+    background-color: #c0392b;
+}
+
+.delete-btn:hover {
+    background-color: #a93226;
+}
+
+
