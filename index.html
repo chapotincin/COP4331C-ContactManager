@@ -4,49 +4,59 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<title>Login: The Contact Circuit</title>
+		<!-- Link to external CSS for styling -->
 		<link rel="stylesheet" href="css/styles.css">
+		<!-- Link to external JavaScript for handling login functionality -->
 		<script type="text/javascript" src="js/code.js"></script>
+		<!-- Favicon for the webpage -->
 		<link rel="icon" href="images/favicon.png" type="image/png">
 	</head>
 	<body>
+		<!-- Logo Section -->
 		<header class="logo-container">
 		  <img src="images/logo-white.png" alt="Logo" class="logo">
 		</header>
 
+		<!-- Login Form Section -->
 		<div class="container">
 			<h2>Please Log In</h2>
 			<form method="post">
+				<!-- Username Input Field -->
 				<label for="username">Username</label>
 				<input type="text" id="loginName" name="username" placeholder="Username" required="required">
 
+				<!-- Password Input Field with Toggle Option -->
 				<label for="password">Password</label>
 				<div class="password-container">
 					<input type="password" id="loginPassword" name="password" placeholder="Password" required="required">
 					<span class="toggle-password">Show</span>
 				</div>
 
+				<!-- Login Button -->
 				<button type="button" class="btn" onclick="doLogin()">Log In</button>
+				<!-- Error Message Placeholder -->
 				<p id="loginResult" style="color:red;"></p>
 			</form>
+
+			<!-- Footer Section with Link to Register Page -->
 			<div class="footer">
 				<p>Don't have an account?</p>
 				<a href="register/index.html" >Register</a>
 			</div>
 		</div>
 
-		<!-- Toggle password visability with hide button -->
+		<!-- JavaScript to Toggle Password Visibility -->
 		<script>
 		  document.querySelector('.toggle-password').addEventListener('click', function () {
 			  const passwordField = document.getElementById('loginPassword');
 			  if (passwordField.type === 'password') {
-				  passwordField.type = 'text';
+				  passwordField.type = 'text'; // Show password
 				  this.textContent = 'Hide';
 			  } else {
-				  passwordField.type = 'password';
+				  passwordField.type = 'password'; // Hide password
 				  this.textContent = 'Show';
 			  }
 		  });
 		</script>
-
 	</body>
 </html>
