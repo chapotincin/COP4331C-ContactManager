@@ -17,15 +17,16 @@
 			<h2>Please Log In</h2>
 			<form method="post">
 				<label for="username">Username</label>
-				<input type="text" id="username" name="username" placeholder="Username" required="required">
+				<input type="text" id="loginName" name="username" placeholder="Username" required="required">
 
 				<label for="password">Password</label>
 				<div class="password-container">
-					<input type="password" id="password" name="password" placeholder="Password" required="required">
+					<input type="password" id="loginPassword" name="password" placeholder="Password" required="required">
 					<span class="toggle-password">Show</span>
 				</div>
 
 				<button type="button" class="btn" onclick="doLogin()">Log In</button>
+				<p id="loginResult" style="color:red;"></p>
 			</form>
 			<div class="footer">
 				<p>Don't have an account?</p>
@@ -36,7 +37,7 @@
 		<!-- Toggle password visability with hide button -->
 		<script>
 		  document.querySelector('.toggle-password').addEventListener('click', function () {
-			  const passwordField = document.getElementById('password');
+			  const passwordField = document.getElementById('loginPassword');
 			  if (passwordField.type === 'password') {
 				  passwordField.type = 'text';
 				  this.textContent = 'Hide';
