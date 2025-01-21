@@ -1,38 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup: The Contact Circuit</title>
-    <link href="../css/styles.css" rel="stylesheet">
-	<link rel="icon" href="images/favicon.png" type="image/png">
-</head>
-<body>
-    <header class="logo-container">
-        <img src="../images/logo-white.png" alt="Logo" class="logo">
-    </header>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Signup: The Contact Circuit</title>
+		<link href="../css/styles.css" rel="stylesheet">
+		<script type="text/javascript" src="../js/code.js"></script>
+		<link rel="icon" href="images/favicon.png" type="image/png">
+	</head>
+	<body>
+		<header class="logo-container">
+			<img src="../images/logo-white.png" alt="Logo" class="logo">
+		</header>
 
-    <div class="container">
-        <h2>Sign up for a new account</h2>
-        <form action="../LAMPAPI/Register.php" method="post">
-            <label for="firstName">First Name</label>
-            <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+		<div class="container">
+			<h2>Sign up for a new account</h2>
+			<form method="post">
+				<label for="firstName">First Name</label>
+				<input type="text" id="firstName" name="firstName" placeholder="First Name" required="required">
 
-            <label for="lastName">Last Name</label>
-            <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
+				<label for="lastName">Last Name</label>
+				<input type="text" id="lastName" name="lastName" placeholder="Last Name" required="required">
 
-            <label for="username">Username</label>
-            <input type="text" id="username" name="username" placeholder="Username" required>
+				<label for="username">Username</label>
+				<input type="text" id="username" name="username" placeholder="Username" required="required">
 
-            <label for="password">Password</label>
-            <input type="password" id="password" name="password" placeholder="Password" required>
+				<label for="password">Password</label>
+				<input type="password" id="password" name="password" placeholder="Password" required="required">
 
-            <button type="submit" class="btn">Sign Up</button>
-        </form>
-        <div class="footer">
-            <p>Already have an account?</p>
-            <a href="../index.html">Sign in.</a>
-        </div>
-    </div>
-</body>
+				<button type="button" class="btn" onclick="doRegister()">Sign Up</button>
+			</form>
+			<div class="footer">
+				<p>Already have an account?</p>
+				<a href="../index.html">Log in</a>
+			</div>
+		</div>
+	</body>
 </html>
