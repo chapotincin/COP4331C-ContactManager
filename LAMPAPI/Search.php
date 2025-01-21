@@ -18,9 +18,10 @@
 		$stmt = $conn->prepare("SELECT * FROM Contacts WHERE (firstName like ? OR lastName like ?) AND ID=?");
 		//formats the name to be searched
 		//SELECT * FROM Contacts WHERE (firstName/lastName LIKE '%R%') AND ID = 123;
-		$fname = "%" . $inData["firstName"] . "%";
-		$lname = "%" . $inData["lastName"] . "%";
-		$stmt->bind_param("sss", $fname, $lname, $inData["ID"]);
+		//$fname = "%" . $inData["firstName"] . "%";
+		//$lname = "%" . $inData["lastName"] . "%";
+		$name = "%" . $inData["search"] . "%";
+		$stmt->bind_param("sss", $name, $name, $inData["ID"]);
 		$stmt->execute();
 		
 		$result = $stmt->get_result();
