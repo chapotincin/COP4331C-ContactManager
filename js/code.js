@@ -121,6 +121,8 @@ function doAdd(){
 	let lastName = document.getElementById("lastName").value;
 	let phone = document.getElementById("phone").value;
 	let email = document.getElementById("email").value;
+	//need to get the ID of the user, that is the userId for the contact
+	//this next line problably has to be replaced with a cookie to track the user's data
 	let userId = document.getElementById("userId").value;
 	document.getElementById("createContactResult").innerHTML = ""; //
 
@@ -187,11 +189,13 @@ function doDelete(){
 }
 
 function doEdit(){
+	//cookie, which contact do they want to edit?
 	let databaseId = document.getElementById("databaseID").value;
 	let firstName = document.getElementById("firstName").value;
 	let lastName = document.getElementById("lastName").value;
 	let phone = document.getElementById("phone").value;
 	let email = document.getElementById("email").value;
+	//cookie, the user's ID (Primary Key)
 	let userId = document.getElementById("userId").value;
 	document.getElementById("modifyResult").innerHTML = ""; //
 
