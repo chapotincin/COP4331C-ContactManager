@@ -7,7 +7,7 @@
     $phone = $inData["Phone"];
 	$email = $inData["Email"];
     //$Id = $inData["ID"];
-    //$userId = $inData["UserID"];
+    $userId = $inData["UserID"];
 
     $conn = new mysqli("localhost", "TheApiGuy", "Awes0mePassw0rd!", "COP4331");
 	if ($conn->connect_error) 
@@ -17,8 +17,9 @@
 	else
 	{
         //adjusted parameters
-		$stmt = $conn->prepare("INSERT into Contacts (FirstName, LastName, Phone, Email) VALUES (?, ?, ?, ?)");
-		$stmt->bind_param("ssss", $fname, $lname, $phone, $email);
+		//we need the I
+		$stmt = $conn->prepare("INSERT into Contacts (FirstName, LastName, Phone, Email, UserID) VALUES (?, ?, ?, ?, ?, ?)");
+		$stmt->bind_param("sssss", $fname, $lname, $phone, $email, $userId);
 		$stmt->execute();
 		$stmt->close();
 		$conn->close();
