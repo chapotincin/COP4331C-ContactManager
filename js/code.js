@@ -124,7 +124,6 @@ function doAdd(){
 	let userId = document.getElementById("userId").value;
 	document.getElementById("createContactResult").innerHTML = ""; //
 
-
 	let tmp = {
 		FirstName: firstName,
 		LastName: lastName,
