@@ -116,7 +116,7 @@ function doLogin()
 }
 
 function doAdd(){
-	//let newContact = document.getElementById("createContact").value; //
+	//let newContact = document.getElementById("createContact").value;
 	let firstName = document.getElementById("firstName").value;
 	let lastName = document.getElementById("lastName").value;
 	let phone = document.getElementById("phone").value;
@@ -162,7 +162,7 @@ function doDelete(){
 	let databaseId = document.getElementById("deleteContact").value; //
 	document.getElementById("deleteContactResult").innerHTML = ""; //
 
-	let tmp = {id: databaseId};
+	let tmp = {ID: databaseId};
 	let jsonPayload = JSON.stringify( tmp );
 
 	let url = urlBase + '/Delete.' + extension;
@@ -186,8 +186,49 @@ function doDelete(){
 		document.getElementById("deleteContactResult").innerHTML = err.message;
 	}
 }
-function doEdit(){
 
+function doEdit(){
+	let databaseId = document.getElementById("databaseID").value;
+	let firstName = document.getElementById("firstName").value;
+	let lastName = document.getElementById("lastName").value;
+	let phone = document.getElementById("phone").value;
+	let email = document.getElementById("email").value;
+	let userId = document.getElementById("userId").value;
+	document.getElementById("modifyResult").innerHTML = ""; //
+
+
+	let tmp = {
+		ID: databaseId,
+		FirstName: firstName,
+		LastName: lastName,
+		Phone: phone,
+		Email: email,
+		UserID: userId
+	};
+
+	//let tmp = {color:newContact,userId,userId};
+	let jsonPayload = JSON.stringify( tmp );
+
+	let url = urlBase + '/Edit.' + extension;
+	
+	let xhr = new XMLHttpRequest();
+	xhr.open("POST", url, true);
+	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+	try
+	{
+		xhr.onreadystatechange = function() 
+		{
+			if (this.readyState == 4 && this.status == 200) 
+			{
+				document.getElementById("modifyResult").innerHTML = "Contact has been changed";
+			}
+		};
+		xhr.send(jsonPayload);
+	}
+	catch(err)
+	{
+		document.getElementById("modifyResult").innerHTML = err.message;
+	}
 }
 
 function doSearch(){
