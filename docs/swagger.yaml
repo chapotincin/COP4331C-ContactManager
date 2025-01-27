@@ -1,0 +1,379 @@
+openapi: "3.0.0"
+info:
+  version: "1.0.0"
+  title: "Contact Circuit LAMP API"
+  description: >
+    This API allows users to register, log in, and manage contact information
+    (Add, Edit, Search, and Delete contacts).
+
+servers:
+  - url: "http://thecontactcircuit.com/LAMPAPI"
+
+paths:
+  /Login.php:
+    post:
+      summary: "User Login"
+      description: >
+        Authenticates a user by checking the provided credentials.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+            example:
+              login: "SamH"
+              password: "Test"
+      responses:
+        '200':
+          description: "User authenticated successfully."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+              example:
+                id: 123
+                firstName: "John"
+                lastName: "Doe"
+                error: ""
+        '400':
+          description: "Bad request or invalid credentials."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+              example:
+                id: 0
+                firstName: ""
+                lastName: ""
+                error: "No Records Found"
+
+  /Register.php:
+    post:
+      summary: "Register a New User"
+      description: >
+        Registers a new user with a unique username. Returns user info on success.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+            example:
+              fname: "Jane"
+              lname: "Doe"
+              username: "jane123"
+              password: "Password123!"
+      responses:
+        '200':
+          description: "User registered successfully."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisterResponse"
+              example:
+                id: 101
+                fname: "Jane"
+                lname: "Doe"
+                error: ""
+        '400':
+          description: "Bad request or username already taken."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisterResponse"
+              example:
+                id: 0
+                fname: ""
+                lname: ""
+                error: "Username already taken"
+
+  /Add.php:
+    post:
+      summary: "Add a New Contact"
+      description: >
+        Creates a new contact for a given user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ContactRequest"
+            example:
+              FirstName: "Michael"
+              LastName: "Smith"
+              Phone: "555-555-5555"
+              Email: "michael.smith@example.com"
+              UserID: "123"
+      responses:
+        '200':
+          description: "Contact added successfully."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericError"
+              example:
+                error: ""
+        '400':
+          description: "Bad request or server error."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericError"
+              example:
+                error: "Could not create the contact"
+
+  /Edit.php:
+    post:
+      summary: "Edit an Existing Contact"
+      description: >
+        Edits an existing contact's information by `ID`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EditContactRequest"
+            example:
+              ID: "10"
+              FirstName: "Michael"
+              LastName: "Smith"
+              Phone: "555-555-6666"
+              Email: "michael.smith@mydomain.com"
+              UserID: "123"
+      responses:
+        '200':
+          description: "Contact edited successfully."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericError"
+              example:
+                error: ""
+        '400':
+          description: "Bad request or server error."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericError"
+              example:
+                error: "Could not edit the contact"
+
+  /Search.php:
+    post:
+      summary: "Search Contacts"
+      description: >
+        Searches for contacts that match the search term in first name, last name, phone, or email.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SearchRequest"
+            example:
+              search: "Smith"
+      responses:
+        '200':
+          description: "Matching contacts found."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchResponse"
+              example:
+                results:
+                  - FirstName: "Michael"
+                    LastName: "Smith"
+                    Phone: "555-555-1234"
+                    Email: "m.smith@example.com"
+                  - FirstName: "Michelle"
+                    LastName: "Smith"
+                    Phone: "555-555-9999"
+                    Email: "michelle.smith@example.com"
+                error: ""
+        '400':
+          description: "No records found or error encountered."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SearchResponse"
+              example:
+                results: []
+                error: "No Records Found"
+
+  /Delete.php:
+    post:
+      summary: "Delete an Existing Contact"
+      description: >
+        Deletes a contact by `ID`.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeleteContactRequest"
+            example:
+              ID: "10"
+      responses:
+        '200':
+          description: "Contact deleted successfully."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericError"
+              example:
+                error: ""
+        '400':
+          description: "Bad request or server error."
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GenericError"
+              example:
+                error: "Could not delete the contact"
+
+components:
+  schemas:
+    # -- Common / Generic --
+    GenericError:
+      type: object
+      properties:
+        error:
+          type: string
+      example:
+        error: ""
+
+    # -- /Login --
+    LoginRequest:
+      type: object
+      required:
+        - login
+        - password
+      properties:
+        login:
+          type: string
+          description: "Username for login"
+        password:
+          type: string
+          description: "Password for login"
+    LoginResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        error:
+          type: string
+
+    # -- /Register --
+    RegisterRequest:
+      type: object
+      required:
+        - fname
+        - lname
+        - username
+        - password
+      properties:
+        fname:
+          type: string
+        lname:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+    RegisterResponse:
+      type: object
+      properties:
+        id:
+          type: integer
+        fname:
+          type: string
+        lname:
+          type: string
+        error:
+          type: string
+
+    # -- /Add (ContactRequest) --
+    ContactRequest:
+      type: object
+      required:
+        - FirstName
+        - LastName
+        - Phone
+        - Email
+        - UserID
+      properties:
+        FirstName:
+          type: string
+        LastName:
+          type: string
+        Phone:
+          type: string
+        Email:
+          type: string
+        UserID:
+          type: string
+
+    # -- /Edit (EditContactRequest) --
+    EditContactRequest:
+      type: object
+      required:
+        - ID
+        - FirstName
+        - LastName
+        - Phone
+        - Email
+        - UserID
+      properties:
+        ID:
+          type: string
+        FirstName:
+          type: string
+        LastName:
+          type: string
+        Phone:
+          type: string
+        Email:
+          type: string
+        UserID:
+          type: string
+
+    # -- /Search (SearchRequest / SearchResponse) --
+    SearchRequest:
+      type: object
+      required:
+        - search
+      properties:
+        search:
+          type: string
+          description: "Search term for first/last name, phone, or email."
+    SearchResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              FirstName:
+                type: string
+              LastName:
+                type: string
+              Phone:
+                type: string
+              Email:
+                type: string
+        error:
+          type: string
+
+    # -- /Delete (DeleteContactRequest) --
+    DeleteContactRequest:
+      type: object
+      required:
+        - ID
+      properties:
+        ID:
+          type: string
