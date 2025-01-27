@@ -240,8 +240,8 @@ function doSearch(){
 	
 	let list = "";
 
-	//let tmp = {search:srch,UserID:userId};
-	let tmp = {search:srch};
+	let tmp = {search:srch, userId:userId};
+	//let tmp = {search:srch};
 	let jsonPayload = JSON.stringify( tmp );
 
 	//url to the php file (urlbase/Search.php)
