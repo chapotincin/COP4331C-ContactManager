@@ -7,6 +7,7 @@
     <script type="text/javascript" src="../js/code.js"></script>
     <!-- Link to the external CSS file for styling the search page -->
     <link href="../css/search.css" rel="stylesheet">
+	<link rel="icon" href="../images/favicon.png" type="image/png">
 	
 	<script type="text/javascript">
 	document.addEventListener('DOMContentLoaded', function() 
@@ -52,8 +53,10 @@
                 <!-- Create Contact Button -->
                 <button type="button" class="btn" id="searchButton" onclick="doSearch()">Search</button>
                 <a href="../search/create.html" class="create-contact-btn">+ Create Contact</a>
+				<br />
 				<p id="createContactResult" style="color:red;"></p>
-				<p id="SearchResult" style="color:red;"></p>
+				<p id="modifyResult" style="color:red;"></p>
+				<p id="deleteContactResult" style="color:red;"></p>
             </div>
 
             <!-- Contacts Table -->
@@ -67,7 +70,7 @@
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="SearchResult">
                     <!-- Test Data
                     <tr>
                         <td>Henry</td>
