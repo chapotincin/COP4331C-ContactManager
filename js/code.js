@@ -260,16 +260,20 @@ function doSearch(){
 				document.getElementById("searchButton").innerHTML = "Contact(s) has been retrieved"; //
 				let jsonObject = JSON.parse( xhr.responseText );
 				
+				//loops through json results given by the php
 				for( let i=0; i<jsonObject.results.length; i++ )
 				{
+					//adds the objects to list
 					list += jsonObject.results[i];
 					if( i < jsonObject.results.length - 1 )
 					{
+						//appends a line break to list
 						list += "<br />\r\n";
 					}
 				}
 				
-				document.getElementsByTagName("p")[0].innerHTML = list;
+				document.getElementById("SearchResult").innerHTML = list;
+				//document.getElementsByTagName("p")[0].innerHTML = list;
 			}
 		};
 		xhr.send(jsonPayload);
