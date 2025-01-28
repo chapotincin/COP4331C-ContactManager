@@ -122,8 +122,9 @@ function doAdd(){
 	let phone = document.getElementById("phone").value;
 	let email = document.getElementById("email").value;
 	//need to get the ID of the user, that is the userId for the contact
-	//this next line problably has to be replaced with a cookie to track the user's data
-	let userId = document.getElementById("userId").value;
+	//reads the userId from Cookie
+	readCookie()
+	//let userId = document.getElementById("userId").value;
 	document.getElementById("createContactResult").innerHTML = ""; //
 
 	let tmp = {
@@ -240,8 +241,8 @@ function doSearch(){
 	
 	let list = "";
 
-	let tmp = {search:srch,userId:userId};
-	//let tmp = {search:srch};
+	//let tmp = {search:srch,UserID:userId};
+	let tmp = {search:srch};
 	let jsonPayload = JSON.stringify( tmp );
 
 	//url to the php file (urlbase/Search.php)
