@@ -123,7 +123,7 @@ function doAdd(){
 	let email = document.getElementById("email").value;
 	//need to get the ID of the user, that is the userId for the contact
 	//reads the userId from Cookie
-	readCookie()
+	readCookie();
 	//let userId = document.getElementById("userId").value;
 	document.getElementById("createContactResult").innerHTML = ""; //
 
