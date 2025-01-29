@@ -270,7 +270,7 @@ function doSearch(){
                 //add json results from the database to the table
                 for (let i = 0; i < jsonObject.results.length; i++) {
 					//check to see if UserID of the contact with the user's primary key matches, if not skip the row
-					if(userId === jsonObject.results[i].UserID){
+					if(userId == jsonObject.results[i].UserID){
 						let row = document.createElement('tr'); //table row, one for each contact/jsonObject.results
 
                     	//create the column for FirstName, LastName, Email, and Phone and add their respective info
