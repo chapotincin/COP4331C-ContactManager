@@ -116,16 +116,10 @@ function doLogin()
 }
 
 function doAdd(){
-	//let newContact = document.getElementById("createContact").value;
 	let firstName = document.getElementById("firstName").value;
 	let lastName = document.getElementById("lastName").value;
 	let phone = document.getElementById("phone").value;
 	let email = document.getElementById("email").value;
-	//need to get the ID of the user, that is the userId for the contact
-	//reads the userId from Cookie
-	//readCookie();
-	//let userId = document.getElementById("userId").value;
-	//document.getElementById("createContactResult").innerHTML = ""; //
 
 	let tmp = {
 		FirstName: firstName,
@@ -149,9 +143,6 @@ function doAdd(){
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{
-				//document.getElementById("createContactResult").innerHTML = "Contact has been added";
-
-				//return to search page
 				window.location.href = "index.html";
 			}
 		};
