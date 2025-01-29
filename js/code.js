@@ -254,9 +254,13 @@ function doSearch(){
 	try{
 		xhr.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200){
+
 				document.getElementById("searchButton").innerHTML = "Contact(s) have been retrieved"; 
 				//parse the JSON response to be used
                 let jsonObject = JSON.parse(xhr.responseText);
+
+				//get userId
+				userId = jsonObject.id;
 
 				//reference to the html table
 				let table = document.getElementById("SearchResult");
@@ -265,40 +269,44 @@ function doSearch(){
 
                 //add json results from the database to the table
                 for (let i = 0; i < jsonObject.results.length; i++) {
-                    let row = document.createElement('tr'); //table row, one for each contact/jsonObject.results
+					//check to see if userid matches
+					if(userId == jsonObject.results[i].id){
+						let row = document.createElement('tr'); //table row, one for each contact/jsonObject.results
 
-                    //create the column for FirstName, LastName, Email, and Phone and add their respective info
-                    let firstNameColumn = document.createElement('td'); //creates the cell for its column
-                    firstNameColumn.textContent = jsonObject.results[i].FirstName; //adds the text to the cell
-                    row.appendChild(firstNameColumn); //adds the cell to that row
+                    	//create the column for FirstName, LastName, Email, and Phone and add their respective info
+                    	let firstNameColumn = document.createElement('td'); //creates the cell for its column
+                    	firstNameColumn.textContent = jsonObject.results[i].FirstName; //adds the text to the cell
+                    	row.appendChild(firstNameColumn); //adds the cell to that row
 
-                    let lastNameColumn = document.createElement('td');
-                    lastNameColumn.textContent = jsonObject.results[i].LastName;
-                    row.appendChild(lastNameColumn);
+                    	let lastNameColumn = document.createElement('td');
+                    	lastNameColumn.textContent = jsonObject.results[i].LastName;
+                    	row.appendChild(lastNameColumn);
 
-                    let emailColumn = document.createElement('td');
-                    emailColumn.textContent = jsonObject.results[i].Email;
-                    row.appendChild(emailColumn);
+                    	let emailColumn = document.createElement('td');
+                    	emailColumn.textContent = jsonObject.results[i].Email;
+                    	row.appendChild(emailColumn);
 
-                    let phoneColumn = document.createElement('td');
-                    phoneColumn.textContent = jsonObject.results[i].Phone;
-                    row.appendChild(phoneColumn);
+                    	let phoneColumn = document.createElement('td');
+                    	phoneColumn.textContent = jsonObject.results[i].Phone;
+                    	row.appendChild(phoneColumn);
 
-                    //create Actions column
-                    let actionsCell = document.createElement('td');
+                    	//create Actions column
+                    	let actionsCell = document.createElement('td');
 
-                    let editButton = document.createElement('button'); //call doEdit?
-                    editButton.textContent = 'Edit'; //change to notepad
-                    actionsCell.appendChild(editButton);
+                    	let editButton = document.createElement('button'); //call doEdit?
+                    	editButton.textContent = 'Edit'; //change to notepad
+                    	actionsCell.appendChild(editButton);
 
-                    let deleteButton = document.createElement('button'); //call doDelete?
-                    deleteButton.textContent = 'Delete'; //change to trashcan
-                    actionsCell.appendChild(deleteButton);
+                    	let deleteButton = document.createElement('button'); //call doDelete?
+                    	deleteButton.textContent = 'Delete'; //change to trashcan
+                    	actionsCell.appendChild(deleteButton);
 
-                    row.appendChild(actionsCell);
+                    	row.appendChild(actionsCell);
 
-                    //append the row to the table, repeat for each row
-                    table.appendChild(row);
+                    	//append the row to the table, repeat for each row
+                    	table.appendChild(row);
+					}
+                    
                 }
 			}
 		};
