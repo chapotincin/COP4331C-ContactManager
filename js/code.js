@@ -120,7 +120,7 @@ function doAdd(){
 	let lastName = document.getElementById("lastName").value;
 	let phone = document.getElementById("phone").value;
 	let email = document.getElementById("email").value;
-
+	/*
 	let tmp = {
 		FirstName: firstName,
 		LastName: lastName,
@@ -128,9 +128,9 @@ function doAdd(){
 		Email: email,
 		UserID: userId
 	};
-
+	*/
 	//let tmp = {color:newContact,userId,userId};
-	let jsonPayload = JSON.stringify( tmp );
+	//let jsonPayload = JSON.stringify( tmp );
 
 	let url = urlBase + '/Add.' + extension;
 	
@@ -139,12 +139,22 @@ function doAdd(){
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
 	try
 	{
+		let jsonPayload;
 		xhr.onreadystatechange = function() 
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{
 				let jsonObject = JSON.parse(xhr.responseText);
-				userId = jsonObject.id;
+				let tmp = {
+					FirstName: firstName,
+					LastName: lastName,
+					Phone: phone,
+					Email: email,
+					UserID: userId = jsonObject.id
+				};
+				jsonPayload = JSON.stringify( tmp );
+
+
 				window.location.href = "index.html";
 			}
 		};
