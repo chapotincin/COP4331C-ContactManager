@@ -259,7 +259,7 @@ function doSearch(){
 				//parse the JSON response to be used
                 let jsonObject = JSON.parse(xhr.responseText);
 
-				//get userId
+				//get user's Id
 				userId = jsonObject.id;
 
 				//reference to the html table
@@ -269,8 +269,8 @@ function doSearch(){
 
                 //add json results from the database to the table
                 for (let i = 0; i < jsonObject.results.length; i++) {
-					//check to see if userid matches
-					if(userId == jsonObject.results[i].UserID){
+					//check to see if userid matches, if not skip the row
+					if(userId === jsonObject.results[i].UserID){
 						let row = document.createElement('tr'); //table row, one for each contact/jsonObject.results
 
                     	//create the column for FirstName, LastName, Email, and Phone and add their respective info

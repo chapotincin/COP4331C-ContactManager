@@ -15,11 +15,11 @@
 	else
 	{
 		//search matching first and last name, phone, and email
-		$stmt = $conn->prepare("SELECT * FROM Contacts WHERE (firstName like ? OR lastName like ? OR phone like ? OR email like ?)");
+		$stmt = $conn->prepare("SELECT * FROM Contacts WHERE (firstName like ? OR lastName like ? OR phone like ? OR email like ? OR userId)");
 		//formats the name to be searched
 		//SELECT * FROM Contacts WHERE (firstName/lastName LIKE '%R%') AND ID = 123;
 		$search = "%" . $inData["search"] . "%";
-		$stmt->bind_param("ssss", $search, $search, $search, $search);
+		$stmt->bind_param("sssss", $search, $search, $search, $search, $search);
 		$stmt->execute();
 		
 		$result = $stmt->get_result();
@@ -33,7 +33,7 @@
 			$searchCount++;
 
             //array of json objects FirstName, LastName, Phone, Email, UserId, Maybe jsonencode?
-            $searchResults .= '{"FirstName" : "' . $row["FirstName"] . '", "LastName" : "' . $row["LastName"] . '", "Phone" : "' . $row["Phone"] . '", "Email" : "' . $row["Email"] . '"}';
+            $searchResults .= '{"FirstName" : "' . $row["FirstName"] . '", "LastName" : "' . $row["LastName"] . '", "Phone" : "' . $row["Phone"] . '", "Email" : "' . $row["Email"] . '", "ID" : "' . $row["ID"] . '"}';
 		}
 		
 		if( $searchCount == 0 )
