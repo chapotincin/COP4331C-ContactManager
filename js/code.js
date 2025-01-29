@@ -150,7 +150,7 @@ function doAdd(){
 					LastName: lastName,
 					Phone: phone,
 					Email: email,
-					UserID: userId = jsonObject.id
+					UserID: userId = jsonObject.ID
 				};
 				jsonPayload = JSON.stringify( tmp );
 
