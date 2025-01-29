@@ -19,7 +19,7 @@
 		//formats the name to be searched
 		//SELECT * FROM Contacts WHERE (firstName/lastName LIKE '%R%') AND ID = 123;
 		$search = "%" . $inData["search"] . "%";
-		$stmt->bind_param("sssss", $search, $search, $search, $search, $search);
+		$stmt->bind_param("sssss", $search, $search, $search, $search, $inData["UserID"]);
 		$stmt->execute();
 		
 		$result = $stmt->get_result();
