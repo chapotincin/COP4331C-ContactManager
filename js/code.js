@@ -239,7 +239,7 @@ function doSearch(){
 	let srch = document.getElementById("searchBar").value;
 	document.getElementById("searchButton").innerHTML = ""; //
 	
-	let list = "";
+	//let list = "";
 
 	//let tmp = {search:srch,UserID:userId};
 	let tmp = {search:srch};
@@ -263,16 +263,32 @@ function doSearch(){
 				//loops through json results given by the php
 				for( let i=0; i<jsonObject.results.length; i++ )
 				{
-					//adds the objects to list
+					
+					if(i%4 == 0){
+						document.getElementsByTagName("td")[0].innerHTML = list;
+
+					}
+					else if(i%4 == 1){
+						document.getElementsByTagName("td")[1].innerHTML = list;
+
+					}
+					else if(i%4 == 2){
+						document.getElementsByTagName("td")[2].innerHTML = list;
+					}
+					else if(i%4 == 3){
+						document.getElementsByTagName("td")[3].innerHTML = list;
+					}
+					/*//adds the objects to list
 					list += jsonObject.results[i];
 					if( i < jsonObject.results.length - 1 )
 					{
 						//appends a line break to list
 						list += "<br />\r\n";
 					}
+					*/
 				}
 				
-				document.getElementById("SearchResult").innerHTML = list;
+				//document.getElementById("SearchResult").innerHTML = list;
 				//document.getElementsByTagName("p")[0].innerHTML = list;
 			}
 		};
