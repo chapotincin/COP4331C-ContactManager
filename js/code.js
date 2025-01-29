@@ -265,18 +265,18 @@ function doSearch(){
 				{
 					
 					if(i%4 == 0){
-						document.getElementsByTagName("td")[0].innerHTML = list;
+						document.getElementsByTagName("td")[0].innerHTML = jsonObject.FirstName;
 
 					}
 					else if(i%4 == 1){
-						document.getElementsByTagName("td")[1].innerHTML = list;
+						document.getElementsByTagName("td")[1].innerHTML = jsonObject.LastName;
 
 					}
 					else if(i%4 == 2){
-						document.getElementsByTagName("td")[2].innerHTML = list;
+						document.getElementsByTagName("td")[2].innerHTML = jsonObject.Email;
 					}
 					else if(i%4 == 3){
-						document.getElementsByTagName("td")[3].innerHTML = list;
+						document.getElementsByTagName("td")[3].innerHTML = jsonObject.Phone;
 					}
 					/*//adds the objects to list
 					list += jsonObject.results[i];
