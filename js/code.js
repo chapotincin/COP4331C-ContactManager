@@ -150,6 +150,9 @@ function doAdd(){
 			if (this.readyState == 4 && this.status == 200) 
 			{
 				document.getElementById("createContactResult").innerHTML = "Contact has been added";
+
+				//return to search page
+				window.location.href = "search/index.html";
 			}
 		};
 		xhr.send(jsonPayload);
