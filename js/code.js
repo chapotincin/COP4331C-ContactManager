@@ -120,7 +120,7 @@ function doAdd(){
 	let lastName = document.getElementById("lastName").value;
 	let phone = document.getElementById("phone").value;
 	let email = document.getElementById("email").value;
-	readCookie();
+	
 	let tmp = {
 		FirstName: firstName,
 		LastName: lastName,
