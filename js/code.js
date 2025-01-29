@@ -251,45 +251,53 @@ function doSearch(){
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function() 
-		{
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				document.getElementById("searchButton").innerHTML = "Contact(s) has been retrieved"; //
-				let jsonObject = JSON.parse( xhr.responseText );
-				
-				//loops through json results given by the php
-				for( let i=0; i<jsonObject.results.length; i++ )
-				{
-					
-					if(i%4 == 0){
-						document.getElementsByTagName("td")[0].innerHTML = jsonObject.FirstName;
+	try{
+		xhr.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200){
+				document.getElementById("searchButton").innerHTML = "Contact(s) have been retrieved"; 
+				//parse the JSON response to be used
+                let jsonObject = JSON.parse(xhr.responseText);
 
-					}
-					else if(i%4 == 1){
-						document.getElementsByTagName("td")[1].innerHTML = jsonObject.LastName;
+				//reference to the html table
+				let table = document.getElementById("SearchResult");
 
-					}
-					else if(i%4 == 2){
-						document.getElementsByTagName("td")[2].innerHTML = jsonObject.Email;
-					}
-					else if(i%4 == 3){
-						document.getElementsByTagName("td")[3].innerHTML = jsonObject.Phone;
-					}
-					/*//adds the objects to list
-					list += jsonObject.results[i];
-					if( i < jsonObject.results.length - 1 )
-					{
-						//appends a line break to list
-						list += "<br />\r\n";
-					}
-					*/
-				}
-				
-				//document.getElementById("SearchResult").innerHTML = list;
-				//document.getElementsByTagName("p")[0].innerHTML = list;
+                //add json results from the database to the table
+                for (let i = 0; i < jsonObject.results.length; i++) {
+                    let row = document.createElement('tr');
+
+                    //create the column for FirstName, LastName, Email, and Phone and add their respective info
+                    let firstNameColumn = document.createElement('td'); //creates the cell for its column
+                    firstNameColumn.textContent = jsonObject.results[i].FirstName; //adds the text to the cell
+                    row.appendChild(firstNameColumn); //adds the cell to that row
+
+                    let lastNameColumn = document.createElement('td');
+                    lastNameColumn.textContent = jsonObject.results[i].LastName;
+                    row.appendChild(lastNameColumn);
+
+                    let emailColumn = document.createElement('td');
+                    emailColumn.textContent = jsonObject.results[i].Email;
+                    row.appendChild(emailColumn);
+
+                    let phoneColumn = document.createElement('td');
+                    phoneColumn.textContent = jsonObject.results[i].Phone;
+                    row.appendChild(phoneColumn);
+
+                    //create Actions column
+                    let actionsCell = document.createElement('td');
+
+                    let editButton = document.createElement('button');
+                    editButton.textContent = 'Edit'; //change to notepad
+                    actionsCell.appendChild(editButton);
+
+                    let deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete'; //change to trashcan
+                    actionsCell.appendChild(deleteButton);
+
+                    row.appendChild(actionsCell);
+
+                    //append the row to the table, repeat for each row
+                    table.appendChild(row);
+                }
 			}
 		};
 		xhr.send(jsonPayload);
