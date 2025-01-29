@@ -260,10 +260,12 @@ function doSearch(){
 
 				//reference to the html table
 				let table = document.getElementById("SearchResult");
+				//delete old table
+				table.innerHTML = '';
 
                 //add json results from the database to the table
                 for (let i = 0; i < jsonObject.results.length; i++) {
-                    let row = document.createElement('tr');
+                    let row = document.createElement('tr'); //table row, one for each contact/jsonObject.results
 
                     //create the column for FirstName, LastName, Email, and Phone and add their respective info
                     let firstNameColumn = document.createElement('td'); //creates the cell for its column
@@ -285,11 +287,11 @@ function doSearch(){
                     //create Actions column
                     let actionsCell = document.createElement('td');
 
-                    let editButton = document.createElement('button');
+                    let editButton = document.createElement('button'); //call doEdit?
                     editButton.textContent = 'Edit'; //change to notepad
                     actionsCell.appendChild(editButton);
 
-                    let deleteButton = document.createElement('button');
+                    let deleteButton = document.createElement('button'); //call doDelete?
                     deleteButton.textContent = 'Delete'; //change to trashcan
                     actionsCell.appendChild(deleteButton);
 
