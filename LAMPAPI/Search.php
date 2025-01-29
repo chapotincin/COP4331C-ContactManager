@@ -15,7 +15,7 @@
 	else
 	{
 		//search matching first and last name, phone, and email
-		$stmt = $conn->prepare("SELECT * FROM Contacts WHERE (firstName like ? OR lastName like ? OR phone like ? OR email like ? OR userId)");
+		$stmt = $conn->prepare("SELECT * FROM Contacts WHERE (firstName like ? OR lastName like ? OR phone like ? OR email like ? OR UserID)");
 		//formats the name to be searched
 		//SELECT * FROM Contacts WHERE (firstName/lastName LIKE '%R%') AND ID = 123;
 		$search = "%" . $inData["search"] . "%";
