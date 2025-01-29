@@ -289,7 +289,7 @@ function doSearch(){
 						//the following 3 lines creates the on-click button for the edit button
 						var editAttribute = document.createAttribute('onclick');
 						editAttribute.value = 'goEdit()';
-						editButton.setAttributeNode(deleteAttribute);
+						editButton.setAttributeNode(editAttribute);
                     	editButton.textContent = 'Edit'; //change to notepad
                     	actionsCell.appendChild(editButton);
 
