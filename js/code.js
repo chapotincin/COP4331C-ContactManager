@@ -152,7 +152,7 @@ function doAdd(){
 				document.getElementById("createContactResult").innerHTML = "Contact has been added";
 
 				//return to search page
-				window.location.href = "search/index.html";
+				window.location.href = "index.html";
 			}
 		};
 		xhr.send(jsonPayload);
