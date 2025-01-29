@@ -260,7 +260,7 @@ function doSearch(){
                 let jsonObject = JSON.parse(xhr.responseText);
 
 				//get user's Id
-				userId = jsonObject.id;
+				//userId = jsonObject.id;
 
 				//reference to the html table
 				let table = document.getElementById("SearchResult");
@@ -269,7 +269,7 @@ function doSearch(){
 
                 //add json results from the database to the table
                 for (let i = 0; i < jsonObject.results.length; i++) {
-					//check to see if userid matches, if not skip the row
+					//check to see if UserID of the contact with the user's primary key matches, if not skip the row
 					if(userId === jsonObject.results[i].UserID){
 						let row = document.createElement('tr'); //table row, one for each contact/jsonObject.results
 
