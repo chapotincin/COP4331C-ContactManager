@@ -152,7 +152,7 @@ function doAdd(){
 				document.getElementById("createContactResult").innerHTML = "Contact has been added";
 
 				//return to search page
-				window.location.href = "index.html";
+				window.location.href = "search/index.html";
 			}
 		};
 		xhr.send(jsonPayload);
@@ -295,10 +295,18 @@ function doSearch(){
                     	let actionsCell = document.createElement('td');
 
                     	let editButton = document.createElement('button'); //call doEdit?
+						//the following 3 lines creates the on-click button for the edit button
+						var editAttribute = document.createAttribute('onclick');
+						editAttribute.value = 'goEdit()';
+						editButton.setAttributeNode(deleteAttribute);
                     	editButton.textContent = 'Edit'; //change to notepad
                     	actionsCell.appendChild(editButton);
 
                     	let deleteButton = document.createElement('button'); //call doDelete?
+						//the following 3 lines creates the on-click button for the delete button
+						var deleteAttribute = document.createAttribute('onclick');
+						deleteAttribute.value = 'goDelete()';
+						deleteButton.setAttributeNode(deleteAttribute);
                     	deleteButton.textContent = 'Delete'; //change to trashcan
                     	actionsCell.appendChild(deleteButton);
 
