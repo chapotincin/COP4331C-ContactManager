@@ -123,7 +123,7 @@ function doAdd(){
 	let email = document.getElementById("email").value;
 	//need to get the ID of the user, that is the userId for the contact
 	//reads the userId from Cookie
-	readCookie();
+	//readCookie();
 	//let userId = document.getElementById("userId").value;
 	document.getElementById("createContactResult").innerHTML = ""; //
 
@@ -150,6 +150,9 @@ function doAdd(){
 			if (this.readyState == 4 && this.status == 200) 
 			{
 				document.getElementById("createContactResult").innerHTML = "Contact has been added";
+
+				//return to search page
+				window.location.href = "search/index.html";
 			}
 		};
 		xhr.send(jsonPayload);
@@ -239,7 +242,7 @@ function doSearch(){
 	let srch = document.getElementById("searchBar").value;
 	document.getElementById("searchButton").innerHTML = ""; //
 	
-	let list = "";
+	//let list = "";
 
 	//let tmp = {search:srch,UserID:userId};
 	let tmp = {search:srch};
@@ -251,25 +254,61 @@ function doSearch(){
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function() 
-		{
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				document.getElementById("searchButton").innerHTML = "Contact(s) has been retrieved"; //
-				let jsonObject = JSON.parse( xhr.responseText );
-				
-				for( let i=0; i<jsonObject.results.length; i++ )
-				{
-					list += jsonObject.results[i];
-					if( i < jsonObject.results.length - 1 )
-					{
-						list += "<br />\r\n";
+	try{
+		xhr.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200){
+
+				document.getElementById("searchButton").innerHTML = "Contact(s) have been retrieved"; 
+				//parse the JSON response to be used
+                let jsonObject = JSON.parse(xhr.responseText);
+
+
+				//reference to the html table
+				let table = document.getElementById("SearchResult");
+				//delete old table
+				table.innerHTML = '';
+
+                //add json results from the database to the table
+                for (let i = 0; i < jsonObject.results.length; i++) {
+					//check to see if UserID of the contact with the user's primary key matches, if not skip the row
+					if(userId == jsonObject.results[i].UserID){
+						let row = document.createElement('tr'); //table row, one for each contact/jsonObject.results
+
+                    	//create the column for FirstName, LastName, Email, and Phone and add their respective info
+                    	let firstNameColumn = document.createElement('td'); //creates the cell for its column
+                    	firstNameColumn.textContent = jsonObject.results[i].FirstName; //adds the text to the cell
+                    	row.appendChild(firstNameColumn); //adds the cell to that row
+
+                    	let lastNameColumn = document.createElement('td');
+                    	lastNameColumn.textContent = jsonObject.results[i].LastName;
+                    	row.appendChild(lastNameColumn);
+
+                    	let emailColumn = document.createElement('td');
+                    	emailColumn.textContent = jsonObject.results[i].Email;
+                    	row.appendChild(emailColumn);
+
+                    	let phoneColumn = document.createElement('td');
+                    	phoneColumn.textContent = jsonObject.results[i].Phone;
+                    	row.appendChild(phoneColumn);
+
+                    	//create Actions column
+                    	let actionsCell = document.createElement('td');
+
+                    	let editButton = document.createElement('button'); //call doEdit?
+                    	editButton.textContent = 'Edit'; //change to notepad
+                    	actionsCell.appendChild(editButton);
+
+                    	let deleteButton = document.createElement('button'); //call doDelete?
+                    	deleteButton.textContent = 'Delete'; //change to trashcan
+                    	actionsCell.appendChild(deleteButton);
+
+                    	row.appendChild(actionsCell);
+
+                    	//append the row to the table, repeat for each row
+                    	table.appendChild(row);
 					}
-				}
-				
-				document.getElementsByTagName("p")[0].innerHTML = list;
+                    
+                }
 			}
 		};
 		xhr.send(jsonPayload);

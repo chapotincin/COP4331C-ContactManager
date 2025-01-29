@@ -33,7 +33,7 @@
 			$searchCount++;
 
             //array of json objects FirstName, LastName, Phone, Email, UserId, Maybe jsonencode?
-            $searchResults .= '{"FirstName" : "' . $row["FirstName"] . '", "LastName" : "' . $row["LastName"] . '", "Phone" : "' . $row["Phone"] . '", "Email" : "' . $row["Email"] . '"}';
+            $searchResults .= '{"FirstName" : "' . $row["FirstName"] . '", "LastName" : "' . $row["LastName"] . '", "Phone" : "' . $row["Phone"] . '", "Email" : "' . $row["Email"] . '", "UserID" : "' . $row["UserID"] . '"}';
 		}
 		
 		if( $searchCount == 0 )
