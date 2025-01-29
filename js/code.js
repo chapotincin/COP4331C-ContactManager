@@ -116,17 +116,11 @@ function doLogin()
 }
 
 function doAdd(){
-	//let newContact = document.getElementById("createContact").value;
 	let firstName = document.getElementById("firstName").value;
 	let lastName = document.getElementById("lastName").value;
 	let phone = document.getElementById("phone").value;
 	let email = document.getElementById("email").value;
-	//need to get the ID of the user, that is the userId for the contact
-	//reads the userId from Cookie
-	//readCookie();
-	//let userId = document.getElementById("userId").value;
-	document.getElementById("createContactResult").innerHTML = ""; //
-
+	
 	let tmp = {
 		FirstName: firstName,
 		LastName: lastName,
@@ -134,7 +128,7 @@ function doAdd(){
 		Email: email,
 		UserID: userId
 	};
-
+	
 	//let tmp = {color:newContact,userId,userId};
 	let jsonPayload = JSON.stringify( tmp );
 
@@ -149,9 +143,6 @@ function doAdd(){
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{
-				document.getElementById("createContactResult").innerHTML = "Contact has been added";
-
-				//return to search page
 				window.location.href = "index.html";
 			}
 		};
@@ -159,7 +150,7 @@ function doAdd(){
 	}
 	catch(err)
 	{
-		document.getElementById("createContactResult").innerHTML = err.message;
+		//document.getElementById("createContactResult").innerHTML = err.message;
 	}
 }
 
@@ -295,10 +286,18 @@ function doSearch(){
                     	let actionsCell = document.createElement('td');
 
                     	let editButton = document.createElement('button'); //call doEdit?
+						//the following 3 lines creates the on-click button for the edit button
+						var editAttribute = document.createAttribute('onclick');
+						editAttribute.value = 'goEdit()';
+						editButton.setAttributeNode(editAttribute);
                     	editButton.textContent = 'Edit'; //change to notepad
                     	actionsCell.appendChild(editButton);
 
                     	let deleteButton = document.createElement('button'); //call doDelete?
+						//the following 3 lines creates the on-click button for the delete button
+						var deleteAttribute = document.createAttribute('onclick');
+						deleteAttribute.value = 'goDelete()';
+						deleteButton.setAttributeNode(deleteAttribute);
                     	deleteButton.textContent = 'Delete'; //change to trashcan
                     	actionsCell.appendChild(deleteButton);
 
