@@ -38,6 +38,7 @@ body {
     height: auto;
 }
 
+/* Navigation Links */
 nav ul {
     list-style: none;
     display: flex;
@@ -50,11 +51,19 @@ nav ul li a {
     color: #fff;
     font-size: 16px;
     font-weight: bold;
-    transition: color 0.3s;
+    transition: color 0.3s, border-bottom 0.3s;
+    padding-bottom: 5px;
 }
 
+/* Hover Effect */
 nav ul li a:hover {
     color: #37516A;
+    border-bottom: 2px solid #37516A; /* Underline on hover */
+}
+
+/* Active Page Underline */
+nav ul li a.active {
+    border-bottom: 3px solid white; /* White underline for active page */
 }
 
 /* Main Content */
@@ -199,5 +208,23 @@ table td input {
 .delete-btn:hover {
     background-color: #a93226;
 }
+
+/* Adjust size and alignment of action icons */
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.action-btn img {
+    width: 20px; /* Adjust size */
+    height: 20px;
+    display: block;
+}
+
 
 
