@@ -125,7 +125,7 @@ function doAdd(){
 	//reads the userId from Cookie
 	//readCookie();
 	//let userId = document.getElementById("userId").value;
-	document.getElementById("createContactResult").innerHTML = ""; //
+	//document.getElementById("createContactResult").innerHTML = ""; //
 
 	let tmp = {
 		FirstName: firstName,
@@ -149,7 +149,7 @@ function doAdd(){
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{
-				document.getElementById("createContactResult").innerHTML = "Contact has been added";
+				//document.getElementById("createContactResult").innerHTML = "Contact has been added";
 
 				//return to search page
 				window.location.href = "search/index.html";
@@ -159,7 +159,7 @@ function doAdd(){
 	}
 	catch(err)
 	{
-		document.getElementById("createContactResult").innerHTML = err.message;
+		//document.getElementById("createContactResult").innerHTML = err.message;
 	}
 }
 
