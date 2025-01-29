@@ -1,54 +1,153 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Signup: The Contact Circuit</title>
-		<!-- Link to external CSS for styling -->
-		<link href="../css/styles.css" rel="stylesheet">
-		<!-- Link to external JavaScript for handling signup functionality -->
-		<script type="text/javascript" src="../js/code.js"></script>
-		<!-- Favicon for the webpage -->
-		<link rel="icon" href="../images/favicon.png" type="image/png">
-	</head>
-	<body>
-		<!-- Logo Section -->
-		<header class="logo-container">
-			<img src="../images/logo-white.png" alt="Logo" class="logo">
-		</header>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup: The Contact Circuit</title>
+    <!-- Link to external CSS for styling -->
+    <link href="../css/styles.css" rel="stylesheet">
+    <!-- Link to external JavaScript for handling signup functionality -->
+    <script type="text/javascript" src="../js/code.js"></script>
+    <!-- Favicon for the webpage -->
+    <link rel="icon" href="../images/favicon.png" type="image/png">
+    
+</head>
+<body>
+    <!-- Logo Section -->
+    <header class="logo-container">
+        <img src="../images/logo-white.png" alt="Logo" class="logo">
+    </header>
 
-		<!-- Signup Form Section -->
-		<div class="container">
-			<h2>Sign up for a new account</h2>
-			<form method="post">
-				<!-- First Name Input Field -->
-				<label for="firstName">First Name</label>
-				<input type="text" id="firstName" name="firstName" placeholder="First Name" required="required">
+    <!-- Signup Form Section -->
+    <div class="container">
+        <h2>Sign up for a new account</h2>
+        <form method="post">
+            <!-- First Name Input Field -->
+            <div class="label-container">
+                <label for="firstName">First Name</label>
+                <span class="checkmark" id="firstNameCheck">✔</span>
+            </div>
+            <input type="text" id="firstName" name="firstName" placeholder="First Name" required="required" oninput="validateField('firstName')">
 
-				<!-- Last Name Input Field -->
-				<label for="lastName">Last Name</label>
-				<input type="text" id="lastName" name="lastName" placeholder="Last Name" required="required">
+            <!-- Last Name Input Field -->
+            <div class="label-container">
+                <label for="lastName">Last Name</label>
+                <span class="checkmark" id="lastNameCheck">✔</span>
+            </div>
+            <input type="text" id="lastName" name="lastName" placeholder="Last Name" required="required" oninput="validateField('lastName')">
 
-				<!-- Username Input Field -->
-				<label for="username">Username</label>
-				<input type="text" id="username" name="username" placeholder="Username" required="required">
+            <!-- Username Input Field -->
+            <div class="label-container">
+                <label for="username">Username</label>
+                <span class="checkmark" id="usernameCheck">✔</span>
+            </div>
+            <input type="text" id="username" name="username" placeholder="Username" required="required" oninput="validateField('username')">
 
-				<!-- Password Input Field -->
-				<label for="password">Password</label>
-				<input type="password" id="password" name="password" placeholder="Password" required="required">
+            <!-- Password Input Field with Requirements -->
+            <div class="label-container">
+                <label for="password">Password</label>
+                <span class="checkmark" id="passwordCheck">✔</span>
+            </div>
+            <div class="password-container">
+                <input type="password" id="password" name="password" placeholder="Password" required="required" oninput="validatePassword()">
+                <span class="toggle-password">Show</span>
+            </div>
+            <ul class="password-requirements" id="passwordRequirements">
+                <li id="lengthReq">8-20 characters</li>
+                <li id="uppercaseReq">At least 1 uppercase letter</li>
+                <li id="numberReq">At least 1 number</li>
+                <li id="specialReq">At least 1 special character (!@#$%^&*)</li>
+            </ul>
 
-				<!-- Signup Button -->
-				<button type="button" class="btn" onclick="doRegister()">Sign Up</button>
-				<!-- Error or success message placeholder -->
-				<p id="registerResult" style="color:red;"></p>
-			</form>
+            <!-- Signup Button -->
+            <button type="button" class="btn" onclick="doRegister()">Sign Up</button>
+            <!-- Error or success message placeholder -->
+            <p id="registerResult" style="color:red;"></p>
+        </form>
 
-			<!-- Footer Section with Link to Login Page -->
-			<div class="footer">
-				<p>Already have an account?</p>
-				<a href="../index.html">Log in</a>
-			</div>
-		</div>
-	</body>
+        <!-- Footer Section with Link to Login Page -->
+        <div class="footer">
+            <p>Already have an account?</p>
+            <a href="../index.html">Log in</a>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Validate field to show checkmark
+        function validateField(fieldId) {
+            const field = document.getElementById(fieldId);
+            const checkmark = document.getElementById(fieldId + "Check");
+            if (field.value.trim() !== "") {
+                checkmark.style.visibility = "visible"; // Show checkmark
+            } else {
+                checkmark.style.visibility = "hidden"; // Hide checkmark
+            }
+        }
+
+        // Validate password and show requirements
+        function validatePassword() {
+            const password = document.getElementById("password").value;
+            const lengthReq = document.getElementById("lengthReq");
+            const uppercaseReq = document.getElementById("uppercaseReq");
+            const numberReq = document.getElementById("numberReq");
+            const specialReq = document.getElementById("specialReq");
+            const passwordCheck = document.getElementById("passwordCheck");
+
+            let validCount = 0;
+
+            // Check password length
+            if (password.length >= 8 && password.length <= 20) {
+                lengthReq.classList.add("valid");
+                validCount++;
+            } else {
+                lengthReq.classList.remove("valid");
+            }
+
+            // Check for uppercase letters
+            if (/[A-Z]/.test(password)) {
+                uppercaseReq.classList.add("valid");
+                validCount++;
+            } else {
+                uppercaseReq.classList.remove("valid");
+            }
+
+            // Check for numbers
+            if (/\d/.test(password)) {
+                numberReq.classList.add("valid");
+                validCount++;
+            } else {
+                numberReq.classList.remove("valid");
+            }
+
+            // Check for special characters
+            if (/[!@#$%^&*]/.test(password)) {
+                specialReq.classList.add("valid");
+                validCount++;
+            } else {
+                specialReq.classList.remove("valid");
+            }
+
+            // Show checkmark if all criteria are met
+            if (validCount === 4) {
+                passwordCheck.style.visibility = "visible";
+            } else {
+                passwordCheck.style.visibility = "hidden";
+            }
+        }
+
+        // Toggle password visibility
+        document.querySelector('.toggle-password').addEventListener('click', function () {
+            const passwordField = document.getElementById('password');
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text'; // Show password
+                this.textContent = 'Hide';
+            } else {
+                passwordField.type = 'password'; // Hide password
+                this.textContent = 'Show';
+            }
+        });
+    </script>
+</body>
 </html>
 

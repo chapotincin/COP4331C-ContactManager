@@ -1,9 +1,29 @@
-/* Reset default styles */
+/* ========================== */
+/* Global Reset and Base Styles */
+/* ========================== */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
+body {
+    background: url('../images/circuit-board.jpg') no-repeat center center fixed;
+    background-size: cover;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding-top: 10px;
+}
+
+/* ========================== */
+/* Logo Section */
+/* ========================== */
 
 .logo-container {
     display: flex;
@@ -18,19 +38,9 @@
     display: block;
 }
 
-
-body {
-    background: url('../images/circuit-board.jpg') no-repeat center center fixed;
-    background-size: cover;
-    font-family: Arial, sans-serif;
-    display: flex;
-    flex-direction: column; /* Ensure elements stack vertically */
-    justify-content: flex-start; /* Align elements to the top */
-    align-items: center; 
-    height: 100vh;
-    margin: 0; /* Remove default browser margin */
-    padding-top: 10px; 
-}
+/* ========================== */
+/* Main Form Container */
+/* ========================== */
 
 .container {
     background-color: #f9f7f3;
@@ -42,6 +52,10 @@ body {
     text-align: center;
     z-index: 0;
 }
+
+/* ========================== */
+/* Headings & Labels */
+/* ========================== */
 
 h2 {
     font-size: 24px;
@@ -56,6 +70,10 @@ label {
     color: #000000;
 }
 
+/* ========================== */
+/* Input Fields */
+/* ========================== */
+
 input[type="text"],
 input[type="password"] {
     width: 100%;
@@ -67,7 +85,38 @@ input[type="password"] {
     color: #6b4a2b;
 }
 
+input:focus {
+    outline: none;
+    border-color: #d1682d;
+}
+
+/* ========================== */
+/* Form Validation & Checkmarks */
+/* ========================== */
+
+.label-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.checkmark {
+    color: green;
+    font-weight: bold;
+    margin-left: 10px;
+    visibility: hidden;
+    position: absolute;
+    right: 10px; /* Positions checkmark properly */
+}
+
+/* ========================== */
+/* Password Field and Validation */
+/* ========================== */
+
 .password-container {
+    display: flex;
+    align-items: center;
     position: relative;
 }
 
@@ -81,10 +130,26 @@ input[type="password"] {
     cursor: pointer;
 }
 
-input:focus {
-    outline: none;
-    border-color: #d1682d;
+/* Password Requirements */
+.password-requirements {
+    margin-top: 5px;
+    font-size: 12px;
+    color: red;
+    text-align: left;
+    list-style: none;
 }
+
+.password-requirements li {
+    margin-bottom: 5px;
+}
+
+.password-requirements .valid {
+    color: green;
+}
+
+/* ========================== */
+/* Buttons */
+/* ========================== */
 
 .btn {
     background-color: #37516A;
@@ -102,6 +167,10 @@ input:focus {
 .btn:hover {
     background-color: #873715;
 }
+
+/* ========================== */
+/* Footer Links */
+/* ========================== */
 
 .footer {
     margin-top: 20px;
