@@ -181,14 +181,12 @@ paths:
                 $ref: "#/components/schemas/SearchResponse"
               example:
                 results:
-                  - FirstName: "Michael"
-                    LastName: "Smith"
-                    Phone: "555-555-1234"
-                    Email: "m.smith@example.com"
-                  - FirstName: "Michelle"
-                    LastName: "Smith"
-                    Phone: "555-555-9999"
-                    Email: "michelle.smith@example.com"
+                  - FirstName: "Rikord"
+                    LastName: "Laynecker"
+                    Phone: "407-123-4567"
+                    Email: "rick@lin.com"
+                    UserID: "1"
+                    ID: "123"
                 error: ""
         '400':
           description: "No records found or error encountered."
@@ -365,6 +363,10 @@ components:
               Phone:
                 type: string
               Email:
+                type: string
+              UserID:
+                type: string
+              ID:
                 type: string
         error:
           type: string
