@@ -286,27 +286,20 @@ function doSearch(){
                     	//create Actions column
                     	let actionsCell = document.createElement('td');
 
-                    	let editButton = document.createElement('button'); //call doEdit?
+                    	let editButton = document.createElement('button'); //calls doEdit
 						//the following 3 lines creates the on-click button for the edit button
 						var editAttribute = document.createAttribute('onclick');
-						editAttribute.value = 'goEdit()';
+						editAttribute.value = 'doEdit()';
 						editButton.setAttributeNode(editAttribute);
                     	editButton.textContent = 'Edit'; //change to notepad
                     	actionsCell.appendChild(editButton);
 
-                    	let deleteButton = document.createElement('button'); //call doDelete?
-						//the following 3 lines creates the on-click button for the delete button
+                    	let deleteButton = document.createElement('button'); //calls doDelete
+						//the following 5 lines creates the on-click button for the delete button
                     	deleteButton.textContent = 'Delete'; //change to trashcan
-
-						deleteButton.setAttribute('contactID', jsonObject.results[i].ID);
+						deleteButton.setAttribute('contactID', jsonObject.results[i].ID); //gives the primary key of that contact to use for deletion
 						deleteButton.setAttribute('onclick', 'doDelete(this)'); //call doDelete with the ID of the contact
-
-						//var deleteAttribute = document.createAttribute('onclick');
-						//deleteAttribute.value = 'goDelete()';
-						//deleteButton.setAttributeNode(deleteAttribute);
-
-                    	actionsCell.appendChild(deleteButton);
-
+                    	actionsCell.appendChild(deleteButton); //adds the delete button to the actions cell
                     	row.appendChild(actionsCell);
 
                     	//append the row to the table, repeat for each row
