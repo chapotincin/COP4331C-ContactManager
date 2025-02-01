@@ -32,8 +32,9 @@
 			}
 			$searchCount++;
 
-            //array of json objects FirstName, LastName, Phone, Email, UserId, Maybe jsonencode?
-            $searchResults .= '{"FirstName" : "' . $row["FirstName"] . '", "LastName" : "' . $row["LastName"] . '", "Phone" : "' . $row["Phone"] . '", "Email" : "' . $row["Email"] . '", "UserID" : "' . $row["UserID"] . '"}';
+            //array of json objects FirstName, LastName, Phone, Email, UserId, and ID
+			//added UserId and ID for search -> delete
+            $searchResults .= '{"FirstName" : "' . $row["FirstName"] . '", "LastName" : "' . $row["LastName"] . '", "Phone" : "' . $row["Phone"] . '", "Email" : "' . $row["Email"] . '", "UserID" : "' . $row["UserID"] . '", "ID" : "' . $row["ID"] . '"}';
 		}
 		
 		if( $searchCount == 0 )

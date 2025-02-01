@@ -154,29 +154,30 @@ function doAdd(){
 	}
 }
 
-function doDelete(){
-	let databaseId = document.getElementById("deleteContact").value; //
-	document.getElementById("deleteContactResult").innerHTML = ""; //
+function doDelete(button){
+	//need the Contact's ID to delete the Contact from the user
+	let deletingID = button.getAttribute('contactID');
+	let tmp = { ID: deletingID };
+	let jsonPayload = JSON.stringify(tmp);
 
-	let tmp = {ID: databaseId};
-	let jsonPayload = JSON.stringify( tmp );
+	let url = urlBase + '/Delete.' + extension;  // Adjust the URL as needed for your server endpoint
 
-	let url = urlBase + '/Delete.' + extension;
-	
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function() 
-		{
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				document.getElementById("deleteContactResult").innerHTML = "Contact has been deleted";
-			}
-		};
-		xhr.send(jsonPayload);
-	}
+    try{
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                // On success, remove the row from the table
+                let row = button.closest('tr');  // Get the row containing the delete button
+                row.remove();  // Remove the row from the table
+            } 
+			else if (this.readyState == 4) {
+                alert('Error deleting contact');
+            }
+        };
+        xhr.send(jsonPayload);
+    }
 	catch(err)
 	{
 		document.getElementById("deleteContactResult").innerHTML = err.message;
@@ -285,22 +286,20 @@ function doSearch(){
                     	//create Actions column
                     	let actionsCell = document.createElement('td');
 
-                    	let editButton = document.createElement('button'); //call doEdit?
+                    	let editButton = document.createElement('button'); //calls doEdit
 						//the following 3 lines creates the on-click button for the edit button
 						var editAttribute = document.createAttribute('onclick');
-						editAttribute.value = 'goEdit()';
+						editAttribute.value = 'doEdit()';
 						editButton.setAttributeNode(editAttribute);
                     	editButton.textContent = 'Edit'; //change to notepad
                     	actionsCell.appendChild(editButton);
 
-                    	let deleteButton = document.createElement('button'); //call doDelete?
-						//the following 3 lines creates the on-click button for the delete button
-						var deleteAttribute = document.createAttribute('onclick');
-						deleteAttribute.value = 'goDelete()';
-						deleteButton.setAttributeNode(deleteAttribute);
+                    	let deleteButton = document.createElement('button'); //calls doDelete
+						//the following 5 lines creates the on-click button for the delete button
                     	deleteButton.textContent = 'Delete'; //change to trashcan
-                    	actionsCell.appendChild(deleteButton);
-
+						deleteButton.setAttribute('contactID', jsonObject.results[i].ID); //gives the primary key of that contact to use for deletion
+						deleteButton.setAttribute('onclick', 'doDelete(this)'); //call doDelete with the ID of the contact
+                    	actionsCell.appendChild(deleteButton); //adds the delete button to the actions cell
                     	row.appendChild(actionsCell);
 
                     	//append the row to the table, repeat for each row
