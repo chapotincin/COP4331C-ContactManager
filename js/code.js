@@ -154,11 +154,10 @@ function doAdd(){
 	}
 }
 
-function doDelete(){
+function doDelete(button){
 	//need the Contact's ID to delete the Contact from the user
-	let UserID = button.getAttribute();
-	// Send a request to your server to delete the contact using the UserID
-	let tmp = { ID: UserID };
+	let deletingID = button.getAttribute();
+	let tmp = { ID: deletingID };
 	let jsonPayload = JSON.stringify(tmp);
 
 	let url = urlBase + '/Delete.' + extension;  // Adjust the URL as needed for your server endpoint
@@ -172,7 +171,8 @@ function doDelete(){
                 // On success, remove the row from the table
                 let row = button.closest('tr');  // Get the row containing the delete button
                 row.remove();  // Remove the row from the table
-            } else if (this.readyState == 4) {
+            } 
+			else if (this.readyState == 4) {
                 alert('Error deleting contact');
             }
         };
@@ -296,10 +296,15 @@ function doSearch(){
 
                     	let deleteButton = document.createElement('button'); //call doDelete?
 						//the following 3 lines creates the on-click button for the delete button
-						var deleteAttribute = document.createAttribute('onclick');
-						deleteAttribute.value = 'goDelete()';
-						deleteButton.setAttributeNode(deleteAttribute);
                     	deleteButton.textContent = 'Delete'; //change to trashcan
+
+						deleteButton.setAttribute('contactID', jsonObject.results[i].ID);
+						deleteButton.setAttribute('onclick', 'doDelete(this)'); //call doDelete with the ID of the contact
+
+						//var deleteAttribute = document.createAttribute('onclick');
+						//deleteAttribute.value = 'goDelete()';
+						//deleteButton.setAttributeNode(deleteAttribute);
+
                     	actionsCell.appendChild(deleteButton);
 
                     	row.appendChild(actionsCell);
