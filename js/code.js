@@ -155,28 +155,29 @@ function doAdd(){
 }
 
 function doDelete(){
-	let databaseId = document.getElementById("deleteContact").value; //
-	document.getElementById("deleteContactResult").innerHTML = ""; //
+	//need the Contact's ID to delete the Contact from the user
+	let UserID = button.getAttribute();
+	// Send a request to your server to delete the contact using the UserID
+	let tmp = { ID: UserID };
+	let jsonPayload = JSON.stringify(tmp);
 
-	let tmp = {ID: databaseId};
-	let jsonPayload = JSON.stringify( tmp );
+	let url = urlBase + '/Delete.' + extension;  // Adjust the URL as needed for your server endpoint
 
-	let url = urlBase + '/Delete.' + extension;
-	
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function() 
-		{
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				document.getElementById("deleteContactResult").innerHTML = "Contact has been deleted";
-			}
-		};
-		xhr.send(jsonPayload);
-	}
+    try{
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                // On success, remove the row from the table
+                let row = button.closest('tr');  // Get the row containing the delete button
+                row.remove();  // Remove the row from the table
+            } else if (this.readyState == 4) {
+                alert('Error deleting contact');
+            }
+        };
+        xhr.send(jsonPayload);
+    }
 	catch(err)
 	{
 		document.getElementById("deleteContactResult").innerHTML = err.message;
