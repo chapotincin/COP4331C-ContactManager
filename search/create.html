@@ -4,8 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Contact - The Contact Circuit</title>
+    <script type="text/javascript" src="../js/code.js"></script>
     <!-- Link to the external stylesheet for styling the Create Contact page -->
     <link href="../css/create.css" rel="stylesheet">
+	<link rel="icon" href="../images/favicon.png" type="image/png">
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function() 
+        {
+            readCookie();
+        }, false);
+    </script>
 </head>
 <body>
     <!-- Navigation Bar -->
@@ -72,7 +80,8 @@
                 />
 
                 <!-- Save Button -->
-                <button type="submit" class="btn">Save</button>
+                <button type="button" class="btn" onclick="doAdd()">Save</button>
+		<!--<p id="createContactResult" style="color:red;"></p> -->
                 <!-- Cancel Button -->
                 <a href="index.html" class="cancel-link">Cancel</a>
             </form>

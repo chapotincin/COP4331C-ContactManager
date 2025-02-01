@@ -116,16 +116,11 @@ function doLogin()
 }
 
 function doAdd(){
-	//let newContact = document.getElementById("createContact").value;
 	let firstName = document.getElementById("firstName").value;
 	let lastName = document.getElementById("lastName").value;
 	let phone = document.getElementById("phone").value;
 	let email = document.getElementById("email").value;
-	//need to get the ID of the user, that is the userId for the contact
-	//this next line problably has to be replaced with a cookie to track the user's data
-	let userId = document.getElementById("userId").value;
-	document.getElementById("createContactResult").innerHTML = ""; //
-
+	
 	let tmp = {
 		FirstName: firstName,
 		LastName: lastName,
@@ -133,7 +128,7 @@ function doAdd(){
 		Email: email,
 		UserID: userId
 	};
-
+	
 	//let tmp = {color:newContact,userId,userId};
 	let jsonPayload = JSON.stringify( tmp );
 
@@ -148,40 +143,41 @@ function doAdd(){
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{
-				document.getElementById("createContactResult").innerHTML = "Contact has been added";
+				window.location.href = "index.html";
 			}
 		};
 		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
-		document.getElementById("createContactResult").innerHTML = err.message;
+		//document.getElementById("createContactResult").innerHTML = err.message;
 	}
 }
 
-function doDelete(){
-	let databaseId = document.getElementById("deleteContact").value; //
-	document.getElementById("deleteContactResult").innerHTML = ""; //
+function doDelete(button){
+	//need the Contact's ID to delete the Contact from the user
+	let deletingID = button.getAttribute('contactID');
+	let tmp = { ID: deletingID };
+	let jsonPayload = JSON.stringify(tmp);
 
-	let tmp = {ID: databaseId};
-	let jsonPayload = JSON.stringify( tmp );
+	let url = urlBase + '/Delete.' + extension;  // Adjust the URL as needed for your server endpoint
 
-	let url = urlBase + '/Delete.' + extension;
-	
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
-	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function() 
-		{
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				document.getElementById("deleteContactResult").innerHTML = "Contact has been deleted";
-			}
-		};
-		xhr.send(jsonPayload);
-	}
+    try{
+        xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                // On success, remove the row from the table
+                let row = button.closest('tr');  // Get the row containing the delete button
+                row.remove();  // Remove the row from the table
+            } 
+			else if (this.readyState == 4) {
+                alert('Error deleting contact');
+            }
+        };
+        xhr.send(jsonPayload);
+    }
 	catch(err)
 	{
 		document.getElementById("deleteContactResult").innerHTML = err.message;
@@ -238,10 +234,10 @@ function doSearch(){
 	let srch = document.getElementById("searchBar").value;
 	document.getElementById("searchButton").innerHTML = ""; //
 	
-	let list = "";
+	//let list = "";
 
 	//let tmp = {search:srch,UserID:userId};
-	let temp = {search:srch};
+	let tmp = {search:srch};
 	let jsonPayload = JSON.stringify( tmp );
 
 	//url to the php file (urlbase/Search.php)
@@ -250,25 +246,67 @@ function doSearch(){
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function() 
-		{
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				document.getElementById("searchButton").innerHTML = "Contact(s) has been retrieved"; //
-				let jsonObject = JSON.parse( xhr.responseText );
-				
-				for( let i=0; i<jsonObject.results.length; i++ )
-				{
-					list += jsonObject.results[i];
-					if( i < jsonObject.results.length - 1 )
-					{
-						list += "<br />\r\n";
+	try{
+		xhr.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200){
+
+				document.getElementById("searchButton").innerHTML = "Contact(s) have been retrieved"; 
+				//parse the JSON response to be used
+                let jsonObject = JSON.parse(xhr.responseText);
+
+
+				//reference to the html table
+				let table = document.getElementById("SearchResult");
+				//delete old table
+				table.innerHTML = '';
+
+                //add json results from the database to the table
+                for (let i = 0; i < jsonObject.results.length; i++) {
+					//check to see if UserID of the contact with the user's primary key matches, if not skip the row
+					if(userId == jsonObject.results[i].UserID){
+						let row = document.createElement('tr'); //table row, one for each contact/jsonObject.results
+
+                    	//create the column for FirstName, LastName, Email, and Phone and add their respective info
+                    	let firstNameColumn = document.createElement('td'); //creates the cell for its column
+                    	firstNameColumn.textContent = jsonObject.results[i].FirstName; //adds the text to the cell
+                    	row.appendChild(firstNameColumn); //adds the cell to that row
+
+                    	let lastNameColumn = document.createElement('td');
+                    	lastNameColumn.textContent = jsonObject.results[i].LastName;
+                    	row.appendChild(lastNameColumn);
+
+                    	let emailColumn = document.createElement('td');
+                    	emailColumn.textContent = jsonObject.results[i].Email;
+                    	row.appendChild(emailColumn);
+
+                    	let phoneColumn = document.createElement('td');
+                    	phoneColumn.textContent = jsonObject.results[i].Phone;
+                    	row.appendChild(phoneColumn);
+
+                    	//create Actions column
+                    	let actionsCell = document.createElement('td');
+
+                    	let editButton = document.createElement('button'); //calls doEdit
+						//the following 3 lines creates the on-click button for the edit button
+						var editAttribute = document.createAttribute('onclick');
+						editAttribute.value = 'doEdit()';
+						editButton.setAttributeNode(editAttribute);
+                    	editButton.textContent = 'Edit'; //change to notepad
+                    	actionsCell.appendChild(editButton);
+
+                    	let deleteButton = document.createElement('button'); //calls doDelete
+						//the following 5 lines creates the on-click button for the delete button
+                    	deleteButton.textContent = 'Delete'; //change to trashcan
+						deleteButton.setAttribute('contactID', jsonObject.results[i].ID); //gives the primary key of that contact to use for deletion
+						deleteButton.setAttribute('onclick', 'doDelete(this)'); //call doDelete with the ID of the contact
+                    	actionsCell.appendChild(deleteButton); //adds the delete button to the actions cell
+                    	row.appendChild(actionsCell);
+
+                    	//append the row to the table, repeat for each row
+                    	table.appendChild(row);
 					}
-				}
-				
-				document.getElementsByTagName("p")[0].innerHTML = list;
+                    
+                }
 			}
 		};
 		xhr.send(jsonPayload);
