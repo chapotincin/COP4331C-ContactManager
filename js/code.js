@@ -184,32 +184,26 @@ function doDelete(button){
 	}
 }
 
-function doEdit(){
-	//cookie, which contact do they want to edit?
-	let databaseId = document.getElementById("databaseID").value;
-	let firstName = document.getElementById("firstName").value;
-	let lastName = document.getElementById("lastName").value;
-	let phone = document.getElementById("phone").value;
-	let email = document.getElementById("email").value;
-	//cookie, the user's ID (Primary Key)
-	let userId = document.getElementById("userId").value;
-	document.getElementById("modifyResult").innerHTML = ""; //
-
+//called from doEdit
+function doSave(ID){
+	//get new values from the form and create a JSON object
+	let newFName = document.getElementById(`editFirstName_${contactID}`).value;
+	let newLName = document.getElementById(`editLastName_${contactID}`).value;
+	let newEmail = document.getElementById(`editEmail_${contactID}`).value;
+	let newPhone = document.getElementById(`editPhone_${contactID}`).value;
 
 	let tmp = {
-		ID: databaseId,
-		FirstName: firstName,
-		LastName: lastName,
-		Phone: phone,
-		Email: email,
-		UserID: userId
+		ID: ID,
+		FirstName: newFName,
+		LastName: newLName,
+		Phone: newPhone,
+		Email: newEmail,
+		UserID: eUserID
 	};
 
-	//let tmp = {color:newContact,userId,userId};
 	let jsonPayload = JSON.stringify( tmp );
-
 	let url = urlBase + '/Edit.' + extension;
-	
+
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -219,15 +213,40 @@ function doEdit(){
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{
-				document.getElementById("modifyResult").innerHTML = "Contact has been changed";
+				//update table/contacts here
+				let saveRow = document.querySelector().closest('tr');
 			}
 		};
 		xhr.send(jsonPayload);
 	}
 	catch(err)
 	{
-		document.getElementById("modifyResult").innerHTML = err.message;
 	}
+}
+
+function doEdit(button){
+	let eID = button.getAttribute('contactID');
+	let eFirstName = button.getAttribute('contactFirstName');
+	let eLastName = button.getAttribute('contactLastName');
+	let ePhone = button.getAttribute('contactPhone');
+	let eEmail = button.getAttribute('contactEmail');
+	//let eUserID = button.getAttribute('contactUserID');
+
+	let editRow = button.closest(tr); // Get the row containing we're editing
+	//Replace the table contents with the edit form (display -> edit)
+    editRow.cells[0].innerHTML = `<input type="text" value="${eFirstName}" id="editFirstName_${eID}">`;
+    editRow.cells[1].innerHTML = `<input type="text" value="${eLastName}" id="editLastName_${eID}">`;
+    editRow.cells[2].innerHTML = `<input type="text" value="${eEmail}" id="editEmail_${eID}">`;
+    editRow.cells[3].innerHTML = `<input type="text" value="${ePhone}" id="editPhone_${eID}">`;
+
+	//now we need a save button to confirm the changes
+	let saveButton = document.createElement('button');
+	saveButton.textContent = 'Save'; //replace with save icon
+	saveButton.setAttribute('onclick', `doSave(${contactID})`); //onclick for saving
+	row.cells[4].innerHTML = ''; //replace the edit button with save button
+    row.cells[4].appendChild(saveButton);
+	//
+	
 }
 
 function doSearch(){
@@ -287,11 +306,19 @@ function doSearch(){
                     	let actionsCell = document.createElement('td');
 
                     	let editButton = document.createElement('button'); //calls doEdit
-						//the following 3 lines creates the on-click button for the edit button
+						//the following x lines creates the on-click button for the edit button
 						var editAttribute = document.createAttribute('onclick');
 						editAttribute.value = 'doEdit()';
 						editButton.setAttributeNode(editAttribute);
+
                     	editButton.textContent = 'Edit'; //change to notepad
+						editButton.setAttribute('contactID', jsonObject.results[i].ID); //pass all needed parameters for edit
+						editButton.setAttribute('contactFirstName', jsonObject.results[i].FirstName);
+						editButton.setAttribute('contactLastName', jsonObject.results[i].LastName);
+						editButton.setAttribute('contactPhone', jsonObject.results[i].Phone);
+						editButton.setAttribute('contactEmail', jsonObject.results[i].Email);
+						editButton.setAttribute('contactUserID', jsonObject.results[i].UserID);
+						editButton.setAttribute('onclick', 'doEdit(this)');
                     	actionsCell.appendChild(editButton);
 
                     	let deleteButton = document.createElement('button'); //calls doDelete
