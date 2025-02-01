@@ -156,7 +156,7 @@ function doAdd(){
 
 function doDelete(button){
 	//need the Contact's ID to delete the Contact from the user
-	let deletingID = button.getAttribute(contactID);
+	let deletingID = button.getAttribute('contactID');
 	let tmp = { ID: deletingID };
 	let jsonPayload = JSON.stringify(tmp);
 
