@@ -187,10 +187,10 @@ function doDelete(button){
 //called from doEdit
 function doSave(ID){
 	//get new values from the form and create a JSON object
-	let newFName = document.getElementById(`editFirstName_${contactID}`).value;
-	let newLName = document.getElementById(`editLastName_${contactID}`).value;
-	let newEmail = document.getElementById(`editEmail_${contactID}`).value;
-	let newPhone = document.getElementById(`editPhone_${contactID}`).value;
+	let newFName = document.getElementById(`editFirstName_${ID}`).value;
+	let newLName = document.getElementById(`editLastName_${ID}`).value;
+	let newEmail = document.getElementById(`editEmail_${ID}`).value;
+	let newPhone = document.getElementById(`editPhone_${ID}`).value;
 
 	let tmp = {
 		ID: ID,
