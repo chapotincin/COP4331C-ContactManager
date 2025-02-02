@@ -7,7 +7,7 @@
     $lname = $inData["LastName"];
     $phone = $inData["Phone"];
 	$email = $inData["Email"];
-    $userId = $inData["UserID"];
+    //$userId = $inData["UserID"];
 
 
     $conn = new mysqli("localhost", "TheApiGuy", "Awes0mePassw0rd!", "COP4331");
@@ -19,8 +19,8 @@
 	{
         //--- We can Update FirstName, LastName, Phone, Email, and UserID
         //currently updates all columns of the database simultaniously
-		$stmt = $conn->prepare("UPDATE Contacts SET FirstName = ?, LastName = ?, Phone = ?, Email = ?, UserID = ? WHERE ID = ?");
-		$stmt->bind_param("ssssss", $fname, $lname, $phone, $email, $userId, $Id);
+		$stmt = $conn->prepare("UPDATE Contacts SET FirstName = ?, LastName = ?, Phone = ?, Email = ? WHERE ID = ?");
+		$stmt->bind_param("sssss", $fname, $lname, $phone, $email, $Id);
         //---
 		$stmt->execute();
 		$stmt->close();

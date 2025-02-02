@@ -198,7 +198,7 @@ function doSave(ID){
 		LastName: newLName,
 		Phone: newPhone,
 		Email: newEmail,
-		UserID: eUserID
+		//UserID: eUserID
 	};
 
 	let jsonPayload = JSON.stringify( tmp );
@@ -213,8 +213,8 @@ function doSave(ID){
 		{
 			if (this.readyState == 4 && this.status == 200) 
 			{
-				//update table/contacts here
-				let saveRow = document.querySelector().closest('tr');
+				//update table/contacts
+				doSearch();
 			}
 		};
 		xhr.send(jsonPayload);
@@ -317,7 +317,7 @@ function doSearch(){
 						editButton.setAttribute('contactLastName', jsonObject.results[i].LastName);
 						editButton.setAttribute('contactPhone', jsonObject.results[i].Phone);
 						editButton.setAttribute('contactEmail', jsonObject.results[i].Email);
-						editButton.setAttribute('contactUserID', jsonObject.results[i].UserID);
+						//editButton.setAttribute('contactUserID', jsonObject.results[i].UserID);
 						editButton.setAttribute('onclick', 'doEdit(this)');
                     	actionsCell.appendChild(editButton);
 
