@@ -232,7 +232,7 @@ function doEdit(button){
 	let eEmail = button.getAttribute('contactEmail');
 	//let eUserID = button.getAttribute('contactUserID');
 
-	let editRow = button.closest(tr); // Get the row containing we're editing
+	let editRow = button.closest('tr'); // Get the row containing we're editing
 	//Replace the table contents with the edit form (display -> edit)
     editRow.cells[0].innerHTML = `<input type="text" value="${eFirstName}" id="editFirstName_${eID}">`;
     editRow.cells[1].innerHTML = `<input type="text" value="${eLastName}" id="editLastName_${eID}">`;
