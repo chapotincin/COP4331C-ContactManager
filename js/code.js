@@ -243,8 +243,8 @@ function doEdit(button){
 	let saveButton = document.createElement('button');
 	saveButton.textContent = 'Save'; //replace with save icon
 	saveButton.setAttribute('onclick', `doSave(${eID})`); //onclick for saving
-	row.cells[4].innerHTML = ''; //replace the edit button with save button
-    row.cells[4].appendChild(saveButton);
+	editRow.cells[4].innerHTML = ''; //replace the edit button with save button
+    editRow.cells[4].appendChild(saveButton);
 	//
 	
 }
