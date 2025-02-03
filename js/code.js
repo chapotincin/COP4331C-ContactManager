@@ -269,7 +269,7 @@ function doSearch(){
 		xhr.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200){
 
-				// document.getElementById("searchButton").innerHTML = "Contact(s) have been retrieved"; 
+				document.getElementById("searchButton").innerHTML = "Search"; 
 				//parse the JSON response to be used
                 let jsonObject = JSON.parse(xhr.responseText);
 
