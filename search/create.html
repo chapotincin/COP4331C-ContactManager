@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Contact - The Contact Circuit</title>
     <script type="text/javascript" src="../js/code.js"></script>
-    <!-- Link to the external stylesheet for styling the Create Contact page -->
+    <!-- Link to the external stylesheet -->
     <link href="../css/create.css" rel="stylesheet">
+    <link rel="icon" href="../images/favicon.png" type="image/png">
 	<link rel="icon" href="../images/favicon.png" type="image/png">
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function() 
@@ -18,66 +19,52 @@
 <body>
     <!-- Navigation Bar -->
     <header class="nav-bar">
-        <!-- Logo Section -->
         <div class="logo-container">
             <img src="../images/logo-sideway-white.png" alt="The Contact Circuit Logo" class="logo">
         </div>
-        <!-- Navigation Links -->
         <nav>
             <ul>
                 <li><a href="../index.html">Logout</a></li>
                 <li><a href="../search/index.html">Contacts</a></li>
                 <li><a href="../search/about.html">About Us</a></li>
             </ul>
-        </nav>
+        </nav>		       
     </header>
 
     <!-- Main Content -->
     <main>
         <div class="container">
-            <!-- Page Title -->
             <h2>Add a New Contact</h2>
-            <!-- Contact Form -->
             <form>
-                <!-- First Name Input -->
-                <label for="firstName">First Name:</label>
-                <input 
-                    type="text" 
-                    id="firstName" 
-                    name="firstName" 
-                    placeholder="Enter first name" 
-                    required="required"
-                />
+                <!-- First Name -->
+                <div class="input-container">
+                    <label for="firstName">First Name:</label>
+                    <input type="text" id="firstName" name="firstName" placeholder="Enter first name" required>
+                    <span class="checkmark">&#10004;</span>
+                </div>
 
-                <!-- Last Name Input -->
-                <label for="lastName">Last Name:</label>
-                <input 
-                    type="text" 
-                    id="lastName" 
-                    name="lastName" 
-                    placeholder="Enter last name" 
-                    required="required"
-                />
+                <!-- Last Name -->
+                <div class="input-container">
+                    <label for="lastName">Last Name:</label>
+                    <input type="text" id="lastName" name="lastName" placeholder="Enter last name" required>
+                    <span class="checkmark">&#10004;</span>
+                </div>
 
-                <!-- Email Input -->
-                <label for="email">Email:</label>
-                <input 
-                    type="email" 
-                    id="email" 
-                    name="email" 
-                    placeholder="Enter email address" 
-                    required="required"
-                />
+                <!-- Email -->
+                <div class="input-container">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" placeholder="Enter email address" required>
+                    <span class="checkmark">&#10004;</span>
+                    <p class="email-error">Invalid email format</p>
+                </div>
 
-                <!-- Phone Number Input -->
-                <label for="phone">Phone:</label>
-                <input 
-                    type="tel" 
-                    id="phone" 
-                    name="phone" 
-                    placeholder="Enter phone number" 
-                    required="required"
-                />
+                <!-- Phone Number -->
+                <div class="input-container">
+                    <label for="phone">Phone:</label>
+                    <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required>
+                    <span class="checkmark">&#10004;</span>
+                    <p class="phone-error">Invalid phone number format</p>
+                </div>
 
                 <!-- Save Button -->
                 <button type="button" class="btn" onclick="doAdd()">Save</button>
@@ -87,5 +74,52 @@
             </form>
         </div>
     </main>
+
+    <script>
+        // Validate first name, last name, and email fields
+        document.querySelectorAll("#firstName, #lastName").forEach(input => {
+            input.addEventListener("input", function () {
+                const checkmark = this.nextElementSibling;
+                if (this.value.trim().length > 0) {
+                    checkmark.style.visibility = "visible";
+                } else {
+                    checkmark.style.visibility = "hidden";
+                }
+            });
+        });
+
+        // Validate email format
+        document.getElementById("email").addEventListener("input", function () {
+            const emailValue = this.value;
+            const checkmark = this.nextElementSibling;
+            const emailError = document.querySelector(".email-error");
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+            if (emailPattern.test(emailValue)) {
+                checkmark.style.visibility = "visible";
+                emailError.style.display = "none";
+            } else {
+                checkmark.style.visibility = "hidden";
+                emailError.style.display = "block";
+            }
+        });
+
+        // Validate phone number
+        document.getElementById("phone").addEventListener("input", function () {
+            const phoneValue = this.value.replace(/\D/g, ""); // Remove non-numeric characters
+            const checkmark = this.nextElementSibling;
+            const phoneError = document.querySelector(".phone-error");
+
+            if (phoneValue.length === 10 && /^\d+$/.test(phoneValue)) {
+                checkmark.style.visibility = "visible";
+                phoneError.style.display = "none";
+            } else {
+                checkmark.style.visibility = "hidden";
+                phoneError.style.display = "block";
+            }
+        });
+    </script>
 </body>
 </html>
+
+
