@@ -37,6 +37,7 @@ body {
     height: auto;
 }
 
+/* Navigation Links */
 nav ul {
     list-style: none;
     display: flex;
@@ -49,11 +50,19 @@ nav ul li a {
     color: white;
     font-size: 16px;
     font-weight: bold;
-    transition: color 0.3s;
+    transition: color 0.3s, border-bottom 0.3s;
+    padding-bottom: 5px;
 }
 
+/* Hover Effect */
 nav ul li a:hover {
     color: #37516A;
+    border-bottom: 2px solid #37516A; /* Underline on hover */
+}
+
+/* Active Page Underline */
+nav ul li a.active {
+    border-bottom: 3px solid white; /* White underline for active page */
 }
 
 /* Main Content */
@@ -90,12 +99,17 @@ label {
     text-align: left;
 }
 
+.input-container {
+    position: relative;
+    text-align: left;
+    margin-bottom: 15px;
+}
+
 input[type="text"],
 input[type="email"],
 input[type="tel"] {
     width: 100%;
     padding: 10px;
-    margin-bottom: 15px;
     border: 1px solid #a34a20;
     border-radius: 5px;
     font-size: 14px;
@@ -107,7 +121,26 @@ input:focus {
     border-color: #d1682d;
 }
 
-/* Buttons */
+/* Checkmark for valid fields */
+.checkmark {
+    color: green;
+    font-weight: bold;
+    visibility: hidden;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Error messages (same for email and phone) */
+.email-error,
+.phone-error {
+    font-size: 12px;
+    color: red;
+    display: none;
+}
+
+/* Save Button */
 .btn {
     background-color: #37516A;
     color: white;
@@ -119,23 +152,26 @@ input:focus {
     margin-top: 10px;
     transition: background-color 0.3s ease;
     width: 100%;
+    text-align: center;
 }
 
 .btn:hover {
     background-color: #1e8449;
 }
 
+/* Ensure Cancel link remains styled properly */
 .cancel-link {
     display: block;
-    margin-top: 15px;
+    margin-top: 10px;
     font-size: 14px;
     color: #c0392b;
     text-decoration: none;
-    transition: color 0.3s;
+    text-align: center;
 }
 
 .cancel-link:hover {
     color: #a93226;
 }
+
 
 
