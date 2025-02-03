@@ -49,7 +49,7 @@ function doRegister()
 			lastName   = jsonObject.lname;
 
 			saveCookie();
-			window.location.href = "../search/index.html";
+			window.location.href = "../index.html";
 		}
 	};
 	xhr.send(jsonPayload);
