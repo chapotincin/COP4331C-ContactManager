@@ -58,12 +58,12 @@ nav ul li a {
 /* Hover Effect */
 nav ul li a:hover {
     color: #37516A;
-    border-bottom: 2px solid #37516A; /* Underline on hover */
+    border-bottom: 2px solid #37516A;
 }
 
 /* Active Page Underline */
 nav ul li a.active {
-    border-bottom: 3px solid white; /* White underline for active page */
+    border-bottom: 3px solid white;
 }
 
 /* Main Content */
@@ -126,6 +126,7 @@ main {
     align-items: center;
     gap: 5px;
     transition: background-color 0.3s;
+    text-decoration: none; 
 }
 
 .create-contact-btn:hover {
@@ -157,6 +158,14 @@ table thead {
     color: #fff;
 }
 
+table thead th {
+    position: sticky;
+    top: 0;
+    background-color: #37516A;
+    color: #fff;
+    z-index: 1;
+}
+
 table th,
 table td {
     padding: 10px;
@@ -185,46 +194,119 @@ table td input {
 /* Buttons in Table */
 .edit-btn,
 .delete-btn {
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.edit-btn {
-    background-color: #27ae60;
-}
-
-.edit-btn:hover {
-    background-color: #1e8449;
-}
-
-.delete-btn {
-    background-color: #c0392b;
-}
-
-.delete-btn:hover {
-    background-color: #a93226;
-}
-
-/* Adjust size and alignment of action icons */
-.action-btn {
-    background: none;
+    background-color: transparent;
     border: none;
     cursor: pointer;
     padding: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 40px;
+    height: 40px;
+    transition: background-color 0.3s;
+    border-radius: 5px;
+    min-width: 44px;
+    min-height: 44px;
 }
 
-.action-btn img {
-    width: 20px; /* Adjust size */
-    height: 20px;
-    display: block;
+.edit-btn:hover {
+    background-color: #1e8449;
 }
+
+.delete-btn:hover {
+    background-color: #a93226;
+}
+
+.action-icon {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+}
+
+/* Responsive Design for Mobile View */
+@media (max-width: 768px) {
+    /* Adjust Navigation Bar */
+    .nav-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    .logo-container {
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        text-align: center;
+    }
+
+    nav ul li a {
+        font-size: 14px;
+        padding: 10px 0;
+    }
+
+    /* Main Content Adjustments */
+    main {
+        padding: 10px;
+    }
+
+    body {
+        font-size: 16px;
+    }
+
+    #welcome-message {
+        font-size: 20px;
+    }
+
+    /* Adjust Search Bar */
+    .search-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #searchBar {
+        width: 100%;
+    }
+
+    #searchButton, .create-contact-btn {
+        width: 100%;
+    }
+
+    /* Table Adjustments */
+    .table-container {
+        padding: 10px;
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    table th, table td {
+        padding: 12px 8px;
+    }
+
+    /* Adjust Action Buttons */
+    .edit-btn, .delete-btn {
+        width: 30px;
+        height: 30px;
+        padding: 3px;
+    }
+
+    .action-icon {
+        width: 14px;
+        height: 14px;
+    }
+}
+
+
+
 
 
 

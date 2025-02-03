@@ -60,7 +60,7 @@
             </ul>
 
             <!-- Signup Button -->
-            <button type="button" class="btn" onclick="doRegister()">Sign Up</button>
+            <button type="button" class="btn" onclick="validateAndRegister()">Sign Up</button>
             <!-- Error or success message placeholder -->
             <p id="registerResult" style="color:red;"></p>
         </form>
@@ -74,6 +74,19 @@
 
     <!-- JavaScript -->
     <script>
+
+        function validateAndRegister() {
+            const isPasswordValid = validatePassword(); // Call existing validation
+            const registerResult = document.getElementById("registerResult");
+        
+            if (isPasswordValid) {
+                registerResult.innerHTML = ""; // Clear any previous errors
+                doRegister(); // Proceed with registration if valid
+            } else {
+                registerResult.innerHTML = "Password not valid. Please meet all the requirements.";
+            }
+        }
+
         // Validate field to show checkmark
         function validateField(fieldId) {
             const field = document.getElementById(fieldId);
@@ -93,48 +106,46 @@
             const numberReq = document.getElementById("numberReq");
             const specialReq = document.getElementById("specialReq");
             const passwordCheck = document.getElementById("passwordCheck");
-
-            let validCount = 0;
-
-            // Check password length
+                
+            let isValid = true;
+                
             if (password.length >= 8 && password.length <= 20) {
                 lengthReq.classList.add("valid");
-                validCount++;
             } else {
                 lengthReq.classList.remove("valid");
+                isValid = false;
             }
-
-            // Check for uppercase letters
+        
             if (/[A-Z]/.test(password)) {
                 uppercaseReq.classList.add("valid");
-                validCount++;
             } else {
                 uppercaseReq.classList.remove("valid");
+                isValid = false;
             }
-
-            // Check for numbers
-            if (/\d/.test(password)) {
+        
+            if (/\\d/.test(password)) {
                 numberReq.classList.add("valid");
-                validCount++;
             } else {
                 numberReq.classList.remove("valid");
+                isValid = false;
             }
-
-            // Check for special characters
+        
             if (/[!@#$%^&*]/.test(password)) {
                 specialReq.classList.add("valid");
-                validCount++;
             } else {
                 specialReq.classList.remove("valid");
+                isValid = false;
             }
-
-            // Show checkmark if all criteria are met
-            if (validCount === 4) {
+        
+            if (isValid) {
                 passwordCheck.style.visibility = "visible";
             } else {
                 passwordCheck.style.visibility = "hidden";
             }
+        
+            return isValid;
         }
+
 
         // Toggle password visibility
         document.querySelector('.toggle-password').addEventListener('click', function () {
