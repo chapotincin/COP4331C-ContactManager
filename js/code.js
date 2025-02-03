@@ -311,7 +311,7 @@ function doSearch(){
 						editAttribute.value = 'doEdit()';
 						editButton.setAttributeNode(editAttribute);
 
-                    	editButton.textContent = 'Edit'; //change to notepad
+                    	editButton.innerHTML = '<img src="../images/edit-icon.png" alt="Edit" class="action-icon">';
 						editButton.setAttribute('contactID', jsonObject.results[i].ID); //pass all needed parameters for edit
 						editButton.setAttribute('contactFirstName', jsonObject.results[i].FirstName);
 						editButton.setAttribute('contactLastName', jsonObject.results[i].LastName);
@@ -323,7 +323,7 @@ function doSearch(){
 
                     	let deleteButton = document.createElement('button'); //calls doDelete
 						//the following 5 lines creates the on-click button for the delete button
-                    	deleteButton.textContent = 'Delete'; //change to trashcan
+                    	deleteButton.innerHTML = '<img src="../images/delete-icon.png" alt="Delete" class="action-icon">';
 						deleteButton.setAttribute('contactID', jsonObject.results[i].ID); //gives the primary key of that contact to use for deletion
 						deleteButton.setAttribute('onclick', 'doDelete(this)'); //call doDelete with the ID of the contact
                     	actionsCell.appendChild(deleteButton); //adds the delete button to the actions cell
