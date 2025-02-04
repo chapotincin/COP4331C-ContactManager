@@ -4,15 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Edit Contacts - The Contact Circuit</title>
-  <!-- External JS file (ensure it does NOT include any inline editing logic) -->
+  <!-- Link to the updated JavaScript file -->
   <script type="text/javascript" src="../js/code.js"></script>
   <link href="../css/search.css" rel="stylesheet">
   <link rel="icon" href="../images/favicon.png" type="image/png">
   <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function() {
       readCookie();
-      doSearch();      // Should populate the table with contacts
-      checkContacts(); // Displays "No contacts found" if needed
+      doSearch();      // Populates the table with contacts.
+      checkContacts(); // Displays "No contacts found" if no contacts exist.
     }, false);
   </script>
   <style>
@@ -44,7 +44,7 @@
     .modal-content button {
       margin-top: 10px;
     }
-    /* --- Button and Table Styles (adjust as needed) --- */
+    /* --- Table and Button Styles --- */
     .edit-btn, .delete-btn {
       padding: 5px 10px;
       margin: 0 2px;
@@ -73,23 +73,14 @@
     <div class="table-container">
       <!-- Search Section -->
       <div class="search-container">
-        <input 
-          type="search" 
-          id="searchBar" 
-          name="search" 
-          placeholder="Search contact" 
-          aria-label="Search contacts"
-        />
-        <button type="button" class="btn" id="searchButton" onclick="doSearch(); checkContacts();">
-          Search
-        </button>
+        <input type="search" id="searchBar" name="search" placeholder="Search contact" aria-label="Search contacts" />
+        <button type="button" class="btn" id="searchButton" onclick="doSearch(); checkContacts();">Search</button>
         <a href="../search/create.html" class="create-contact-btn">+ Create Contact</a>
       </div>
       <div>
         <p id="modifyResult" style="color:red;"></p>
         <p id="deleteContactResult" style="color:red;"></p>
       </div>
-
       <!-- Contacts Table -->
       <table>
         <thead>
@@ -102,17 +93,8 @@
           </tr>
         </thead>
         <tbody id="SearchResult">
-          <!-- Example row (in production, rows are loaded dynamically by doSearch()) -->
-          <tr>
-            <td>John</td>
-            <td>Doe</td>
-            <td>john.doe@example.com</td>
-            <td>1234567890</td>
-            <td>
-              <button class="edit-btn">Edit</button>
-              <button class="delete-btn" onclick="doDelete(this)">Delete</button>
-            </td>
-          </tr>
+          <!-- Contacts will be dynamically loaded by doSearch() -->
+          <!-- (You can include an example row for testing if desired.) -->
         </tbody>
       </table>
     </div>
@@ -122,23 +104,19 @@
   <div id="editModal" class="modal">
     <div class="modal-content">
       <h2>Edit Contact</h2>
-      <form id="editForm">
+      <form id="editForm" onsubmit="event.preventDefault(); doSaveModal();">
         <label for="editFirstName">First Name:</label>
         <input type="text" id="editFirstName" name="firstName" required>
-
         <label for="editLastName">Last Name:</label>
         <input type="text" id="editLastName" name="lastName" required>
-
         <label for="editEmail">Email:</label>
         <input type="email" id="editEmail" name="email" required
                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                title="Please enter a valid email address">
-
         <label for="editPhone">Phone:</label>
         <input type="tel" id="editPhone" name="phone" required
                pattern="^\d{10}$"
                title="Please enter a 10-digit phone number">
-
         <button type="submit">Save Changes</button>
         <button type="button" id="cancelEdit">Cancel</button>
       </form>
@@ -146,70 +124,10 @@
   </div>
 
   <script>
-    /********************************************************************
-     * Modal-Based Editing Logic with Built-In HTML Validation
-     ********************************************************************/
-    let currentEditingRow = null; // This will store the row being edited
-
-    // Listen for clicks on edit buttons within the table.
-    document.getElementById("SearchResult").addEventListener("click", function(e) {
-      let target = e.target;
-      // If the click is not on the button itself, try to find the parent button.
-      if (!target.classList.contains("edit-btn")) {
-        target = target.closest(".edit-btn");
-      }
-      if (target && target.classList.contains("edit-btn")) {
-        // Get the row that contains the clicked edit button.
-        const row = target.closest("tr");
-        if (!row) {
-          console.error("Edit button is not within a table row.", target);
-          return;
-        }
-        // Save the row reference for later update.
-        currentEditingRow = row;
-        // Populate the modal form with the current row values.
-        document.getElementById("editFirstName").value = row.cells[0].textContent.trim();
-        document.getElementById("editLastName").value  = row.cells[1].textContent.trim();
-        document.getElementById("editEmail").value     = row.cells[2].textContent.trim();
-        document.getElementById("editPhone").value     = row.cells[3].textContent.trim();
-        // Display the modal.
-        document.getElementById("editModal").style.display = "block";
-      }
-    });
-
-    // Handle the submission of the modal form.
-    document.getElementById("editForm").addEventListener("submit", function(e) {
-      e.preventDefault(); // Prevent the default form submission.
-      // Use browser built-in validation.
-      if (this.checkValidity()) {
-        // Get updated values from the form.
-        const newFirstName = document.getElementById("editFirstName").value.trim();
-        const newLastName  = document.getElementById("editLastName").value.trim();
-        const newEmail     = document.getElementById("editEmail").value.trim();
-        const newPhone     = document.getElementById("editPhone").value.trim();
-
-        // Update the corresponding row in the table.
-        if (currentEditingRow) {
-          currentEditingRow.cells[0].textContent = newFirstName;
-          currentEditingRow.cells[1].textContent = newLastName;
-          currentEditingRow.cells[2].textContent = newEmail;
-          currentEditingRow.cells[3].textContent = newPhone;
-          // Optionally call your external doEdit() function.
-          doEdit(newFirstName, newLastName, newEmail, newPhone);
-        }
-        // Hide the modal.
-        document.getElementById("editModal").style.display = "none";
-      } else {
-        // If invalid, show browser's validation messages.
-        this.reportValidity();
-      }
-    });
-
-    // Cancel button closes the modal without saving.
+    // Close modal when clicking the Cancel button.
     document.getElementById("cancelEdit").addEventListener("click", function() {
       document.getElementById("editModal").style.display = "none";
     });
-
     // Optional: Close the modal if the user clicks outside the modal content.
     window.addEventListener("click", function(event) {
       const modal = document.getElementById("editModal");
@@ -217,27 +135,6 @@
         modal.style.display = "none";
       }
     });
-
-    /********************************************************************
-     * Delete Functionality (Example Implementation)
-     ********************************************************************/
-    function doDelete(btn) {
-      const row = btn.closest("tr");
-      if (confirm("Are you sure you want to delete this contact?")) {
-        row.remove();
-        checkContacts(); // Refresh the table view if empty.
-      }
-    }
-
-    /********************************************************************
-     * Check Contacts: Display a message if no contacts exist.
-     ********************************************************************/
-    function checkContacts() {
-      const contactsTable = document.getElementById("SearchResult");
-      if (!contactsTable.hasChildNodes()) {
-        contactsTable.innerHTML = '<tr><td colspan="5" style="text-align:center; color:#37516A; font-size:18px;">No contacts found</td></tr>';
-      }
-    }
   </script>
 </body>
 </html>

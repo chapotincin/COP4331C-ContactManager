@@ -224,30 +224,90 @@ function doSave(ID){
 	}
 }
 
-function doEdit(button){
-	let eID = button.getAttribute('contactID');
-	let eFirstName = button.getAttribute('contactFirstName');
-	let eLastName = button.getAttribute('contactLastName');
-	let ePhone = button.getAttribute('contactPhone');
-	let eEmail = button.getAttribute('contactEmail');
-	//let eUserID = button.getAttribute('contactUserID');
+// function doEdit(button){
+// 	let eID = button.getAttribute('contactID');
+// 	let eFirstName = button.getAttribute('contactFirstName');
+// 	let eLastName = button.getAttribute('contactLastName');
+// 	let ePhone = button.getAttribute('contactPhone');
+// 	let eEmail = button.getAttribute('contactEmail');
+// 	//let eUserID = button.getAttribute('contactUserID');
 
-	let editRow = button.closest('tr'); // Get the row containing we're editing
-	//Replace the table contents with the edit form (display -> edit)
-    editRow.cells[0].innerHTML = `<input type="text" value="${eFirstName}" id="editFirstName_${eID}">`;
-    editRow.cells[1].innerHTML = `<input type="text" value="${eLastName}" id="editLastName_${eID}">`;
-    editRow.cells[2].innerHTML = `<input type="text" value="${eEmail}" id="editEmail_${eID}">`;
-    editRow.cells[3].innerHTML = `<input type="text" value="${ePhone}" id="editPhone_${eID}">`;
+// 	let editRow = button.closest('tr'); // Get the row containing we're editing
+// 	//Replace the table contents with the edit form (display -> edit)
+//     editRow.cells[0].innerHTML = `<input type="text" value="${eFirstName}" id="editFirstName_${eID}">`;
+//     editRow.cells[1].innerHTML = `<input type="text" value="${eLastName}" id="editLastName_${eID}">`;
+//     editRow.cells[2].innerHTML = `<input type="text" value="${eEmail}" id="editEmail_${eID}">`;
+//     editRow.cells[3].innerHTML = `<input type="text" value="${ePhone}" id="editPhone_${eID}">`;
 
-	//now we need a save button to confirm the changes
-	let saveButton = document.createElement('button');
-	saveButton.classList.add('save-btn');
-	saveButton.innerHTML = '<img src="../images/checkmark-icon.png" alt="Save" class="action-icon">'; // Use checkmark icon
-	saveButton.setAttribute('onclick', `doSave(${eID})`); //onclick for saving
-	editRow.cells[4].innerHTML = ''; //replace the edit button with save button
-    editRow.cells[4].appendChild(saveButton);
-	//
+// 	//now we need a save button to confirm the changes
+// 	let saveButton = document.createElement('button');
+// 	saveButton.classList.add('save-btn');
+// 	saveButton.innerHTML = '<img src="../images/checkmark-icon.png" alt="Save" class="action-icon">'; // Use checkmark icon
+// 	saveButton.setAttribute('onclick', `doSave(${eID})`); //onclick for saving
+// 	editRow.cells[4].innerHTML = ''; //replace the edit button with save button
+//     editRow.cells[4].appendChild(saveButton);
+// 	//
 	
+// }
+
+// ======================
+// NEW MODAL-BASED EDITING FUNCTIONS
+// ======================
+
+// Remove or disable the old inline editing function (doEdit) so it is not used.
+
+// Global variable to store the ID of the contact being edited.
+window.currentEditingContactID = null;
+
+// Launch the modal editor and pre-fill its fields.
+function doModalEdit(button) {
+  let eID = button.getAttribute('contactID');
+  let eFirstName = button.getAttribute('contactFirstName');
+  let eLastName = button.getAttribute('contactLastName');
+  let eEmail = button.getAttribute('contactEmail');
+  let ePhone = button.getAttribute('contactPhone');
+
+  window.currentEditingContactID = eID;
+  document.getElementById("editFirstName").value = eFirstName;
+  document.getElementById("editLastName").value = eLastName;
+  document.getElementById("editEmail").value = eEmail;
+  document.getElementById("editPhone").value = ePhone;
+  document.getElementById("editModal").style.display = "block";
+}
+
+// Called when the modal form is submitted to save changes.
+function doSaveModal() {
+  let eID = window.currentEditingContactID;
+  let newFirstName = document.getElementById("editFirstName").value.trim();
+  let newLastName  = document.getElementById("editLastName").value.trim();
+  let newEmail     = document.getElementById("editEmail").value.trim();
+  let newPhone     = document.getElementById("editPhone").value.trim();
+
+  let tmp = {
+    ID: eID,
+    FirstName: newFirstName,
+    LastName: newLastName,
+    Phone: newPhone,
+    Email: newEmail
+  };
+
+  let jsonPayload = JSON.stringify(tmp);
+  let url = urlBase + '/Edit.' + extension;
+  let xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+
+  try {
+    xhr.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        doSearch();  // Refresh the table
+        document.getElementById("editModal").style.display = "none";
+      }
+    };
+    xhr.send(jsonPayload);
+  } catch(err) {
+    console.error("Error saving modal edit:", err.message);
+  }
 }
 
 function doSearch(){
