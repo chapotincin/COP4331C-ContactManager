@@ -1,139 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Contact - The Contact Circuit</title>
-    <script type="text/javascript" src="../js/code.js"></script>
-    <link href="../css/create.css" rel="stylesheet">
-    <link rel="icon" href="../images/favicon.png" type="image/png">
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function() 
-        {
-            readCookie();
-        }, false);
-    </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Contact - The Contact Circuit</title>
+  <!-- External JS file contains doEdit() among other functions -->
+  <script type="text/javascript" src="../js/code.js"></script>
+  <!-- CSS styling (reuse create.css or create a new edit.css) -->
+  <link href="../css/create.css" rel="stylesheet" />
+  <link rel="icon" href="../images/favicon.png" type="image/png">
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+      readCookie();
+      // Optionally, if you have code to load contacts into the table,
+      // you can call that function here.
+    }, false);
+  </script>
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <header class="nav-bar">
-        <div class="logo-container">
-            <img src="../images/logo-sideway-white.png" alt="The Contact Circuit Logo" class="logo">
+  <!-- Navigation Bar -->
+  <header class="nav-bar">
+    <div class="logo-container">
+      <img src="../images/logo-sideway-white.png" alt="The Contact Circuit Logo" class="logo">
+    </div>
+    <nav>
+      <ul>
+        <li><a href="../index.html">Logout</a></li>
+        <li><a href="../search/index.html">Contacts</a></li>
+        <li><a href="../search/about.html">About Us</a></li>
+      </ul>
+    </nav>               
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <div class="container">
+      <h2>Edit Contact</h2>
+      <form>
+        <!-- First Name -->
+        <div class="input-container">
+          <label for="firstName">First Name:</label>
+          <input type="text" id="firstName" name="firstName" placeholder="Enter first name" required>
+          <span class="checkmark">&#10004;</span>
         </div>
-        <nav>
-            <ul>
-                <li><a href="../index.html">Logout</a></li>
-                <li><a href="../search/index.html">Contacts</a></li>
-                <li><a href="../search/about.html">About Us</a></li>
-            </ul>
-        </nav>               
-    </header>
 
-    <!-- Main Content -->
-    <main>
-        <div class="container">
-            <h2>Add a New Contact</h2>
-            <form>
-                <!-- First Name -->
-                <div class="input-container">
-                    <label for="firstName">First Name:</label>
-                    <input type="text" id="firstName" name="firstName" placeholder="Enter first name" required>
-                    <span class="checkmark">&#10004;</span>
-                </div>
-
-                <!-- Last Name -->
-                <div class="input-container">
-                    <label for="lastName">Last Name:</label>
-                    <input type="text" id="lastName" name="lastName" placeholder="Enter last name" required>
-                    <span class="checkmark">&#10004;</span>
-                </div>
-
-                <!-- Email -->
-                <div class="input-container">
-                    <label for="email">Email:</label>
-                    <input type="email" id="email" name="email" placeholder="Enter email address" required>
-                    <span class="checkmark">&#10004;</span>
-                    <p class="email-error">Invalid email format</p>
-                </div>
-
-                <!-- Phone Number -->
-                <div class="input-container">
-                    <label for="phone">Phone:</label>
-                    <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required>
-                    <span class="checkmark">&#10004;</span>
-                    <p class="phone-error">Invalid phone number format</p>
-                </div>
-
-                <!-- Save Button -->
-                <button type="button" class="btn" onclick="validateAndAdd()">Save</button>
-                <p id="createContactResult" style="color:red;"></p>
-                <!-- Cancel Button -->
-                <a href="index.html" class="cancel-link">Cancel</a>
-            </form>
+        <!-- Last Name -->
+        <div class="input-container">
+          <label for="lastName">Last Name:</label>
+          <input type="text" id="lastName" name="lastName" placeholder="Enter last name" required>
+          <span class="checkmark">&#10004;</span>
         </div>
-    </main>
 
-    <script>
-        // Validate first name, last name, and email fields
-        document.querySelectorAll("#firstName, #lastName").forEach(input => {
-            input.addEventListener("input", function () {
-                const checkmark = this.nextElementSibling;
-                if (this.value.trim().length > 0) {
-                    checkmark.style.visibility = "visible";
-                } else {
-                    checkmark.style.visibility = "hidden";
-                }
-            });
-        });
+        <!-- Email -->
+        <div class="input-container">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" placeholder="Enter email address" required>
+          <span class="checkmark">&#10004;</span>
+          <p class="email-error">Invalid email format</p>
+        </div>
 
-        // Validate email format
-        document.getElementById("email").addEventListener("input", function () {
-            const emailValue = this.value;
-            const checkmark = this.nextElementSibling;
-            const emailError = document.querySelector(".email-error");
-            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        <!-- Phone Number -->
+        <div class="input-container">
+          <label for="phone">Phone:</label>
+          <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required>
+          <span class="checkmark">&#10004;</span>
+          <p class="phone-error">Invalid phone number format</p>
+        </div>
 
-            if (emailPattern.test(emailValue)) {
-                checkmark.style.visibility = "visible";
-                emailError.style.display = "none";
-            } else {
-                checkmark.style.visibility = "hidden";
-                emailError.style.display = "block";
-            }
-        });
+        <!-- Save Button -->
+        <button type="button" class="btn" onclick="validateAndEdit()">Save Changes</button>
+        <p id="editContactResult" style="color:red;"></p>
+        <!-- Cancel Button -->
+        <a href="index.html" class="cancel-link">Cancel</a>
+      </form>
+    </div>
 
-        // Validate phone number
-        document.getElementById("phone").addEventListener("input", function () {
-            const phoneValue = this.value.replace(/\D/g, "");
-            const checkmark = this.nextElementSibling;
-            const phoneError = document.querySelector(".phone-error");
+    <!-- Optional: Table to display contacts (if part of the page structure) -->
+    <div class="table-container">
+      <h2>Your Contacts</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="SearchResult">
+          <!-- Contacts will be dynamically loaded here -->
+        </tbody>
+      </table>
+    </div>
+  </main>
 
-            if (phoneValue.length === 10 && /^\d+$/.test(phoneValue)) {
-                checkmark.style.visibility = "visible";
-                phoneError.style.display = "none";
-            } else {
-                checkmark.style.visibility = "hidden";
-                phoneError.style.display = "block";
-            }
-        });
-
-        // Validate all fields before calling doAdd
-        function validateAndAdd() {
-            const firstName = document.getElementById("firstName").value.trim();
-            const lastName = document.getElementById("lastName").value.trim();
-            const email = document.getElementById("email").value.trim();
-            const phone = document.getElementById("phone").value.replace(/\D/g, "");
-
-            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-            if (firstName && lastName && emailPattern.test(email) && phone.length === 10) {
-                doAdd();
-            } else {
-                document.getElementById("createContactResult").innerHTML = "Please fill out all fields correctly.";
-            }
+  <script>
+    // Validate first and last name: show a checkmark if not empty.
+    document.querySelectorAll("#firstName, #lastName").forEach(input => {
+      input.addEventListener("input", function () {
+        const checkmark = this.nextElementSibling;
+        if (this.value.trim().length > 0) {
+          checkmark.style.visibility = "visible";
+        } else {
+          checkmark.style.visibility = "hidden";
         }
-    </script>
+      });
+    });
+
+    // Validate email format as user types.
+    document.getElementById("email").addEventListener("input", function () {
+      const emailValue = this.value;
+      const checkmark = this.nextElementSibling;
+      const emailError = document.querySelector(".email-error");
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+      if (emailPattern.test(emailValue)) {
+        checkmark.style.visibility = "visible";
+        emailError.style.display = "none";
+      } else {
+        checkmark.style.visibility = "hidden";
+        emailError.style.display = "block";
+      }
+    });
+
+    // Validate phone number format as user types.
+    document.getElementById("phone").addEventListener("input", function () {
+      const phoneValue = this.value.replace(/\D/g, "");
+      const checkmark = this.nextElementSibling;
+      const phoneError = document.querySelector(".phone-error");
+
+      if (phoneValue.length === 10 && /^\d+$/.test(phoneValue)) {
+        checkmark.style.visibility = "visible";
+        phoneError.style.display = "none";
+      } else {
+        checkmark.style.visibility = "hidden";
+        phoneError.style.display = "block";
+      }
+    });
+
+    // Validate all fields before calling doEdit()
+    function validateAndEdit() {
+      // Get values and trim whitespace.
+      const firstName = document.getElementById("firstName").value.trim();
+      const lastName = document.getElementById("lastName").value.trim();
+      const email = document.getElementById("email").value.trim();
+      // Remove non-digit characters from the phone number.
+      const phone = document.getElementById("phone").value.replace(/\D/g, "");
+
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+      // Ensure that all fields are provided and correctly formatted.
+      if (firstName && lastName && emailPattern.test(email) && phone.length === 10) {
+        // Clear any previous error message.
+        document.getElementById("editContactResult").innerHTML = "";
+        // Call your pre-defined doEdit() function from the external JS file.
+        doEdit();
+      } else {
+        document.getElementById("editContactResult").innerHTML = "Please fill out all fields correctly.";
+      }
+    }
+  </script>
 </body>
 </html>
-
-
