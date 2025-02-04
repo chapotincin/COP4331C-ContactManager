@@ -101,11 +101,11 @@
     /********************************************************************
      * Inline Editing Logic with Real-Time Validation for Table Rows
      ********************************************************************/
-
+    
     // Use event delegation to handle clicks on edit buttons inside the table.
     document.getElementById("SearchResult").addEventListener("click", function(e) {
       let target = e.target;
-      // Ensure the click on the image inside the button is handled correctly.
+      // Ensure that if the click is on an image inside the button, we use the button.
       if (target.tagName === "IMG") {
         target = target.parentElement;
       }
@@ -113,11 +113,17 @@
         handleEditButton(target);
       }
     });
-
+    
     function handleEditButton(button) {
       const row = button.closest("tr");
+      // Check that the button is inside a <tr> element.
+      if (!row) {
+        console.error("Edit button is not within a <tr> element:", button);
+        return;
+      }
+      
       const isEditing = row.classList.contains("editing");
-
+    
       if (!isEditing) {
         // Enter editing mode: convert cells (except the Actions cell) into input fields.
         row.classList.add("editing");
@@ -126,7 +132,7 @@
           let inputType = "text";
           let pattern = "";
           let title = "";
-
+    
           // Apply specific validation for email (3rd cell) and phone (4th cell)
           if (index === 2) { // Email cell
             inputType = "email";
@@ -137,10 +143,12 @@
             pattern = "^\\d{10}$";
             title = "Please enter a 10-digit phone number";
           }
-
-          // Create the input field and attach a real-time validation listener.
+    
+          // Replace the cell content with an input field.
           cell.innerHTML = `<input type="${inputType}" value="${currentText}" required pattern="${pattern}" title="${title}" class="edit-input" />`;
           const inputField = cell.querySelector("input");
+    
+          // Attach a real-time validation listener.
           inputField.addEventListener("input", function() {
             if (this.checkValidity()) {
               this.classList.remove("input-error");
@@ -155,7 +163,7 @@
         // In editing mode: validate all input fields before saving.
         const inputs = row.querySelectorAll("input");
         let allValid = true;
-
+    
         inputs.forEach(input => {
           if (!input.checkValidity()) {
             input.classList.add("input-error");
@@ -164,18 +172,18 @@
             input.classList.remove("input-error");
           }
         });
-
+    
         if (allValid) {
           // Gather new values from the input fields.
           const firstName = row.cells[0].querySelector("input").value.trim();
           const lastName = row.cells[1].querySelector("input").value.trim();
           const email = row.cells[2].querySelector("input").value.trim();
           const phone = row.cells[3].querySelector("input").value.trim();
-
+    
           // Call the external doEdit() function with the updated values.
-          // (You might pass an identifier if needed.)
+          // (Pass an identifier as needed by your implementation.)
           doEdit(firstName, lastName, email, phone);
-
+    
           // Exit editing mode: replace input fields with plain text.
           row.classList.remove("editing");
           row.querySelectorAll("td:not(:last-child)").forEach(cell => {
@@ -189,7 +197,7 @@
         }
       }
     }
-
+    
     /********************************************************************
      * Delete Functionality (Example Implementation)
      ********************************************************************/
@@ -202,7 +210,7 @@
         checkContacts(); // Refresh the table view if empty.
       }
     }
-
+    
     /********************************************************************
      * Check Contacts: Display a message if no contacts exist.
      ********************************************************************/
