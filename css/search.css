@@ -218,6 +218,27 @@ table td input {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* Save Button Styling */
+.save-btn {
+    background-color: #27ae60;  /* Green background */
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.save-btn:hover {
+    background-color: #1e8449;  /* Darker green on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
 .action-icon {
     width: 20px;
     height: 20px;
