@@ -73,12 +73,43 @@
     </main>
 
     <script>
-        // Handle the "Edit" functionality
-        document.querySelectorAll(".edit-btn").forEach(button => {
-            button.addEventListener("click", function () {
-                const row = this.closest("tr");
+        document.addEventListener('DOMContentLoaded', function () {
+            readCookie();
+            doSearch();
+            checkContacts();
+        });
+    
+        // Function to validate inputs
+        function validateInput(input, type) {
+            const value = input.value.trim();
+            let isValid = false;
+    
+            if (type === "email") {
+                const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                isValid = emailPattern.test(value);
+            } else if (type === "phone") {
+                const phonePattern = /^\d{10}$/;
+                isValid = phonePattern.test(value.replace(/\D/g, ""));
+            } else {
+                isValid = value.length > 0;
+            }
+    
+            if (isValid) {
+                input.classList.remove('input-error');
+            } else {
+                input.classList.add('input-error');
+            }
+    
+            return isValid;
+        }
+    
+        // Event delegation for edit buttons
+        document.addEventListener("click", function (event) {
+            if (event.target.closest(".edit-btn")) {
+                const button = event.target.closest(".edit-btn");
+                const row = button.closest("tr");
                 const isEditing = row.classList.contains("editing");
-            
+    
                 if (!isEditing) {
                     row.classList.add("editing");
                     row.querySelectorAll("td:not(:last-child)").forEach((cell, index) => {
@@ -86,53 +117,58 @@
                         let inputType = "text";
                         let pattern = "";
                         let title = "";
-                    
+    
                         if (index === 2) { // Email validation
                             inputType = "email";
-                            pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$";
+                            pattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
                             title = "Please enter a valid email address";
                         } else if (index === 3) { // Phone validation
                             inputType = "tel";
-                            pattern = "\\d{10}";
+                            pattern = "^\\d{10}$";
                             title = "Please enter a 10-digit phone number";
                         }
-                    
+    
                         cell.innerHTML = `<input type="${inputType}" value="${currentText}" required pattern="${pattern}" title="${title}" class="edit-input" />`;
                     });
-                    this.querySelector("img").src = "../images/checkmark-icon.png";  // Change to checkmark icon
+    
+                    button.querySelector("img").src = "../images/checkmark-icon.png";  // Change to checkmark icon
                 } else {
                     const inputs = row.querySelectorAll("input");
                     let allValid = true;
-                
-                    // Check if all inputs are valid
+    
                     inputs.forEach(input => {
-                        if (!input.checkValidity()) {
-                            input.classList.add('input-error');
+                        const type = input.type === "tel" ? "phone" : input.type;
+                        if (!validateInput(input, type)) {
                             allValid = false;
-                        } else {
-                            input.classList.remove('input-error');
                         }
                     });
-                
+    
                     if (allValid) {
                         row.classList.remove("editing");
                         row.querySelectorAll("td:not(:last-child)").forEach(cell => {
                             const input = cell.querySelector("input");
                             cell.textContent = input.value;
                         });
-                        this.querySelector("img").src = "../images/edit-icon.png";  // Revert to edit icon
+                        button.querySelector("img").src = "../images/edit-icon.png";  // Revert to edit icon
                     } else {
                         alert("Please correct the highlighted fields before saving.");
                     }
                 }
-            });
+            }
         });
-
-
-        // Display "No contacts found" if no contacts are present
+    
+        // Real-time validation for dynamically created inputs
+        document.addEventListener("input", function (event) {
+            if (event.target.classList.contains("edit-input")) {
+                const type = event.target.type === "tel" ? "phone" : event.target.type;
+                validateInput(event.target, type);
+            }
+        });
+    
+        // Display "No contacts found" if no contacts exist
         function checkContacts() {
             const contactsTable = document.getElementById("SearchResult");
-            if (!contactsTable.hasChildNodes()) {
+            if (!contactsTable.hasChildNodes() || contactsTable.children.length === 0) {
                 contactsTable.innerHTML = '<tr><td colspan="5" style="text-align:center; color: #37516A; font-size: 18px;">No contacts found</td></tr>';
             }
         }
