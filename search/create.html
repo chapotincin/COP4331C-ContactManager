@@ -122,11 +122,12 @@
             const firstName = document.getElementById("firstName").value.trim();
             const lastName = document.getElementById("lastName").value.trim();
             const email = document.getElementById("email").value.trim();
-            const phone = document.getElementById("phone").value.replace(/\D/g, "");
+            const phone = document.getElementById("phone").value.trim();
 
             const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            const phonePattern = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
 
-            if (firstName && lastName && emailPattern.test(email) && phone.length === 10) {
+            if (firstName && lastName && emailPattern.test(email) && phonePattern.test(phone)) {
                 doAdd();
             } else {
                 document.getElementById("createContactResult").innerHTML = "Please fill out all fields correctly.";
