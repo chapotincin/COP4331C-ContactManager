@@ -3,19 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Edit Contact - The Contact Circuit</title>
-  <!-- External JS file contains doEdit() among other functions -->
+  <title>Edit Contacts - The Contact Circuit</title>
+  <!-- External JS file (which should define doEdit, doSearch, readCookie, etc.) -->
   <script type="text/javascript" src="../js/code.js"></script>
-  <!-- CSS styling (reuse create.css or create a new edit.css) -->
-  <link href="../css/create.css" rel="stylesheet" />
+  <link href="../css/search.css" rel="stylesheet">
   <link rel="icon" href="../images/favicon.png" type="image/png">
   <script type="text/javascript">
     document.addEventListener('DOMContentLoaded', function() {
       readCookie();
-      // Optionally, if you have code to load contacts into the table,
-      // you can call that function here.
+      doSearch();      // Assumed to populate the table with contacts
+      checkContacts(); // Display "No contacts found" message if table is empty
     }, false);
   </script>
+  <style>
+    /* Optional CSS: Highlight invalid input fields */
+    .input-error {
+      border: 2px solid red;
+    }
+    /* Ensure the checkmark icons appear correctly */
+    .edit-btn img, .delete-btn img {
+      width: 20px;
+      height: 20px;
+    }
+  </style>
 </head>
 <body>
   <!-- Navigation Bar -->
@@ -26,58 +36,36 @@
     <nav>
       <ul>
         <li><a href="../index.html">Logout</a></li>
-        <li><a href="../search/index.html">Contacts</a></li>
+        <li><a href="../search/index.html" class="active">Contacts</a></li>
         <li><a href="../search/about.html">About Us</a></li>
       </ul>
-    </nav>               
+    </nav>
   </header>
 
   <!-- Main Content -->
   <main>
-    <div class="container">
-      <h2>Edit Contact</h2>
-      <form>
-        <!-- First Name -->
-        <div class="input-container">
-          <label for="firstName">First Name:</label>
-          <input type="text" id="firstName" name="firstName" placeholder="Enter first name" required>
-          <span class="checkmark">&#10004;</span>
-        </div>
-
-        <!-- Last Name -->
-        <div class="input-container">
-          <label for="lastName">Last Name:</label>
-          <input type="text" id="lastName" name="lastName" placeholder="Enter last name" required>
-          <span class="checkmark">&#10004;</span>
-        </div>
-
-        <!-- Email -->
-        <div class="input-container">
-          <label for="email">Email:</label>
-          <input type="email" id="email" name="email" placeholder="Enter email address" required>
-          <span class="checkmark">&#10004;</span>
-          <p class="email-error">Invalid email format</p>
-        </div>
-
-        <!-- Phone Number -->
-        <div class="input-container">
-          <label for="phone">Phone:</label>
-          <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required>
-          <span class="checkmark">&#10004;</span>
-          <p class="phone-error">Invalid phone number format</p>
-        </div>
-
-        <!-- Save Button -->
-        <button type="button" class="btn" onclick="validateAndEdit()">Save Changes</button>
-        <p id="editContactResult" style="color:red;"></p>
-        <!-- Cancel Button -->
-        <a href="index.html" class="cancel-link">Cancel</a>
-      </form>
-    </div>
-
-    <!-- Optional: Table to display contacts (if part of the page structure) -->
+    <h1 id="welcome-message"></h1>
     <div class="table-container">
-      <h2>Your Contacts</h2>
+      <!-- Search Section -->
+      <div class="search-container">
+        <input 
+          type="search" 
+          id="searchBar" 
+          name="search" 
+          placeholder="Search contact" 
+          aria-label="Search contacts"
+        />
+        <button type="button" class="btn" id="searchButton" onclick="doSearch(); checkContacts();">
+          Search
+        </button>
+        <a href="../search/create.html" class="create-contact-btn">+ Create Contact</a>
+      </div>
+      <div>
+        <p id="modifyResult" style="color:red;"></p>
+        <p id="deleteContactResult" style="color:red;"></p>
+      </div>
+
+      <!-- Contacts Table -->
       <table>
         <thead>
           <tr>
@@ -89,75 +77,131 @@
           </tr>
         </thead>
         <tbody id="SearchResult">
-          <!-- Contacts will be dynamically loaded here -->
+          <!-- Example row (in production, rows will be loaded dynamically by doSearch()) -->
+          <tr>
+            <td>John</td>
+            <td>Doe</td>
+            <td>john.doe@example.com</td>
+            <td>1234567890</td>
+            <td>
+              <button class="edit-btn">
+                <img src="../images/edit-icon.png" alt="Edit">
+              </button>
+              <button class="delete-btn" onclick="doDelete(this)">
+                <img src="../images/delete-icon.png" alt="Delete">
+              </button>
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
   </main>
 
   <script>
-    // Validate first and last name: show a checkmark if not empty.
-    document.querySelectorAll("#firstName, #lastName").forEach(input => {
-      input.addEventListener("input", function () {
-        const checkmark = this.nextElementSibling;
-        if (this.value.trim().length > 0) {
-          checkmark.style.visibility = "visible";
+    /********************************************************************
+     * Inline Editing Logic for Table Rows with Validation & doEdit()
+     ********************************************************************/
+
+    // Use event delegation to handle clicks on edit buttons inside the table body.
+    document.getElementById("SearchResult").addEventListener("click", function(e) {
+      let target = e.target;
+      // Ensure we get the button element even if an image was clicked.
+      if (target.tagName === "IMG") {
+        target = target.parentElement;
+      }
+      if (target.classList.contains("edit-btn")) {
+        handleEditButton(target);
+      }
+    });
+
+    // Function to handle edit (and save) actions on a given row.
+    function handleEditButton(button) {
+      const row = button.closest("tr");
+      const isEditing = row.classList.contains("editing");
+
+      if (!isEditing) {
+        // Enter editing mode: replace each cell (except Actions) with an input field.
+        row.classList.add("editing");
+        row.querySelectorAll("td:not(:last-child)").forEach((cell, index) => {
+          const currentText = cell.textContent.trim();
+          let inputType = "text";
+          let pattern = "";
+          let title = "";
+
+          // Apply validation rules for email (3rd cell, index 2) and phone (4th cell, index 3)
+          if (index === 2) {
+            inputType = "email";
+            pattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
+            title = "Please enter a valid email address";
+          } else if (index === 3) {
+            inputType = "tel";
+            pattern = "^\\d{10}$";
+            title = "Please enter a 10-digit phone number";
+          }
+          cell.innerHTML = `<input type="${inputType}" value="${currentText}" required pattern="${pattern}" title="${title}" class="edit-input" />`;
+        });
+        // Change the icon to a checkmark to indicate "Save"
+        button.querySelector("img").src = "../images/checkmark-icon.png";
+      } else {
+        // In editing mode: validate all input fields
+        const inputs = row.querySelectorAll("input");
+        let allValid = true;
+
+        inputs.forEach(input => {
+          if (!input.checkValidity()) {
+            input.classList.add("input-error");
+            allValid = false;
+          } else {
+            input.classList.remove("input-error");
+          }
+        });
+
+        if (allValid) {
+          // Gather the new values from the inputs.
+          const firstName = row.cells[0].querySelector("input").value.trim();
+          const lastName = row.cells[1].querySelector("input").value.trim();
+          const email = row.cells[2].querySelector("input").value.trim();
+          const phone = row.cells[3].querySelector("input").value.trim();
+
+          // Call the external doEdit() function to update the contact.
+          // (You may need to pass an additional identifier if your implementation requires it.)
+          doEdit(firstName, lastName, email, phone);
+
+          // Exit editing mode: update the cells with the new text.
+          row.classList.remove("editing");
+          row.querySelectorAll("td:not(:last-child)").forEach(cell => {
+            const input = cell.querySelector("input");
+            cell.textContent = input.value;
+          });
+          // Revert the icon back to the edit icon.
+          button.querySelector("img").src = "../images/edit-icon.png";
         } else {
-          checkmark.style.visibility = "hidden";
+          alert("Please correct the highlighted fields before saving.");
         }
-      });
-    });
-
-    // Validate email format as user types.
-    document.getElementById("email").addEventListener("input", function () {
-      const emailValue = this.value;
-      const checkmark = this.nextElementSibling;
-      const emailError = document.querySelector(".email-error");
-      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-      if (emailPattern.test(emailValue)) {
-        checkmark.style.visibility = "visible";
-        emailError.style.display = "none";
-      } else {
-        checkmark.style.visibility = "hidden";
-        emailError.style.display = "block";
       }
-    });
+    }
 
-    // Validate phone number format as user types.
-    document.getElementById("phone").addEventListener("input", function () {
-      const phoneValue = this.value.replace(/\D/g, "");
-      const checkmark = this.nextElementSibling;
-      const phoneError = document.querySelector(".phone-error");
-
-      if (phoneValue.length === 10 && /^\d+$/.test(phoneValue)) {
-        checkmark.style.visibility = "visible";
-        phoneError.style.display = "none";
-      } else {
-        checkmark.style.visibility = "hidden";
-        phoneError.style.display = "block";
+    /********************************************************************
+     * Delete Functionality (Example)
+     ********************************************************************/
+    function doDelete(btn) {
+      const row = btn.closest("tr");
+      if (confirm("Are you sure you want to delete this contact?")) {
+        // Remove the row from the table.
+        row.remove();
+        // Optionally, call an external deletion function, e.g.,
+        // doDeleteContact(contactId);
+        checkContacts(); // Update the table if empty.
       }
-    });
+    }
 
-    // Validate all fields before calling doEdit()
-    function validateAndEdit() {
-      // Get values and trim whitespace.
-      const firstName = document.getElementById("firstName").value.trim();
-      const lastName = document.getElementById("lastName").value.trim();
-      const email = document.getElementById("email").value.trim();
-      // Remove non-digit characters from the phone number.
-      const phone = document.getElementById("phone").value.replace(/\D/g, "");
-
-      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-      // Ensure that all fields are provided and correctly formatted.
-      if (firstName && lastName && emailPattern.test(email) && phone.length === 10) {
-        // Clear any previous error message.
-        document.getElementById("editContactResult").innerHTML = "";
-        // Call your pre-defined doEdit() function from the external JS file.
-        doEdit();
-      } else {
-        document.getElementById("editContactResult").innerHTML = "Please fill out all fields correctly.";
+    /********************************************************************
+     * Check Contacts: Display a message if no contacts exist.
+     ********************************************************************/
+    function checkContacts() {
+      const contactsTable = document.getElementById("SearchResult");
+      if (!contactsTable.hasChildNodes()) {
+        contactsTable.innerHTML = '<tr><td colspan="5" style="text-align:center; color: #37516A; font-size: 18px;">No contacts found</td></tr>';
       }
     }
   </script>
