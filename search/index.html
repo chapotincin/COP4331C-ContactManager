@@ -132,7 +132,7 @@
             const phoneInput = row.querySelector("td:nth-child(4) input");
 
             const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            const phonePattern = /^\d{10}$/; 
+            const phonePattern = /^\d{10}$/; // Must be exactly 10 digits
 
             let allValid = true;
 
@@ -143,14 +143,27 @@
                     input.setCustomValidity("");
                 } else {
                     checkmark.style.visibility = "hidden";
-                    input.setCustomValidity("Invalid field.");
+                    input.setCustomValidity("Invalid input.");
                     allValid = false;
                 }
             }
 
+            // Validate first and last name (must not be empty)
             toggleCheckmark(firstNameInput, firstNameInput.value.trim() !== "");
             toggleCheckmark(lastNameInput, lastNameInput.value.trim() !== "");
+
+            // Validate email
+            if (!emailPattern.test(emailInput.value.trim())) {
+                emailInput.setCustomValidity("Invalid email format. Must include '@' and domain.");
+                allValid = false;
+            }
             toggleCheckmark(emailInput, emailPattern.test(emailInput.value.trim()));
+
+            // Validate phone
+            if (!phonePattern.test(phoneInput.value.replace(/\D/g, ""))) {
+                phoneInput.setCustomValidity("Phone number must be exactly 10 digits.");
+                allValid = false;
+            }
             toggleCheckmark(phoneInput, phonePattern.test(phoneInput.value.replace(/\D/g, "")));
 
             return allValid;
@@ -159,10 +172,13 @@
         function handleSave(button) {
             const row = button.closest("tr");
 
+            // 🚨 Enforce validation before saving
             if (!validateEditFields(row)) {
-                return; 
+                row.querySelectorAll("input").forEach(input => input.reportValidity()); // Show Chrome validation popups
+                return; // Stop execution, prevent saving
             }
 
+            // ✅ If all fields are valid, save the changes
             const firstName = row.querySelector("td:nth-child(1) input").value.trim();
             const lastName = row.querySelector("td:nth-child(2) input").value.trim();
             const email = row.querySelector("td:nth-child(3) input").value.trim();
