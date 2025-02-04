@@ -106,18 +106,23 @@
       <form id="editForm" onsubmit="event.preventDefault(); doSaveModal();">
         <label for="editFirstName">First Name:</label>
         <input type="text" id="editFirstName" name="firstName" required>
+        
         <label for="editLastName">Last Name:</label>
         <input type="text" id="editLastName" name="lastName" required>
+        
         <label for="editEmail">Email:</label>
         <input type="email" id="editEmail" name="email" required
                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                title="Please enter a valid email address">
+        
         <label for="editPhone">Phone:</label>
         <input type="tel" id="editPhone" name="phone" required
                pattern="^\d{10}$"
                title="Please enter a 10-digit phone number">
-        <button type="submit">Save Changes</button>
-        <button type="button" id="cancelEdit">Cancel</button>
+        
+        <!-- Added the "btn" class to the modal buttons -->
+        <button type="submit" class="btn">Save Changes</button>
+        <button type="button" id="cancelEdit" class="btn">Cancel</button>
       </form>
     </div>
   </div>
