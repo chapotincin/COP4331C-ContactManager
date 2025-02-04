@@ -7,7 +7,7 @@
     <script type="text/javascript" src="../js/code.js"></script>
     <link href="../css/search.css" rel="stylesheet">
     <link rel="icon" href="../images/favicon.png" type="image/png">
-    
+
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {
             readCookie();
@@ -32,6 +32,7 @@
 
     <main>
         <h1 id="welcome-message"></h1>
+
         <div class="table-container">
             <div class="search-container">
                 <input type="search" id="searchBar" name="search" placeholder="Search contact" aria-label="Search contacts"/>
@@ -61,6 +62,59 @@
     </main>
 
     <script>
+        document.addEventListener("click", function (event) {
+            if (event.target.closest(".edit-btn")) {
+                handleEdit(event.target.closest(".edit-btn"));
+            }
+        });
+
+        function handleEdit(button) {
+            const row = button.closest("tr");
+            const isEditing = row.classList.contains("editing");
+
+            if (!isEditing) {
+                row.classList.add("editing");
+                row.querySelectorAll("td:not(:last-child)").forEach((cell, index) => {
+                    const currentText = cell.textContent;
+                    let inputType = "text";
+                    if (index === 2) inputType = "email";
+                    if (index === 3) inputType = "tel";
+
+                    cell.innerHTML = `
+                        <input type="${inputType}" value="${currentText}" class="edit-input" required />
+                        <p class="error-message"></p>
+                    `;
+                });
+
+                button.querySelector("img").src = "../images/checkmark-icon.png";  
+            } else {
+                saveChanges(row, button);
+            }
+        }
+
+        function saveChanges(row, button) {
+            const inputs = row.querySelectorAll("input");
+            let allValid = true;
+
+            inputs.forEach(input => {
+                const type = input.type === "tel" ? "phone" : input.type;
+                if (!validateInput(input, type)) {
+                    allValid = false;
+                }
+            });
+
+            if (allValid) {
+                row.classList.remove("editing");
+                row.querySelectorAll("td:not(:last-child)").forEach(cell => {
+                    const input = cell.querySelector("input");
+                    cell.textContent = input.value;
+                });
+                button.querySelector("img").src = "../images/edit-icon.png";
+            } else {
+                alert("Please correct the highlighted fields before saving.");
+            }
+        }
+
         document.addEventListener("input", function (event) {
             if (event.target.classList.contains("edit-input")) {
                 const type = event.target.type === "tel" ? "phone" : event.target.type;
@@ -73,7 +127,7 @@
             let isValid = false;
             let pattern;
             let errorElement = input.nextElementSibling;
-            
+
             if (!errorElement || !errorElement.classList.contains("error-message")) {
                 errorElement = document.createElement("p");
                 errorElement.classList.add("error-message");
@@ -99,48 +153,16 @@
             return isValid;
         }
 
-        document.addEventListener("click", function (event) {
-            if (event.target.closest(".edit-btn")) {
-                const button = event.target.closest(".edit-btn");
-                const row = button.closest("tr");
-                const isEditing = row.classList.contains("editing");
-
-                if (!isEditing) {
-                    row.classList.add("editing");
-                    row.querySelectorAll("td:not(:last-child)").forEach((cell, index) => {
-                        const currentText = cell.textContent;
-                        let inputType = "text";
-                        if (index === 2) inputType = "email";
-                        if (index === 3) inputType = "tel";
-
-                        cell.innerHTML = `<input type="${inputType}" value="${currentText}" class="edit-input" />`;
-                    });
-
-                    button.querySelector("img").src = "../images/checkmark-icon.png";
-                } else {
-                    const inputs = row.querySelectorAll("input");
-                    let allValid = true;
-                    
-                    inputs.forEach(input => {
-                        const type = input.type === "tel" ? "phone" : input.type;
-                        if (!validateInput(input, type)) {
-                            allValid = false;
-                        }
-                    });
-
-                    if (allValid) {
-                        row.classList.remove("editing");
-                        row.querySelectorAll("td:not(:last-child)").forEach(cell => {
-                            const input = cell.querySelector("input");
-                            cell.textContent = input.value;
-                        });
-                        button.querySelector("img").src = "../images/edit-icon.png";
-                    } else {
-                        alert("Please correct the highlighted fields before saving.");
-                    }
-                }
+        function checkContacts() {
+            const contactsTable = document.getElementById("SearchResult");
+            if (!contactsTable.hasChildNodes() || contactsTable.children.length === 0) {
+                contactsTable.innerHTML = `
+                    <tr>
+                        <td colspan="5" style="text-align:center; color: #37516A; font-size: 18px;">No contacts found</td>
+                    </tr>
+                `;
             }
-        });
+        }
     </script>
 </body>
 </html>
