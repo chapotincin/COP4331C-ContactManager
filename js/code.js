@@ -311,6 +311,7 @@ function doSearch(){
                     	let actionsCell = document.createElement('td');
 
                     	let editButton = document.createElement('button'); //calls doEdit
+						editButton.classList.add('edit-btn');
 						//the following x lines creates the on-click button for the edit button
 						var editAttribute = document.createAttribute('onclick');
 						editAttribute.value = 'doEdit()';
@@ -327,6 +328,7 @@ function doSearch(){
                     	actionsCell.appendChild(editButton);
 
                     	let deleteButton = document.createElement('button'); //calls doDelete
+						deleteButton.classList.add('delete-btn');
 						//the following 5 lines creates the on-click button for the delete button
                     	deleteButton.innerHTML = '<img src="../images/delete-icon.png" alt="Delete" class="action-icon">';
 						deleteButton.setAttribute('contactID', jsonObject.results[i].ID); //gives the primary key of that contact to use for deletion
