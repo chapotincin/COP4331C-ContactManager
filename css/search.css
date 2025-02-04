@@ -396,7 +396,22 @@ table td input {
 }
 
 
-
+/* New btn class to match the look of other buttons */
+.btn {
+    background-color: #b8420e;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  .btn:hover {
+    background-color: #a34a20;
+  }
+  
 
 
 

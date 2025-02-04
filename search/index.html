@@ -8,14 +8,21 @@
   <script type="text/javascript" src="../js/code.js"></script>
   <link href="../css/search.css" rel="stylesheet">
   <link rel="icon" href="../images/favicon.png" type="image/png">
-  <script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function() {
-      readCookie();
-      doSearch();      // Populates the table with contacts.
-      checkContacts(); // Displays "No contacts found" if no contacts exist.
-    }, false);
-  </script>
+  <!-- Add the new .btn style if not already defined -->
   <style>
+    .btn {
+      background-color: #b8420e;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      padding: 10px 15px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s;
+    }
+    .btn:hover {
+      background-color: #a34a20;
+    }
     /* --- Modal Styles --- */
     .modal {
       display: none; /* Hidden by default */
@@ -44,13 +51,20 @@
     .modal-content button {
       margin-top: 10px;
     }
-    /* --- Table and Button Styles --- */
+    /* --- Table and Button Styles (existing styles) --- */
     .edit-btn, .delete-btn {
       padding: 5px 10px;
       margin: 0 2px;
       cursor: pointer;
     }
   </style>
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+      readCookie();
+      doSearch();      // Populates the table with contacts.
+      checkContacts(); // Displays "No contacts found" if no contacts exist.
+    }, false);
+  </script>
 </head>
 <body>
   <!-- Navigation Bar -->
@@ -106,21 +120,17 @@
       <form id="editForm" onsubmit="event.preventDefault(); doSaveModal();">
         <label for="editFirstName">First Name:</label>
         <input type="text" id="editFirstName" name="firstName" required>
-        
         <label for="editLastName">Last Name:</label>
         <input type="text" id="editLastName" name="lastName" required>
-        
         <label for="editEmail">Email:</label>
         <input type="email" id="editEmail" name="email" required
                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                title="Please enter a valid email address">
-        
         <label for="editPhone">Phone:</label>
         <input type="tel" id="editPhone" name="phone" required
                pattern="^\d{10}$"
                title="Please enter a 10-digit phone number">
-        
-        <!-- Added the "btn" class to the modal buttons -->
+        <!-- Modal buttons styled with .btn -->
         <button type="submit" class="btn">Save Changes</button>
         <button type="button" id="cancelEdit" class="btn">Cancel</button>
       </form>
