@@ -414,5 +414,13 @@ table td input {
   }
   
 
-
+  .modal-content input {
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0;
+    border: 2px solid #b8420e; /* Always orange */
+    border-radius: 4px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+  
 
