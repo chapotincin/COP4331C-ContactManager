@@ -72,6 +72,49 @@
   </main>
 
   <script>
+    /**
+     * Validates all input fields in the row.
+     * If all fields are valid, calls doEdit() and updates the row.
+     * Otherwise, displays an alert with error messages.
+     *
+     * @param {HTMLElement} row - The table row containing the inputs.
+     * @param {HTMLElement} editButton - The button that triggered the edit.
+     */
+    function validateAndEditRow(row, editButton) {
+      const inputs = row.querySelectorAll("input");
+      let allValid = true;
+      let errorMessages = [];
+
+      inputs.forEach(input => {
+        if (!input.checkValidity()) {
+          allValid = false;
+          // Use the input's title as an error message if available.
+          errorMessages.push(input.title || "Invalid input");
+          input.classList.add('input-error');
+        } else {
+          input.classList.remove('input-error');
+        }
+      });
+
+      if (allValid) {
+        // If everything is valid, clear any error message and proceed.
+        // (Replace doEdit() with your actual update logic if needed.)
+        doEdit(); // Call your update function here.
+        
+        // Update the row cells with the new values and exit editing mode.
+        row.querySelectorAll("td:not(:last-child)").forEach(cell => {
+          const input = cell.querySelector("input");
+          cell.textContent = input.value;
+        });
+        row.classList.remove("editing");
+        // Revert the icon back to the edit icon.
+        editButton.querySelector("img").src = "../images/edit-icon.png";
+      } else {
+        // Otherwise, display the accumulated error messages.
+        alert("Please correct the following errors:\n" + errorMessages.join("\n"));
+      }
+    }
+
     // Handle the "Edit" functionality
     document.querySelectorAll(".edit-btn").forEach(button => {
       button.addEventListener("click", function () {
@@ -79,61 +122,31 @@
         const isEditing = row.classList.contains("editing");
 
         if (!isEditing) {
-          // Switch to edit mode:
+          // Enter edit mode: Replace cell text with input fields.
           row.classList.add("editing");
           row.querySelectorAll("td:not(:last-child)").forEach((cell, index) => {
             const currentText = cell.textContent.trim();
             let inputType = "text";
             let pattern = "";
             let title = "";
-            
-            // For email (assumed to be the third column, index 2)
-            if (index === 2) {
+
+            if (index === 2) { // Email column
               inputType = "email";
               pattern = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}";
               title = "Please enter a valid email address.";
-            }
-            // For phone (assumed to be the fourth column, index 3)
-            else if (index === 3) {
+            } else if (index === 3) { // Phone column
               inputType = "tel";
-              // Use the same phone format as your create page: XXX-XXX-XXXX
+              // Enforce the format XXX-XXX-XXXX
               pattern = "^\\d{3}-\\d{3}-\\d{4}$";
               title = "Please enter a phone number in the format XXX-XXX-XXXX.";
             }
-            // For first and last name (indexes 0 and 1), no extra pattern is needed
-            
-            // Create the input element with required attribute, pattern, and title as needed
             cell.innerHTML = `<input type="${inputType}" value="${currentText}" required${pattern ? ` pattern="${pattern}"` : ""}${title ? ` title="${title}"` : ""} class="edit-input" />`;
           });
-          // Change icon to checkmark to indicate "save"
+          // Change icon to a checkmark to indicate saving.
           this.querySelector("img").src = "../images/checkmark-icon.png";
         } else {
-          // Save the edits:
-          const inputs = row.querySelectorAll("input");
-          let allValid = true;
-          
-          // Check each input for validity
-          inputs.forEach(input => {
-            if (!input.checkValidity()) {
-              input.classList.add('input-error');
-              allValid = false;
-            } else {
-              input.classList.remove('input-error');
-            }
-          });
-          
-          if (allValid) {
-            // If valid, exit editing mode and update cell text with input values
-            row.classList.remove("editing");
-            row.querySelectorAll("td:not(:last-child)").forEach(cell => {
-              const input = cell.querySelector("input");
-              cell.textContent = input.value;
-            });
-            // Revert icon to the edit icon
-            this.querySelector("img").src = "../images/edit-icon.png";
-          } else {
-            alert("Please correct the highlighted fields before saving.");
-          }
+          // Instead of directly saving, call the validateAndEditRow() function.
+          validateAndEditRow(row, this);
         }
       });
     });
