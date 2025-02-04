@@ -278,11 +278,16 @@ function doSearch(){
 				let table = document.getElementById("SearchResult");
 				//delete old table
 				table.innerHTML = '';
+				
+				let hasContacts = false;
 
                 //add json results from the database to the table
                 for (let i = 0; i < jsonObject.results.length; i++) {
 					//check to see if UserID of the contact with the user's primary key matches, if not skip the row
 					if(userId == jsonObject.results[i].UserID){
+
+						hasContacts = true;
+
 						let row = document.createElement('tr'); //table row, one for each contact/jsonObject.results
 
                     	//create the column for FirstName, LastName, Email, and Phone and add their respective info
@@ -332,8 +337,12 @@ function doSearch(){
                     	//append the row to the table, repeat for each row
                     	table.appendChild(row);
 					}
-                    
+
                 }
+
+				if (!hasContacts) {
+					table.innerHTML = '<tr><td colspan="5" style="text-align:center; color: #37516A; font-size: 18px;">No contacts found</td></tr>';
+				} 
 			}
 		};
 		xhr.send(jsonPayload);
