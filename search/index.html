@@ -77,11 +77,9 @@
             doSearch();
             checkContacts();
 
-            // Listen for dynamically added edit & save buttons
             document.addEventListener("click", function (event) {
                 let button = event.target;
 
-                // Ensure we are targeting the actual button, not the <img> inside it
                 if (button.tagName === "IMG") {
                     button = button.closest("button");
                 }
@@ -93,12 +91,11 @@
                 }
             });
 
-            // Attach validation listeners for dynamic input fields
             document.addEventListener("input", function (event) {
                 const input = event.target;
                 const row = input.closest("tr");
                 if (row) {
-                    validateEditFields(row); // Validate as the user types
+                    validateEditFields(row);
                 }
             });
         });
@@ -112,24 +109,17 @@
             row.querySelectorAll("td:not(:last-child)").forEach((cell, index) => {
                 const currentText = cell.textContent.trim();
                 let inputType = "text";
-                let pattern = "";
-                let title = "";
 
-                if (index === 2) { // Email validation
+                if (index === 2) { 
                     inputType = "email";
-                    pattern = "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
-                    title = "Please enter a valid email address";
-                } else if (index === 3) { // Phone validation
+                } else if (index === 3) { 
                     inputType = "tel";
-                    pattern = "\\d{10}";
-                    title = "Please enter a 10-digit phone number";
                 }
 
-                cell.innerHTML = `<input type="${inputType}" value="${currentText}" required pattern="${pattern}" title="${title}" class="edit-input" /> 
+                cell.innerHTML = `<input type="${inputType}" value="${currentText}" class="edit-input" />
                                   <span class="checkmark" style="visibility:hidden;">✔</span>`;
             });
 
-            // Change edit button to a save button
             button.querySelector("img").src = "../images/checkmark-icon.png";
             button.classList.add("save-btn");
             button.classList.remove("edit-btn");
@@ -141,42 +131,26 @@
             const emailInput = row.querySelector("td:nth-child(3) input");
             const phoneInput = row.querySelector("td:nth-child(4) input");
 
-            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/;
-            const phonePattern = /^\d{10}$/; // 10-digit numbers only
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            const phonePattern = /^\d{10}$/; 
 
             let allValid = true;
 
-            // Function to toggle checkmarks
             function toggleCheckmark(input, isValid) {
                 const checkmark = input.nextElementSibling;
                 if (isValid) {
                     checkmark.style.visibility = "visible";
+                    input.setCustomValidity("");
                 } else {
                     checkmark.style.visibility = "hidden";
+                    input.setCustomValidity("Invalid field.");
                     allValid = false;
                 }
             }
 
-            // Validate first and last name (must not be empty)
             toggleCheckmark(firstNameInput, firstNameInput.value.trim() !== "");
             toggleCheckmark(lastNameInput, lastNameInput.value.trim() !== "");
-
-            // Validate email
-            if (emailPattern.test(emailInput.value.trim())) {
-                emailInput.setCustomValidity("");
-            } else {
-                emailInput.setCustomValidity("Invalid email format.");
-                allValid = false;
-            }
             toggleCheckmark(emailInput, emailPattern.test(emailInput.value.trim()));
-
-            // Validate phone
-            if (phonePattern.test(phoneInput.value.replace(/\D/g, ""))) {
-                phoneInput.setCustomValidity("");
-            } else {
-                phoneInput.setCustomValidity("Phone number must be exactly 10 digits.");
-                allValid = false;
-            }
             toggleCheckmark(phoneInput, phonePattern.test(phoneInput.value.replace(/\D/g, "")));
 
             return allValid;
@@ -185,12 +159,10 @@
         function handleSave(button) {
             const row = button.closest("tr");
 
-            // 🚨 Only save if `validateEditFields()` returns true
             if (!validateEditFields(row)) {
-                return; // Stop execution, keep the user in edit mode
+                return; 
             }
 
-            // ✅ If all fields are valid, save the changes
             const firstName = row.querySelector("td:nth-child(1) input").value.trim();
             const lastName = row.querySelector("td:nth-child(2) input").value.trim();
             const email = row.querySelector("td:nth-child(3) input").value.trim();
@@ -202,7 +174,6 @@
             row.querySelector("td:nth-child(3)").textContent = email;
             row.querySelector("td:nth-child(4)").textContent = phone;
 
-            // Change save button back to edit button
             button.querySelector("img").src = "../images/edit-icon.png";
             button.classList.add("edit-btn");
             button.classList.remove("save-btn");
