@@ -393,7 +393,7 @@ function readCookie()
 	}
 	else
 	{
-		document.getElementById("welcome-message").innerHTML = "Welcom! Logged in as " + firstName + " " + lastName;
+		document.getElementById("welcome-message").innerHTML = "Welcome! Logged in as " + firstName + " " + lastName;
 	}
 }
 
