@@ -372,6 +372,28 @@ table td input {
     border-color: #1e8449;
 }
 
+/* Input Error & Valid States */
+.input-error {
+    border: 2px solid #a93226 !important; /* Red border for invalid input */
+    background-color: #ffe6e6;
+}
+
+.input-valid {
+    border: 2px solid #1e8449 !important; /* Green border for valid input */
+    background-color: #e6ffe6;
+}
+
+/* Error message styling */
+.error-message {
+    color: #a93226;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
+}
+
+.error-message.visible {
+    display: block; /* Show only if there’s an error */
+}
 
 
 

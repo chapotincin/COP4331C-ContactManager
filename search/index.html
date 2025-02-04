@@ -9,12 +9,11 @@
     <link rel="icon" href="../images/favicon.png" type="image/png">
     
     <script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function() 
-    {
-        readCookie();
-        doSearch();
-        checkContacts();
-    }, false);
+        document.addEventListener('DOMContentLoaded', function () {
+            readCookie();
+            doSearch();
+            checkContacts();
+        });
     </script>
 </head>
 <body>
@@ -39,13 +38,7 @@
         <div class="table-container">
             <!-- Search Section -->
             <div class="search-container">
-                <input 
-                    type="search" 
-                    id="searchBar" 
-                    name="search" 
-                    placeholder="Search contact" 
-                    aria-label="Search contacts"
-                />
+                <input type="search" id="searchBar" name="search" placeholder="Search contact" aria-label="Search contacts"/>
                 <button type="button" class="btn" id="searchButton" onclick="doSearch(); checkContacts();">Search</button>
                 <a href="../search/create.html" class="create-contact-btn">+ Create Contact</a>
             </div>
@@ -73,43 +66,54 @@
     </main>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            readCookie();
-            doSearch();
-            checkContacts();
-        });
-    
-        // Function to validate inputs
+        // Function to validate inputs and show error messages
         function validateInput(input, type) {
             const value = input.value.trim();
             let isValid = false;
-    
+            let errorMessage = "";
+
             if (type === "email") {
                 const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
                 isValid = emailPattern.test(value);
+                errorMessage = isValid ? "" : "Invalid email format. Example: name@example.com";
             } else if (type === "phone") {
                 const phonePattern = /^\d{10}$/;
                 isValid = phonePattern.test(value.replace(/\D/g, ""));
+                errorMessage = isValid ? "" : "Enter a 10-digit phone number.";
             } else {
                 isValid = value.length > 0;
+                errorMessage = isValid ? "" : "This field cannot be empty.";
             }
-    
+
+            let errorElement = input.nextElementSibling;
+            if (!errorElement || !errorElement.classList.contains("error-message")) {
+                errorElement = document.createElement("p");
+                errorElement.classList.add("error-message");
+                input.parentNode.appendChild(errorElement);
+            }
+
             if (isValid) {
-                input.classList.remove('input-error');
+                input.classList.remove("input-error");
+                input.classList.add("input-valid");
+                errorElement.textContent = "";
+                errorElement.classList.remove("visible");
             } else {
-                input.classList.add('input-error');
+                input.classList.remove("input-valid");
+                input.classList.add("input-error");
+                errorElement.textContent = errorMessage;
+                errorElement.classList.add("visible");
             }
-    
+
             return isValid;
         }
-    
+
         // Event delegation for edit buttons
         document.addEventListener("click", function (event) {
             if (event.target.closest(".edit-btn")) {
                 const button = event.target.closest(".edit-btn");
                 const row = button.closest("tr");
                 const isEditing = row.classList.contains("editing");
-    
+
                 if (!isEditing) {
                     row.classList.add("editing");
                     row.querySelectorAll("td:not(:last-child)").forEach((cell, index) => {
@@ -117,7 +121,7 @@
                         let inputType = "text";
                         let pattern = "";
                         let title = "";
-    
+
                         if (index === 2) { // Email validation
                             inputType = "email";
                             pattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
@@ -127,22 +131,25 @@
                             pattern = "^\\d{10}$";
                             title = "Please enter a 10-digit phone number";
                         }
-    
-                        cell.innerHTML = `<input type="${inputType}" value="${currentText}" required pattern="${pattern}" title="${title}" class="edit-input" />`;
+
+                        cell.innerHTML = `
+                            <input type="${inputType}" value="${currentText}" required pattern="${pattern}" title="${title}" class="edit-input" />
+                            <p class="error-message"></p>
+                        `;
                     });
-    
+
                     button.querySelector("img").src = "../images/checkmark-icon.png";  // Change to checkmark icon
                 } else {
                     const inputs = row.querySelectorAll("input");
                     let allValid = true;
-    
+
                     inputs.forEach(input => {
                         const type = input.type === "tel" ? "phone" : input.type;
                         if (!validateInput(input, type)) {
                             allValid = false;
                         }
                     });
-    
+
                     if (allValid) {
                         row.classList.remove("editing");
                         row.querySelectorAll("td:not(:last-child)").forEach(cell => {
@@ -156,7 +163,7 @@
                 }
             }
         });
-    
+
         // Real-time validation for dynamically created inputs
         document.addEventListener("input", function (event) {
             if (event.target.classList.contains("edit-input")) {
@@ -164,7 +171,7 @@
                 validateInput(event.target, type);
             }
         });
-    
+
         // Display "No contacts found" if no contacts exist
         function checkContacts() {
             const contactsTable = document.getElementById("SearchResult");
