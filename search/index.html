@@ -78,25 +78,56 @@
             button.addEventListener("click", function () {
                 const row = this.closest("tr");
                 const isEditing = row.classList.contains("editing");
-
+            
                 if (!isEditing) {
                     row.classList.add("editing");
                     row.querySelectorAll("td:not(:last-child)").forEach((cell, index) => {
                         const currentText = cell.textContent;
-                        const inputType = index === 3 ? "tel" : index === 2 ? "email" : "text";
-                        cell.innerHTML = `<input type="${inputType}" value="${currentText}" />`;
+                        let inputType = "text";
+                        let pattern = "";
+                        let title = "";
+                    
+                        if (index === 2) { // Email validation
+                            inputType = "email";
+                            pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$";
+                            title = "Please enter a valid email address";
+                        } else if (index === 3) { // Phone validation
+                            inputType = "tel";
+                            pattern = "\\d{10}";
+                            title = "Please enter a 10-digit phone number";
+                        }
+                    
+                        cell.innerHTML = `<input type="${inputType}" value="${currentText}" required pattern="${pattern}" title="${title}" class="edit-input" />`;
                     });
                     this.querySelector("img").src = "../images/checkmark-icon.png";  // Change to checkmark icon
                 } else {
-                    row.classList.remove("editing");
-                    row.querySelectorAll("td:not(:last-child)").forEach(cell => {
-                        const input = cell.querySelector("input");
-                        cell.textContent = input.value;
+                    const inputs = row.querySelectorAll("input");
+                    let allValid = true;
+                
+                    // Check if all inputs are valid
+                    inputs.forEach(input => {
+                        if (!input.checkValidity()) {
+                            input.classList.add('input-error');
+                            allValid = false;
+                        } else {
+                            input.classList.remove('input-error');
+                        }
                     });
-                    this.querySelector("img").src = "../images/edit-icon.png";  // Revert to edit icon
+                
+                    if (allValid) {
+                        row.classList.remove("editing");
+                        row.querySelectorAll("td:not(:last-child)").forEach(cell => {
+                            const input = cell.querySelector("input");
+                            cell.textContent = input.value;
+                        });
+                        this.querySelector("img").src = "../images/edit-icon.png";  // Revert to edit icon
+                    } else {
+                        alert("Please correct the highlighted fields before saving.");
+                    }
                 }
             });
         });
+
 
         // Display "No contacts found" if no contacts are present
         function checkContacts() {
