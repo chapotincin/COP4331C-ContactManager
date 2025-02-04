@@ -59,7 +59,7 @@
                 <!-- Phone Number -->
                 <div class="input-container">
                     <label for="phone">Phone:</label>
-                    <input type="tel" id="phone" name="phone" placeholder="Enter phone number" required>
+                    <input type="tel" id="phone" name="phone" placeholder="Enter phone number XXX-XXX-XXXX" required>
                     <span class="checkmark">&#10004;</span>
                     <p class="phone-error">Invalid phone number format</p>
                 </div>
@@ -102,13 +102,16 @@
             }
         });
 
-        // Validate phone number
+        // Validate phone number in the format 111-222-4444
         document.getElementById("phone").addEventListener("input", function () {
-            const phoneValue = this.value.replace(/\D/g, "");
+            const phoneValue = this.value.trim(); // use the input as-is
             const checkmark = this.nextElementSibling;
             const phoneError = document.querySelector(".phone-error");
 
-            if (phoneValue.length === 10 && /^\d+$/.test(phoneValue)) {
+            // Regular expression: three digits, dash, three digits, dash, four digits.
+            const phonePattern = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
+
+            if (phonePattern.test(phoneValue)) {
                 checkmark.style.visibility = "visible";
                 phoneError.style.display = "none";
             } else {
@@ -116,6 +119,7 @@
                 phoneError.style.display = "block";
             }
         });
+
 
         // Validate all fields before calling doAdd
         function validateAndAdd() {
