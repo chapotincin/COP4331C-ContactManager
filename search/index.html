@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Edit Contacts - The Contact Circuit</title>
-  <!-- External JS file (should define doEdit, doSearch, readCookie, etc.) -->
+  <!-- External JS file (ensure it does NOT include any inline editing logic) -->
   <script type="text/javascript" src="../js/code.js"></script>
   <link href="../css/search.css" rel="stylesheet">
   <link rel="icon" href="../images/favicon.png" type="image/png">
@@ -12,7 +12,7 @@
     document.addEventListener('DOMContentLoaded', function() {
       readCookie();
       doSearch();      // Should populate the table with contacts
-      checkContacts(); // Displays "No contacts found" message if needed
+      checkContacts(); // Displays "No contacts found" if needed
     }, false);
   </script>
   <style>
@@ -44,7 +44,7 @@
     .modal-content button {
       margin-top: 10px;
     }
-    /* --- Button and Table Styles (you can adjust these as needed) --- */
+    /* --- Button and Table Styles (adjust as needed) --- */
     .edit-btn, .delete-btn {
       padding: 5px 10px;
       margin: 0 2px;
@@ -149,26 +149,25 @@
     /********************************************************************
      * Modal-Based Editing Logic with Built-In HTML Validation
      ********************************************************************/
-    
-    let currentEditingRow = null; // Will store the row currently being edited
+    let currentEditingRow = null; // This will store the row being edited
 
-    // Event delegation for edit buttons in the table.
+    // Listen for clicks on edit buttons within the table.
     document.getElementById("SearchResult").addEventListener("click", function(e) {
       let target = e.target;
-      // If the clicked element isn’t the button itself, try to find the closest edit button.
+      // If the click is not on the button itself, try to find the parent button.
       if (!target.classList.contains("edit-btn")) {
         target = target.closest(".edit-btn");
       }
       if (target && target.classList.contains("edit-btn")) {
-        // Find the row containing this edit button.
+        // Get the row that contains the clicked edit button.
         const row = target.closest("tr");
         if (!row) {
           console.error("Edit button is not within a table row.", target);
           return;
         }
-        // Save the row reference.
+        // Save the row reference for later update.
         currentEditingRow = row;
-        // Populate the modal form with the row's current values.
+        // Populate the modal form with the current row values.
         document.getElementById("editFirstName").value = row.cells[0].textContent.trim();
         document.getElementById("editLastName").value  = row.cells[1].textContent.trim();
         document.getElementById("editEmail").value     = row.cells[2].textContent.trim();
@@ -178,35 +177,35 @@
       }
     });
 
-    // Handle form submission from the modal.
+    // Handle the submission of the modal form.
     document.getElementById("editForm").addEventListener("submit", function(e) {
-      e.preventDefault(); // Prevent normal form submission.
-      // Use the browser's built-in validation.
+      e.preventDefault(); // Prevent the default form submission.
+      // Use browser built-in validation.
       if (this.checkValidity()) {
         // Get updated values from the form.
         const newFirstName = document.getElementById("editFirstName").value.trim();
         const newLastName  = document.getElementById("editLastName").value.trim();
         const newEmail     = document.getElementById("editEmail").value.trim();
         const newPhone     = document.getElementById("editPhone").value.trim();
-        
-        // Update the table row with the new values.
+
+        // Update the corresponding row in the table.
         if (currentEditingRow) {
           currentEditingRow.cells[0].textContent = newFirstName;
           currentEditingRow.cells[1].textContent = newLastName;
           currentEditingRow.cells[2].textContent = newEmail;
           currentEditingRow.cells[3].textContent = newPhone;
-          // Optionally, call your external doEdit() function.
+          // Optionally call your external doEdit() function.
           doEdit(newFirstName, newLastName, newEmail, newPhone);
         }
         // Hide the modal.
         document.getElementById("editModal").style.display = "none";
       } else {
-        // If the form is invalid, display the browser's validation messages.
+        // If invalid, show browser's validation messages.
         this.reportValidity();
       }
     });
 
-    // Cancel button to close the modal without saving.
+    // Cancel button closes the modal without saving.
     document.getElementById("cancelEdit").addEventListener("click", function() {
       document.getElementById("editModal").style.display = "none";
     });
@@ -214,7 +213,7 @@
     // Optional: Close the modal if the user clicks outside the modal content.
     window.addEventListener("click", function(event) {
       const modal = document.getElementById("editModal");
-      if (event.target == modal) {
+      if (event.target === modal) {
         modal.style.display = "none";
       }
     });
