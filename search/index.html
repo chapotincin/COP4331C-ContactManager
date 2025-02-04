@@ -128,8 +128,8 @@
                title="Please enter a valid email address">
         <label for="editPhone">Phone:</label>
         <input type="tel" id="editPhone" name="phone" required
-               pattern="^\d{10}$"
-               title="Please enter a 10-digit phone number">
+               pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+               title="Please enter a phone number in the format XXX-XXX-XXXX (10 digits)">
         <!-- Modal buttons styled with .btn -->
         <button type="submit" class="btn">Save Changes</button>
         <button type="button" id="cancelEdit" class="btn">Cancel</button>
