@@ -9,7 +9,8 @@
     <link rel="icon" href="../images/favicon.png" type="image/png">
     
     <script type="text/javascript">
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function() 
+    {
         readCookie();
         doSearch();
         checkContacts();
@@ -72,136 +73,68 @@
     </main>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            readCookie();
-            doSearch();
-            checkContacts();
-
-            // Listen for dynamically added edit & save buttons
-            document.addEventListener("click", function (event) {
-                let button = event.target;
-
-                if (button.tagName === "IMG") {
-                    button = button.closest("button");
-                }
-
-                if (button && button.classList.contains("edit-btn")) {
-                    handleEdit(button);
-                } else if (button && button.classList.contains("save-btn")) {
-                    handleSave(button);
-                }
-            });
-
-            // Attach validation listeners for dynamic input fields
-            document.addEventListener("input", function (event) {
-                const input = event.target;
-                const row = input.closest("tr");
-                if (row) {
-                    validateEditFields(row);
+        // Handle the "Edit" functionality
+        document.querySelectorAll(".edit-btn").forEach(button => {
+            button.addEventListener("click", function () {
+                const row = this.closest("tr");
+                const isEditing = row.classList.contains("editing");
+            
+                if (!isEditing) {
+                    row.classList.add("editing");
+                    row.querySelectorAll("td:not(:last-child)").forEach((cell, index) => {
+                        const currentText = cell.textContent;
+                        let inputType = "text";
+                        let pattern = "";
+                        let title = "";
+                    
+                        if (index === 2) { // Email validation
+                            inputType = "email";
+                            pattern = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$";
+                            title = "Please enter a valid email address";
+                        } else if (index === 3) { // Phone validation
+                            inputType = "tel";
+                            pattern = "\\d{10}";
+                            title = "Please enter a 10-digit phone number";
+                        }
+                    
+                        cell.innerHTML = `<input type="${inputType}" value="${currentText}" required pattern="${pattern}" title="${title}" class="edit-input" />`;
+                    });
+                    this.querySelector("img").src = "../images/checkmark-icon.png";  // Change to checkmark icon
+                } else {
+                    const inputs = row.querySelectorAll("input");
+                    let allValid = true;
+                
+                    // Check if all inputs are valid
+                    inputs.forEach(input => {
+                        if (!input.checkValidity()) {
+                            input.classList.add('input-error');
+                            allValid = false;
+                        } else {
+                            input.classList.remove('input-error');
+                        }
+                    });
+                
+                    if (allValid) {
+                        row.classList.remove("editing");
+                        row.querySelectorAll("td:not(:last-child)").forEach(cell => {
+                            const input = cell.querySelector("input");
+                            cell.textContent = input.value;
+                        });
+                        this.querySelector("img").src = "../images/edit-icon.png";  // Revert to edit icon
+                    } else {
+                        alert("Please correct the highlighted fields before saving.");
+                    }
                 }
             });
         });
 
-        function handleEdit(button) {
-            const row = button.closest("tr");
-            if (!row) return;
 
-            row.classList.add("editing");
-
-            row.querySelectorAll("td:not(:last-child)").forEach((cell, index) => {
-                const currentText = cell.textContent.trim();
-                let inputType = "text";
-                let errorClass = "";
-                let placeholder = "";
-
-                if (index === 2) { 
-                    inputType = "email";
-                    errorClass = "email-error";
-                    placeholder = "Enter a valid email address";
-                } else if (index === 3) { 
-                    inputType = "tel";
-                    errorClass = "phone-error";
-                    placeholder = "Enter a 10-digit phone number";
-                }
-
-                cell.innerHTML = `
-                    <div class="input-container">
-                        <input type="${inputType}" value="${currentText}" class="edit-input" placeholder="${placeholder}" />
-                        <span class="checkmark" style="visibility:hidden;">✔</span>
-                        <p class="${errorClass}" style="display:none; color:red;">Invalid format</p>
-                    </div>
-                `;
-            });
-
-            button.querySelector("img").src = "../images/checkmark-icon.png";
-            button.classList.add("save-btn");
-            button.classList.remove("edit-btn");
-        }
-
-        function validateEditFields(row) {
-            const firstNameInput = row.querySelector("td:nth-child(1) input");
-            const lastNameInput = row.querySelector("td:nth-child(2) input");
-            const emailInput = row.querySelector("td:nth-child(3) input");
-            const phoneInput = row.querySelector("td:nth-child(4) input");
-
-            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-            const phonePattern = /^\d{10}$/; 
-
-            let allValid = true;
-
-            function toggleValidation(input, isValid, errorSelector) {
-                const checkmark = input.nextElementSibling;
-                const errorMessage = input.parentNode.querySelector(errorSelector);
-
-                if (isValid) {
-                    checkmark.style.visibility = "visible";
-                    errorMessage.style.display = "none";
-                    input.setCustomValidity("");
-                } else {
-                    checkmark.style.visibility = "hidden";
-                    errorMessage.style.display = "block";
-                    input.setCustomValidity("Invalid input.");
-                    allValid = false;
-                }
+        // Display "No contacts found" if no contacts are present
+        function checkContacts() {
+            const contactsTable = document.getElementById("SearchResult");
+            if (!contactsTable.hasChildNodes()) {
+                contactsTable.innerHTML = '<tr><td colspan="5" style="text-align:center; color: #37516A; font-size: 18px;">No contacts found</td></tr>';
             }
-
-            // Validate first and last name (must not be empty)
-            toggleValidation(firstNameInput, firstNameInput.value.trim() !== "", "");
-            toggleValidation(lastNameInput, lastNameInput.value.trim() !== "", "");
-
-            // Validate email
-            toggleValidation(emailInput, emailPattern.test(emailInput.value.trim()), ".email-error");
-
-            // Validate phone
-            toggleValidation(phoneInput, phonePattern.test(phoneInput.value.replace(/\D/g, "")), ".phone-error");
-
-            return allValid;
-        }
-
-        function handleSave(button) {
-            const row = button.closest("tr");
-
-            // 🚨 Prevent saving until all fields are valid
-            if (!validateEditFields(row)) {
-                row.querySelectorAll("input").forEach(input => input.reportValidity()); // Show Chrome validation popups
-                return; // Stop execution, prevent saving
-            }
-
-            // ✅ If all fields are valid, save the changes
-            const firstName = row.querySelector("td:nth-child(1) input").value.trim();
-            const lastName = row.querySelector("td:nth-child(2) input").value.trim();
-            const email = row.querySelector("td:nth-child(3) input").value.trim();
-            const phone = row.querySelector("td:nth-child(4) input").value.replace(/\D/g, "");
-
-            row.classList.remove("editing");
-            row.querySelector("td:nth-child(1)").textContent = firstName;
-            row.querySelector("td:nth-child(2)").textContent = lastName;
-            row.querySelector("td:nth-child(3)").textContent = email;
-            row.querySelector("td:nth-child(4)").textContent = phone;
-
-            button.querySelector("img").src = "../images/edit-icon.png";
-            button.classList.add("edit-btn");
-            button.classList.remove("save-btn");
         }
     </script>
 </body>
