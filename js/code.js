@@ -242,7 +242,7 @@ function doEdit(button){
 	//now we need a save button to confirm the changes
 	let saveButton = document.createElement('button');
 	saveButton.classList.add('save-btn');
-	saveButton.textContent = 'Save'; //replace with save icon
+	saveButton.innerHTML = '<img src="../images/checkmark-icon.png" alt="Save" class="action-icon">'; // Use checkmark icon
 	saveButton.setAttribute('onclick', `doSave(${eID})`); //onclick for saving
 	editRow.cells[4].innerHTML = ''; //replace the edit button with save button
     editRow.cells[4].appendChild(saveButton);
