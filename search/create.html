@@ -5,10 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Contact - The Contact Circuit</title>
     <script type="text/javascript" src="../js/code.js"></script>
-    <!-- Link to the external stylesheet -->
     <link href="../css/create.css" rel="stylesheet">
     <link rel="icon" href="../images/favicon.png" type="image/png">
-	<link rel="icon" href="../images/favicon.png" type="image/png">
     <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function() 
         {
@@ -28,7 +26,7 @@
                 <li><a href="../search/index.html">Contacts</a></li>
                 <li><a href="../search/about.html">About Us</a></li>
             </ul>
-        </nav>		       
+        </nav>               
     </header>
 
     <!-- Main Content -->
@@ -67,8 +65,8 @@
                 </div>
 
                 <!-- Save Button -->
-                <button type="button" class="btn" onclick="doAdd()">Save</button>
-		<!--<p id="createContactResult" style="color:red;"></p> -->
+                <button type="button" class="btn" onclick="validateAndAdd()">Save</button>
+                <p id="createContactResult" style="color:red;"></p>
                 <!-- Cancel Button -->
                 <a href="index.html" class="cancel-link">Cancel</a>
             </form>
@@ -106,7 +104,7 @@
 
         // Validate phone number
         document.getElementById("phone").addEventListener("input", function () {
-            const phoneValue = this.value.replace(/\D/g, ""); // Remove non-numeric characters
+            const phoneValue = this.value.replace(/\D/g, "");
             const checkmark = this.nextElementSibling;
             const phoneError = document.querySelector(".phone-error");
 
@@ -118,6 +116,22 @@
                 phoneError.style.display = "block";
             }
         });
+
+        // Validate all fields before calling doAdd
+        function validateAndAdd() {
+            const firstName = document.getElementById("firstName").value.trim();
+            const lastName = document.getElementById("lastName").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const phone = document.getElementById("phone").value.replace(/\D/g, "");
+
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+            if (firstName && lastName && emailPattern.test(email) && phone.length === 10) {
+                doAdd();
+            } else {
+                document.getElementById("createContactResult").innerHTML = "Please fill out all fields correctly.";
+            }
+        }
     </script>
 </body>
 </html>

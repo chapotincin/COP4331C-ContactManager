@@ -241,7 +241,8 @@ function doEdit(button){
 
 	//now we need a save button to confirm the changes
 	let saveButton = document.createElement('button');
-	saveButton.textContent = 'Save'; //replace with save icon
+	saveButton.classList.add('save-btn');
+	saveButton.innerHTML = '<img src="../images/checkmark-icon.png" alt="Save" class="action-icon">'; // Use checkmark icon
 	saveButton.setAttribute('onclick', `doSave(${eID})`); //onclick for saving
 	editRow.cells[4].innerHTML = ''; //replace the edit button with save button
     editRow.cells[4].appendChild(saveButton);
@@ -269,7 +270,7 @@ function doSearch(){
 		xhr.onreadystatechange = function() {
 			if (this.readyState == 4 && this.status == 200){
 
-				document.getElementById("searchButton").innerHTML = "Contact(s) have been retrieved"; 
+				document.getElementById("searchButton").innerHTML = "Search"; 
 				//parse the JSON response to be used
                 let jsonObject = JSON.parse(xhr.responseText);
 
@@ -278,11 +279,16 @@ function doSearch(){
 				let table = document.getElementById("SearchResult");
 				//delete old table
 				table.innerHTML = '';
+				
+				let hasContacts = false;
 
                 //add json results from the database to the table
                 for (let i = 0; i < jsonObject.results.length; i++) {
 					//check to see if UserID of the contact with the user's primary key matches, if not skip the row
 					if(userId == jsonObject.results[i].UserID){
+
+						hasContacts = true;
+
 						let row = document.createElement('tr'); //table row, one for each contact/jsonObject.results
 
                     	//create the column for FirstName, LastName, Email, and Phone and add their respective info
@@ -306,12 +312,13 @@ function doSearch(){
                     	let actionsCell = document.createElement('td');
 
                     	let editButton = document.createElement('button'); //calls doEdit
+						editButton.classList.add('edit-btn');
 						//the following x lines creates the on-click button for the edit button
 						var editAttribute = document.createAttribute('onclick');
 						editAttribute.value = 'doEdit()';
 						editButton.setAttributeNode(editAttribute);
 
-                    	editButton.textContent = 'Edit'; //change to notepad
+                    	editButton.innerHTML = '<img src="../images/edit-icon.png" alt="Edit" class="action-icon">';
 						editButton.setAttribute('contactID', jsonObject.results[i].ID); //pass all needed parameters for edit
 						editButton.setAttribute('contactFirstName', jsonObject.results[i].FirstName);
 						editButton.setAttribute('contactLastName', jsonObject.results[i].LastName);
@@ -322,8 +329,9 @@ function doSearch(){
                     	actionsCell.appendChild(editButton);
 
                     	let deleteButton = document.createElement('button'); //calls doDelete
+						deleteButton.classList.add('delete-btn');
 						//the following 5 lines creates the on-click button for the delete button
-                    	deleteButton.textContent = 'Delete'; //change to trashcan
+                    	deleteButton.innerHTML = '<img src="../images/delete-icon.png" alt="Delete" class="action-icon">';
 						deleteButton.setAttribute('contactID', jsonObject.results[i].ID); //gives the primary key of that contact to use for deletion
 						deleteButton.setAttribute('onclick', 'doDelete(this)'); //call doDelete with the ID of the contact
                     	actionsCell.appendChild(deleteButton); //adds the delete button to the actions cell
@@ -332,8 +340,12 @@ function doSearch(){
                     	//append the row to the table, repeat for each row
                     	table.appendChild(row);
 					}
-                    
+
                 }
+
+				if (!hasContacts) {
+					table.innerHTML = '<tr><td colspan="5" style="text-align:center; color: #37516A; font-size: 18px;">No contacts found</td></tr>';
+				} 
 			}
 		};
 		xhr.send(jsonPayload);

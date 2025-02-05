@@ -58,12 +58,12 @@ nav ul li a {
 /* Hover Effect */
 nav ul li a:hover {
     color: #37516A;
-    border-bottom: 2px solid #37516A; /* Underline on hover */
+    border-bottom: 2px solid #37516A;
 }
 
 /* Active Page Underline */
 nav ul li a.active {
-    border-bottom: 3px solid white; /* White underline for active page */
+    border-bottom: 3px solid white;
 }
 
 /* Main Content */
@@ -126,6 +126,7 @@ main {
     align-items: center;
     gap: 5px;
     transition: background-color 0.3s;
+    text-decoration: none; 
 }
 
 .create-contact-btn:hover {
@@ -157,6 +158,14 @@ table thead {
     color: #fff;
 }
 
+table thead th {
+    position: sticky;
+    top: 0;
+    background-color: #37516A;
+    color: #fff;
+    z-index: 1;
+}
+
 table th,
 table td {
     padding: 10px;
@@ -185,46 +194,187 @@ table td input {
 /* Buttons in Table */
 .edit-btn,
 .delete-btn {
-    color: #fff;
+    background-color: #f0f0f0;
     border: none;
-    padding: 5px 10px;
-    border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.edit-btn {
-    background-color: #27ae60;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .edit-btn:hover {
     background-color: #1e8449;
-}
-
-.delete-btn {
-    background-color: #c0392b;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .delete-btn:hover {
     background-color: #a93226;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-/* Adjust size and alignment of action icons */
-.action-btn {
-    background: none;
+/* Save Button Styling */
+.save-btn {
+    background-color: #27ae60;  /* Green background */
     border: none;
     cursor: pointer;
-    padding: 5px;
+    padding: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.action-btn img {
-    width: 20px; /* Adjust size */
+.save-btn:hover {
+    background-color: #1e8449;  /* Darker green on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.action-icon {
+    width: 20px;
     height: 20px;
+    vertical-align: middle;
+}
+
+/* Validation Styles */
+.input-error {
+    border-color: #a93226;
+}
+
+.input-valid {
+    border-color: #1e8449;
+}
+
+.error-message {
+    color: #a93226;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
+}
+
+/* Responsive Design for Mobile View */
+@media (max-width: 768px) {
+    /* Adjust Navigation Bar */
+    .nav-bar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    .logo-container {
+        justify-content: center;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        text-align: center;
+    }
+
+    nav ul li a {
+        font-size: 14px;
+        padding: 10px 0;
+    }
+
+    /* Main Content Adjustments */
+    main {
+        padding: 10px;
+    }
+
+    body {
+        font-size: 16px;
+    }
+
+    #welcome-message {
+        font-size: 20px;
+    }
+
+    /* Adjust Search Bar */
+    .search-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    #searchBar {
+        width: 100%;
+    }
+
+    #searchButton, .create-contact-btn {
+        width: 100%;
+    }
+
+    /* Table Adjustments */
+    .table-container {
+        padding: 10px;
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    table th, table td {
+        padding: 12px 8px;
+    }
+
+    /* Adjust Action Buttons */
+    .edit-btn, .delete-btn {
+        width: 36px;
+        height: 36px;
+        padding: 5px;
+    }
+
+    .action-icon {
+        width: 16px;
+        height: 16px;
+    }
+} 
+
+/* Form Validation for Editing */
+.edit-input:invalid {
+    border-color: #a93226;
+}
+
+.edit-input:valid {
+    border-color: #1e8449;
+}
+
+.error-message {
+    color: #a93226;
+    font-size: 12px;
+    margin-top: 5px;
+    display: none;
+}
+
+.error-message.visible {
     display: block;
 }
+
+.input-error {
+    border-color: #a93226;
+    background-color: #ffe6e6;
+}
+
+.input-valid {
+    border-color: #1e8449;
+}
+
+
+
+
 
 
 
